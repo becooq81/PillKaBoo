@@ -2,17 +2,12 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image/image.dart' as img;
 import 'dart:async';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'dart:core';
-import 'package:matrix2d/matrix2d.dart';
-
+import 'package:pill/utils/liquid_volume_estimator.dart';
 
 class PourRightWidget extends StatefulWidget {
-  
   const PourRightWidget({
     Key? key,
     this.width,
@@ -23,10 +18,9 @@ class PourRightWidget extends StatefulWidget {
   @override
   State<PourRightWidget> createState() => _CameraViewState();
 }
+
 class _CameraViewState extends State<PourRightWidget> {
   static List<CameraDescription> _cameras = [];
-  var _textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
-  String? _recognizedText; // 인식된 텍스트
   CameraController? _controller;
   int _cameraIndex = -1;
   double _currentZoomLevel = 1.0;
@@ -41,11 +35,14 @@ class _CameraViewState extends State<PourRightWidget> {
   bool _canProcess = true;
   int _currentCC = 0;
 
+  LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
+
   @override
   void initState() {
     super.initState();
     _initialize();
   }
+
   void _initialize() async {
     if (_cameras.isEmpty) {
       _cameras = await availableCameras();
@@ -60,17 +57,20 @@ class _CameraViewState extends State<PourRightWidget> {
       _startLiveFeed();
     }
   }
+
   @override
   void dispose() {
     _pictureTimer?.cancel();
     _stopLiveFeed();
-    _textRecognizer.close();
+    liquidVolumeEstimator.stop();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: _liveFeedBody());
   }
+
   Widget _liveFeedBody() {
     if (_cameras.isEmpty) return Container();
     if (_controller == null) return Container();
@@ -260,12 +260,14 @@ class _CameraViewState extends State<PourRightWidget> {
         //widget.onCameraFeedReady!();
         //widget.onCameraLensDirectionChanged!(camera.lensDirection);
       });
-      _pictureTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      _pictureTimer =
+          Timer.periodic(const Duration(milliseconds: 500), (timer) {
         _takePicture();
       });
       setState(() {});
     });
   }
+
   Future<void> _takePicture() async {
     if (!_controller!.value.isInitialized) {
       // Check if the controller is initialized
@@ -278,110 +280,18 @@ class _CameraViewState extends State<PourRightWidget> {
     }
     try {
       final picture = await _controller!.takePicture();
-      await _detectObject(picture);
       await _analyzePicture(picture);
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> _detectObject(XFile picture) async {
-    final path = join(
-      (await getApplicationDocumentsDirectory()).path,
-      "${DateTime.now()}-detect.jpg",
-    );
-    await picture.saveTo(path);
-    final File file = File(path);
-    final inputImage = InputImage.fromFile(file);
-    
-    _isBusy = false;
-    if (mounted) {
-      setState(() {});
-    }
-  }
   Future<void> _analyzePicture(XFile picture) async {
-    const crop_w0 = 30;
-    const crop_w1 = 50;
-    const crop_h0 = 30;
-    const crop_h1 = 50;
-    if (!_canProcess) return;
-    if (_isBusy) return;
-    final path = join(
-      (await getApplicationDocumentsDirectory()).path,
-      "${DateTime.now()}.jpg",
-    );
-    await picture.saveTo(path);
-    final File file = File(path);
-    final scales = await _get_scale_positions(file);
-    final level = _get_liquid_level(file, crop_w0, crop_w1, crop_h0, crop_h1);
-    final cc = _estimate_cc(scales, level);
-    _currentCC = cc;
-    print("ESTIMATED CC: ${cc}");
+    _currentCC = await liquidVolumeEstimator(picture) ?? 0;
+    print("ESTIMATED CC: ${_currentCC}");
     _isBusy = false;
   }
-  int _get_liquid_level(
-      File file, int crop_w0, int crop_w1, int crop_h0, int crop_h1,
-      [int threshold_binarize = 100, int threshold_level = 5]) {
-    img.Image? image = img.decodeJpg(file.readAsBytesSync());
-    Uint8List arr_image = image!.getBytes(order: img.ChannelOrder.rgb);
-    final arr = arr_image
-        .reshape(3, arr_image.length ~/ 3)
-        .map((x) => (x[0] + x[1] + x[2]) / 3)
-        .toList()
-        .map((x) => x >= threshold_binarize ? 1 : 0)
-        .toList()
-        .reshape(image.height, image.width);
-    final arr_sum = arr
-        .sublist(crop_h0, crop_h1)
-        .map((x) => x.sublist(crop_w0, crop_w1))
-        .toList()
-        .map((x) => x.reduce((a, b) => a + b))
-        .toList();
-    for (var entry in arr_sum.asMap().entries) {
-      int i = entry.key;
-      int v = entry.value;
-      if (v < threshold_level) {
-        return i + crop_h0;
-      }
-    }
-    return crop_h1;
-  }
-  Future<List<int?>> _get_scale_positions(File file) async {
-    final inputImage = InputImage.fromFile(file);
-    List<int?> positions = List.filled(20, null);
-    final text = await _textRecognizer.processImage(inputImage);
-    for (TextBlock block in text.blocks) {
-      for (TextLine line in block.lines) {
-        for (TextElement element in line.elements) {
-          print("ELEMENT: ${element.text} ${element.boundingBox.center}");
-          final parsed = int.tryParse(element.text);
-          if (parsed != null && parsed <= 20) {
-            final y =
-                (element.cornerPoints[0].y + element.boundingBox.center.dy)
-                    .round();
-            positions[parsed] = y;
-          }
-        }
-      }
-    }
-    return positions;
-  }
-  int _estimate_cc(List<int?> scales, int level) {
-    int cc = 0;
-    int min = 1000;
-    for (var entry in scales.asMap().entries) {
-      int i = entry.key;
-      int? s = entry.value;
-      if (s != null) {
-        final dd = (level - s) * (level - s);
-        if (dd < min) {
-          cc = i + 1;
-          min = dd;
-        }
-      }
-    }
-    return cc;
-  }
+
   List<List<int>> reshape(List<int> flatList, int height, int width) {
     List<List<int>> reshaped =
         List.generate(height, (_) => List.filled(width, 0));
@@ -395,11 +305,13 @@ class _CameraViewState extends State<PourRightWidget> {
     }
     return reshaped;
   }
+
   Future _stopLiveFeed() async {
     await _controller?.stopImageStream();
     await _controller?.dispose();
     _controller = null;
   }
+
   Future _switchLiveCamera() async {
     setState(() => _changingCameraLens = true);
     _cameraIndex = (_cameraIndex + 1) % _cameras.length;
@@ -407,12 +319,14 @@ class _CameraViewState extends State<PourRightWidget> {
     await _startLiveFeed();
     setState(() => _changingCameraLens = false);
   }
+
   void _processCameraImage(CameraImage image) {
     // final grayScaleImage = img.grayscale(image);
     final inputImage = _inputImageFromCameraImage(image);
     if (inputImage == null) return;
     //widget.onImage(inputImage);
   }
+
   final _orientations = {
     DeviceOrientation.portraitUp: 0,
     DeviceOrientation.landscapeLeft: 90,
