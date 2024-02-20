@@ -47,7 +47,6 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
 
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double appBarHeight = 60.0/892.0 * MediaQuery.of(context).size.height;
-    double backIconSize = 30.0/892.0 * MediaQuery.of(context).size.height;
 
     context.watch<PKBAppState>();
 
@@ -107,7 +106,7 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                           ),
                         ),
                         const Spacer(), // Pushes the button to the far right
-                        widgets.HomeButtonWidget(),
+                        const widgets.HomeButtonWidget(),
                       ],
                     ),
                   ),

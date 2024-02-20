@@ -78,7 +78,7 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
               ),
             ),
           ),
-          actions: [
+          actions: const [
             widgets.HomeButtonWidget(),
           ],
           centerTitle: false,

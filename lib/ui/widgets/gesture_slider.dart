@@ -12,12 +12,12 @@ class GestureSlider extends StatefulWidget {
   final Function(int) onValueChanged;
 
   const GestureSlider({
-    Key? key,
+    super.key,
     required this.minValue,
     required this.maxValue,
     this.initialValue = 10,
     required this.onValueChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<GestureSlider> createState() => _GestureSliderState();

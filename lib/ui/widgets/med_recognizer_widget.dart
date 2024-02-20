@@ -22,10 +22,10 @@ import 'package:vibration/vibration.dart';
 
 class MedRecognizerWidget extends StatefulWidget {
   const MedRecognizerWidget({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
   final double? width;
   final double? height;
   @override
@@ -39,7 +39,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
   bool _canProcess = true; // 이미지 처리 가능 여부
   bool _isBusy = false; // 이미지 처리 중 여부
   CustomPaint? _customPaint; // 이미지에 그려질 CustomPaint
-  String? _recognizedText; // 인식된 텍스트
   String? _recognizedBarcode; // 인식된 바코드
   var _cameraLensDirection = CameraLensDirection.back; // 카메라 렌즈 방향
   Map<String, dynamic> _medicineInfo = {}; // 약 정보
@@ -125,7 +124,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
     _isBusy = true;
     setState(() {
       _recognizedBarcode = '';
-      _recognizedText = '';
     });
 
     final text = await _textRecognizer.processImage(inputImage);

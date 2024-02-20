@@ -4,7 +4,7 @@ import '../../../../core/pillkaboo_util.dart';
 import '../../../../app/global_audio_player.dart';
 
 class HomeButtonWidget extends StatelessWidget {
-  const HomeButtonWidget({Key? key}) : super(key: key);
+  const HomeButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

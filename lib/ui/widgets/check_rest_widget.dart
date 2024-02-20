@@ -1,4 +1,6 @@
 import '../../../../core/pillkaboo_util.dart';
+import '../../../../app/global_audio_player.dart';
+import 'views/detector_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -8,15 +10,14 @@ import 'dart:async';
 import 'package:permission_handler/permission_handler.dart';
 
 
-import '../../app/global_audio_player.dart';
 
 
 class CheckRestWidget extends StatefulWidget {
   const CheckRestWidget({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
   final double? width;
   final double? height;
   @override
@@ -72,7 +73,16 @@ class _CheckRestWidgetState extends State<CheckRestWidget> {
       }
     });
 
-    return const CircularProgressIndicator();
+    return _isAmountRecognized
+        ? const CircularProgressIndicator()
+        : DetectorView(
+      title: 'Scanner',
+      customPaint: null,
+      text: null,
+      onImage: _processImage,
+      initialCameraLensDirection: _cameraLensDirection,
+      onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
+    );
   }
 
   // 이미지 처리
@@ -85,8 +95,12 @@ class _CheckRestWidgetState extends State<CheckRestWidget> {
       // _recognizedAmount = 100;
     });
 
+    _recognizedAmount = 100;
+    print(_recognizedAmount);
+
     // 이미지 처리 후 분량 확인됐는지 여부 업데이트
-    // _isAmountRecognized = true;
+    _isAmountRecognized = true;
+
 
     _isBusy = false;
     if (mounted) {

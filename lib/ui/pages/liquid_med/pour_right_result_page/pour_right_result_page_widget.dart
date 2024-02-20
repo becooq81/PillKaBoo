@@ -53,7 +53,6 @@ class _PourRightResultPageWidgetState extends State<PourRightResultPageWidget> {
 
 
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
-    double backIconSize = 30.0/892.0 * MediaQuery.of(context).size.height;
 
     context.watch<PKBAppState>();
 
@@ -84,7 +83,7 @@ class _PourRightResultPageWidgetState extends State<PourRightResultPageWidget> {
               ),
             ),
           ),
-          actions: [
+          actions: const [
             widgets.HomeButtonWidget(),
           ],
           centerTitle: false,
