@@ -271,7 +271,7 @@ class _CameraViewState extends State<PourRightWidget> {
   Future<void> _takePicture() async {
     if (!_controller!.value.isInitialized) {
       // Check if the controller is initialized
-      print("Controller is not initialized");
+      debugPrint("Controller is not initialized");
       return;
     }
     if (_controller!.value.isTakingPicture) {
@@ -282,13 +282,13 @@ class _CameraViewState extends State<PourRightWidget> {
       final picture = await _controller!.takePicture();
       await _analyzePicture(picture);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
   Future<void> _analyzePicture(XFile picture) async {
     _currentCC = await liquidVolumeEstimator(picture) ?? 0;
-    print("ESTIMATED CC: ${_currentCC}");
+    debugPrint("ESTIMATED CC: $_currentCC");
     _isBusy = false;
   }
 
@@ -341,7 +341,7 @@ class _CameraViewState extends State<PourRightWidget> {
     // in both platforms `rotation` and `camera.lensDirection` can be used to compensate `x` and `y` coordinates on a canvas: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/vision_detector_views/painters/coordinates_translator.dart
     final camera = _cameras[_cameraIndex];
     final sensorOrientation = camera.sensorOrientation;
-    // print(
+    // debugPrint(
     //     'lensDirection: ${camera.lensDirection}, sensorOrientation: $sensorOrientation, ${_controller?.value.deviceOrientation} ${_controller?.value.lockedCaptureOrientation} ${_controller?.value.isCaptureOrientationLocked}');
     InputImageRotation? rotation;
     if (Platform.isIOS) {
@@ -359,10 +359,10 @@ class _CameraViewState extends State<PourRightWidget> {
             (sensorOrientation - rotationCompensation + 360) % 360;
       }
       rotation = InputImageRotationValue.fromRawValue(rotationCompensation);
-      // print('rotationCompensation: $rotationCompensation');
+      // debugPrint('rotationCompensation: $rotationCompensation');
     }
     if (rotation == null) return null;
-    // print('final rotation: $rotation');
+    // debugPrint('final rotation: $rotation');
     // get image format
     final format = InputImageFormatValue.fromRawValue(image.format.raw);
     // validate format depending on platform

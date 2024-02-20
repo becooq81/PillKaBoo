@@ -173,14 +173,20 @@ class LiquidVolumeEstimator {
     final bytesImage = await convXFile2BytesImage(frame);
 
     final detectedBoxCoords = await detectBottle(bytesImage);
-    if (detectedBoxCoords == null) return null;
+    if (detectedBoxCoords == null) {
+      debugPrint("NO BOTTLE DETECTED");
+      return null;
+    }
 
     final croppedBytesImage = cropBytesImage(bytesImage, detectedBoxCoords);
 
     final scalePositions = getScalePositions(bytesImage);
 
     final liquidLevel = getLiquidLevel(croppedBytesImage);
-    if (liquidLevel == null) return null;
+    if (liquidLevel == null) {
+      debugPrint("CANNOT FIND LIQUID SURFACE LINE");
+      return null;
+    }
 
     return estimateCC(await scalePositions, liquidLevel);
   }
