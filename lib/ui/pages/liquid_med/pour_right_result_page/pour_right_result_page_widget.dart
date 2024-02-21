@@ -1,4 +1,4 @@
-import '../../../../core/pillkaboo_theme.dart';
+import '../../../../ui/common/pillkaboo_theme.dart';
 import '../../../../core/pillkaboo_util.dart';
 import '../../../widgets/index.dart' as widgets;
 

@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:workmanager/workmanager.dart';
 
 
-import 'core/pillkaboo_theme.dart';
+import 'ui/common/pillkaboo_theme.dart';
 import 'core/internationalization.dart';
 import 'nav/nav.dart';
 import 'data/local/shared_preference/app_state.dart';

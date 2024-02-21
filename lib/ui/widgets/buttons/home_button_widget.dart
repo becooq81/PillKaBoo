@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../common/pillkaboo_icon_button.dart';
 import '../../../../core/pillkaboo_util.dart';
-import '../../../../app/global_audio_player.dart';
 
 class HomeButtonWidget extends StatelessWidget {
   const HomeButtonWidget({super.key});
@@ -28,13 +27,6 @@ class HomeButtonWidget extends StatelessWidget {
                 color: PKBAppState().secondaryColor,
                 size: iconSize,
               ),
-              onPressed: () {
-                // if global audio player is playing, stop it
-                if (GlobalAudioPlayer().isPlaying) {
-                  GlobalAudioPlayer().pause();
-                }
-                context.pushNamed('MainMenuPage');
-              },
             ),
         ),
       ),

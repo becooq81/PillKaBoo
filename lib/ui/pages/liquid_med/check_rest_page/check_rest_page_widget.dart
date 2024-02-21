@@ -92,10 +92,10 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
                     container: true,
                     label: '해당 물약의 잔량을 확인합니다.',
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // This helps in distributing space evenly.
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 16.0), // Add padding to the left of the text
+                          padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
                             '잔량 확인',
                             style: TextStyle(
@@ -106,8 +106,11 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
                             ),
                           ),
                         ),
-                        const Spacer(), // Pushes the button to the far right
-                        const widgets.HomeButtonWidget(),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () => context.pushNamed("MainMenuPage"),
+                          child: const widgets.HomeButtonWidget(),
+                        )
                       ],
                     ),
                   ),

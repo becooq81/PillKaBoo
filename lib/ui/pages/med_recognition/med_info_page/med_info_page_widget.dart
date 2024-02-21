@@ -1,7 +1,7 @@
 import '../../../../app/global_audio_player.dart';
 import '../../../../core/pillkaboo_util.dart';
 import '../../../common/pillkaboo_icon_button.dart';
-import '../../../../core/pillkaboo_theme.dart';
+import '../../../../ui/common/pillkaboo_theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
