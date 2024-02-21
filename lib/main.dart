@@ -6,15 +6,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:workmanager/workmanager.dart';
 
 
-import 'ui/common/pillkaboo_theme.dart';
-import 'core/internationalization.dart';
-import 'nav/nav.dart';
-import 'data/local/shared_preference/app_state.dart';
-import 'app/background_service.dart';
-import 'app/app_lifecycle_reactor.dart';
-import 'data/local/database/barcode_db_helper.dart';
-import 'data/local/database/ingredients_db_helper.dart';
-import 'data/local/database/processed_file_db_helper.dart';
+import 'src/ui/common/pillkaboo_theme.dart';
+import 'src/core/internationalization.dart';
+import 'src/nav/nav.dart';
+import 'src/data/local/shared_preference/app_state.dart';
+import 'src/app/background_service.dart';
+import 'src/app/app_lifecycle_reactor.dart';
+import 'src/data/local/database/barcode_db_helper.dart';
+import 'src/data/local/database/ingredients_db_helper.dart';
+import 'src/data/local/database/processed_file_db_helper.dart';
 
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {
