@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -102,6 +105,7 @@ int? getLiquidLevel(BytesImage image) {
   return liquidLevel;
 }
 
+/*
 InputImage convBytesImage2InputImage(BytesImage bytesImage) {
   debugPrint("convert BytesImage to InputImage");
   return InputImage.fromBytes(
@@ -111,6 +115,17 @@ InputImage convBytesImage2InputImage(BytesImage bytesImage) {
           rotation: InputImageRotation.rotation0deg,
           format: InputImageFormat.nv21,
           bytesPerRow: 0));
+}
+*/
+
+Future<InputImage> convBytesImage2InputImage(BytesImage bytesImage) async {
+  debugPrint("convert BytesImage to InputImage");
+  final path = join(
+    (await getApplicationDocumentsDirectory()).path,
+    "${DateTime.now()}.jpg",
+  );
+  await File(path).writeAsBytes(bytesImage.bytes);
+  return InputImage.fromFilePath(path);
 }
 
 int estimateCC(List<int?> scalePositions, int liquidLevel) {
@@ -168,7 +183,7 @@ class LiquidVolumeEstimator {
 
   Future<List<int?>> getScalePositions(BytesImage bytesImage) async {
     debugPrint("getScalePositions");
-    InputImage inputImage = convBytesImage2InputImage(bytesImage);
+    InputImage inputImage = await convBytesImage2InputImage(bytesImage);
     List<int?> positions = List.filled(20, null);
     final text = await textRecognizer.processImage(inputImage);
     for (TextBlock block in text.blocks) {
@@ -213,9 +228,6 @@ class LiquidVolumeEstimator {
       return null;
     }
 
-    final scalePositionsAwaited = await scalePositions;
-    debugPrint("SCALE POSITIONS: $scalePositionsAwaited");
-
-    return estimateCC(scalePositionsAwaited, liquidLevel);
+    return estimateCC(await scalePositions, liquidLevel);
   }
 }
