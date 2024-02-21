@@ -40,13 +40,25 @@ Future<BytesImage> convXFile2BytesImage(XFile xFile) async {
   return BytesImage(bytes, image.height, image.width);
 }
 
+/*
 img.Image convBytesImage2imgImage(BytesImage bytesImage) {
   debugPrint("convert BytesImage to img.Image");
   return img.Image.fromBytes(
       width: bytesImage.width,
       height: bytesImage.height,
-      bytes: bytesImage.bytes.buffer,
-      format: img.Format.uint8);
+      bytes: bytesImage.bytes.buffer);
+}
+*/
+
+Future<img.Image> convBytesImage2imgImage(BytesImage bytesImage) async {
+  debugPrint("convert BytesImage to img.Image");
+  final path = join(
+    (await getApplicationDocumentsDirectory()).path,
+    "${DateTime.now()}.jpg",
+  );
+  final file = File(path);
+  await file.writeAsBytes(bytesImage.bytes);
+  return img.decodeJpg(file.readAsBytesSync())!;
 }
 
 BytesImage convImgImage2BytesImage(img.Image imgImage) {
@@ -54,11 +66,13 @@ BytesImage convImgImage2BytesImage(img.Image imgImage) {
   return BytesImage(imgImage.toUint8List(), imgImage.height, imgImage.width);
 }
 
-BytesImage cropBytesImage(BytesImage bytesImage, BoxCoords boxCoords) {
+Future<BytesImage> cropBytesImage(
+    BytesImage bytesImage, BoxCoords boxCoords) async {
   debugPrint("cropBytesImage");
-  final imgImage = convBytesImage2imgImage(bytesImage);
+  final imgImage = await convBytesImage2imgImage(bytesImage);
   final newHeight = boxCoords.y1 - boxCoords.y0;
   final newWidth = boxCoords.x1 - boxCoords.x0;
+  debugPrint("whywhywhywhywhy");
   final croppedImgImage = img.copyCrop(imgImage,
       x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
   debugPrint("CROPPED SHAPE: $newHeight $newWidth");
@@ -214,15 +228,13 @@ class LiquidVolumeEstimator {
       // return null;
     }
 
-    /*
     final croppedBytesImage = cropBytesImage(
         bytesImage, detectedBoxCoords ?? BoxCoords(240, 512, 360, 768));
-        */
-    final croppedBytesImage = bytesImage;
+    //final croppedBytesImage = bytesImage;
 
     final scalePositions = getScalePositions(bytesImage);
 
-    final liquidLevel = getLiquidLevel(croppedBytesImage);
+    final liquidLevel = getLiquidLevel(await croppedBytesImage);
     if (liquidLevel == null) {
       debugPrint("CANNOT FIND LIQUID SURFACE LINE");
       return null;
