@@ -42,7 +42,8 @@ img.Image convBytesImage2imgImage(BytesImage bytesImage) {
   return img.Image.fromBytes(
       width: bytesImage.width,
       height: bytesImage.height,
-      bytes: bytesImage.bytes.buffer);
+      bytes: bytesImage.bytes.buffer,
+      format: img.Format.uint8);
 }
 
 BytesImage convImgImage2BytesImage(img.Image imgImage) {
@@ -56,13 +57,12 @@ BytesImage cropBytesImage(BytesImage bytesImage, BoxCoords boxCoords) {
   final newHeight = boxCoords.y1 - boxCoords.y0;
   final newWidth = boxCoords.x1 - boxCoords.x0;
   final croppedImgImage = img.copyCrop(imgImage,
-      x: boxCoords.x0, y: boxCoords.y0, height: newHeight, width: newWidth);
+      x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
   debugPrint("CROPPED SHAPE: $newHeight $newWidth");
   return convImgImage2BytesImage(croppedImgImage);
 }
 
-List<List<int>> preprocess(BytesImage bytesImage,
-    [int binarizeThreshold = 100]) {
+List preprocess(BytesImage bytesImage, [int binarizeThreshold = 100]) {
   debugPrint("preprocess");
   img.Image image = img.decodeJpg(bytesImage.bytes)!;
   Uint8List arrImage = image.getBytes(order: img.ChannelOrder.rgb);
@@ -73,15 +73,15 @@ List<List<int>> preprocess(BytesImage bytesImage,
       .toList()
       .map((x) => x >= binarizeThreshold ? 1 : 0)
       .toList()
-      .reshape(image.height, image.width) as List<List<int>>;
+      .reshape(image.height, image.width);
 }
 
-List<int> rowsum(List<List<int>> preprocessed) {
+List rowsum(List preprocessed) {
   debugPrint("rowsum");
   return preprocessed.map((x) => x.reduce((a, b) => a + b)).toList();
 }
 
-int? getLiquidLevelFromRowsum(List<int> rsum, [int levelThreshold = 5]) {
+int? getLiquidLevelFromRowsum(List rsum, [int levelThreshold = 5]) {
   debugPrint("getLiquidLevelFromRowsum");
   for (var entry in rsum.asMap().entries) {
     int i = entry.key;
@@ -97,7 +97,9 @@ int? getLiquidLevel(BytesImage image) {
   debugPrint("getLiquidLevel");
   final preprocessed = preprocess(image);
   final rsum = rowsum(preprocessed);
-  return getLiquidLevelFromRowsum(rsum);
+  final liquidLevel = getLiquidLevelFromRowsum(rsum);
+  debugPrint("liquidLevel: $liquidLevel");
+  return liquidLevel;
 }
 
 InputImage convBytesImage2InputImage(BytesImage bytesImage) {
@@ -197,12 +199,13 @@ class LiquidVolumeEstimator {
       // return null;
     }
 
+    /*
     final croppedBytesImage = cropBytesImage(
         bytesImage, detectedBoxCoords ?? BoxCoords(240, 512, 360, 768));
+        */
+    final croppedBytesImage = bytesImage;
 
     final scalePositions = getScalePositions(bytesImage);
-
-    debugPrint("SCALE POSITIONS: $scalePositions");
 
     final liquidLevel = getLiquidLevel(croppedBytesImage);
     if (liquidLevel == null) {
@@ -210,6 +213,9 @@ class LiquidVolumeEstimator {
       return null;
     }
 
-    return estimateCC(await scalePositions, liquidLevel);
+    final scalePositionsAwaited = await scalePositions;
+    debugPrint("SCALE POSITIONS: $scalePositionsAwaited");
+
+    return estimateCC(scalePositionsAwaited, liquidLevel);
   }
 }
