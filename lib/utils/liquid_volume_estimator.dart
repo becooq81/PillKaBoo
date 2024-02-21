@@ -30,12 +30,15 @@ class BoxCoords {
 }
 
 Future<BytesImage> convXFile2BytesImage(XFile xFile) async {
+  debugPrint("convert XFile to BytesImage");
   final bytes = await xFile.readAsBytes();
   final image = await decodeImageFromList(bytes);
+  debugPrint("FRAME SHAPE: ${image.height} ${image.width}");
   return BytesImage(bytes, image.height, image.width);
 }
 
 img.Image convBytesImage2imgImage(BytesImage bytesImage) {
+  debugPrint("convert BytesImage to img.Image");
   return img.Image.fromBytes(
       width: bytesImage.width,
       height: bytesImage.height,
@@ -43,20 +46,24 @@ img.Image convBytesImage2imgImage(BytesImage bytesImage) {
 }
 
 BytesImage convImgImage2BytesImage(img.Image imgImage) {
+  debugPrint("convert img.Image to BytesImage");
   return BytesImage(imgImage.toUint8List(), imgImage.height, imgImage.width);
 }
 
 BytesImage cropBytesImage(BytesImage bytesImage, BoxCoords boxCoords) {
+  debugPrint("cropBytesImage");
   final imgImage = convBytesImage2imgImage(bytesImage);
-  final newWidth = boxCoords.x1 - boxCoords.x0;
   final newHeight = boxCoords.y1 - boxCoords.y0;
+  final newWidth = boxCoords.x1 - boxCoords.x0;
   final croppedImgImage = img.copyCrop(imgImage,
-      x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
+      x: boxCoords.x0, y: boxCoords.y0, height: newHeight, width: newWidth);
+  debugPrint("CROPPED SHAPE: $newHeight $newWidth");
   return convImgImage2BytesImage(croppedImgImage);
 }
 
 List<List<int>> preprocess(BytesImage bytesImage,
     [int binarizeThreshold = 100]) {
+  debugPrint("preprocess");
   img.Image image = img.decodeJpg(bytesImage.bytes)!;
   Uint8List arrImage = image.getBytes(order: img.ChannelOrder.rgb);
 
@@ -70,10 +77,12 @@ List<List<int>> preprocess(BytesImage bytesImage,
 }
 
 List<int> rowsum(List<List<int>> preprocessed) {
+  debugPrint("rowsum");
   return preprocessed.map((x) => x.reduce((a, b) => a + b)).toList();
 }
 
 int? getLiquidLevelFromRowsum(List<int> rsum, [int levelThreshold = 5]) {
+  debugPrint("getLiquidLevelFromRowsum");
   for (var entry in rsum.asMap().entries) {
     int i = entry.key;
     int v = entry.value;
@@ -85,12 +94,14 @@ int? getLiquidLevelFromRowsum(List<int> rsum, [int levelThreshold = 5]) {
 }
 
 int? getLiquidLevel(BytesImage image) {
+  debugPrint("getLiquidLevel");
   final preprocessed = preprocess(image);
   final rsum = rowsum(preprocessed);
   return getLiquidLevelFromRowsum(rsum);
 }
 
 InputImage convBytesImage2InputImage(BytesImage bytesImage) {
+  debugPrint("convert BytesImage to InputImage");
   return InputImage.fromBytes(
       bytes: bytesImage.bytes,
       metadata: InputImageMetadata(
@@ -101,6 +112,7 @@ InputImage convBytesImage2InputImage(BytesImage bytesImage) {
 }
 
 int estimateCC(List<int?> scalePositions, int liquidLevel) {
+  debugPrint("estimateCC");
   int cc = 0;
   int min = 1000;
   for (var entry in scalePositions.asMap().entries) {
@@ -139,6 +151,7 @@ class LiquidVolumeEstimator {
   }
 
   Future<BoxCoords?> detectBottle(BytesImage bytesImage) async {
+    debugPrint("detectBottle");
     final detectedObjects = await vision.yoloOnImage(
         bytesList: bytesImage.bytes,
         imageHeight: bytesImage.height,
@@ -152,6 +165,7 @@ class LiquidVolumeEstimator {
   }
 
   Future<List<int?>> getScalePositions(BytesImage bytesImage) async {
+    debugPrint("getScalePositions");
     InputImage inputImage = convBytesImage2InputImage(bytesImage);
     List<int?> positions = List.filled(20, null);
     final text = await textRecognizer.processImage(inputImage);
@@ -174,9 +188,8 @@ class LiquidVolumeEstimator {
   }
 
   Future<int?> call(XFile frame) async {
+    debugPrint("call");
     final bytesImage = await convXFile2BytesImage(frame);
-
-    debugPrint("FRAME SHAPE: ${bytesImage.width} ${bytesImage.height}");
 
     final detectedBoxCoords = await detectBottle(bytesImage);
     if (detectedBoxCoords == null) {
@@ -186,9 +199,6 @@ class LiquidVolumeEstimator {
 
     final croppedBytesImage = cropBytesImage(
         bytesImage, detectedBoxCoords ?? BoxCoords(240, 512, 360, 768));
-
-    debugPrint(
-        "CROPPED: ${croppedBytesImage.height}, ${croppedBytesImage.width}");
 
     final scalePositions = getScalePositions(bytesImage);
 
