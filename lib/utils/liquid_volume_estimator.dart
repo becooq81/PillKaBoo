@@ -144,6 +144,8 @@ class LiquidVolumeEstimator {
         imageHeight: bytesImage.height,
         imageWidth: bytesImage.width);
 
+    debugPrint("detectedObjects: $detectedObjects");
+
     return detectedObjects.isEmpty
         ? null
         : BoxCoords.fromList(detectedObjects[0]["box"]);
