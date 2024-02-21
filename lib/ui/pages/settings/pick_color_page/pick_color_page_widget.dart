@@ -61,7 +61,7 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false, // prevent default back button from appearing
           title: Semantics(
             container: true,
             label: '색상 설정',
@@ -93,7 +93,7 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 130.0,
-                  padding: const EdgeInsets.all(3.0), // Add padding to all sides
+                  padding: const EdgeInsets.all(3.0),
                   decoration: BoxDecoration(
                     color: PKBAppState().tertiaryColor,
                   ),
@@ -115,7 +115,8 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   PillKaBooTheme.of(context).headlineMediumFamily),
                             ),
-                          ),),
+                          ),
+                        ),
                       ),
                       buildColorRow(0, ['검은색', '흰색'], 2),
                     ],
@@ -124,7 +125,7 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 250.0,
-                  padding: const EdgeInsets.all(5.0), // Add padding to all sides
+                  padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     color: PKBAppState().tertiaryColor,
                   ),
@@ -137,16 +138,17 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
-                          '대비 색상',
-                          style: PillKaBooTheme.of(context).headlineMedium.override(
-                            fontFamily: PillKaBooTheme.of(context).headlineMediumFamily,
-                            color: PKBAppState().secondaryColor,
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.bold,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                PillKaBooTheme.of(context).headlineMediumFamily),
+                            '대비 색상',
+                            style: PillKaBooTheme.of(context).headlineMedium.override(
+                              fontFamily: PillKaBooTheme.of(context).headlineMediumFamily,
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  PillKaBooTheme.of(context).headlineMediumFamily),
+                            ),
                           ),
-                        ),),
+                        ),
                       ),
                       buildColorRow(0, ['검은색', '흰색', '회색'], 1),
                       buildColorRow(3, ['파란색', '빨간색', '노란색'], 1),
@@ -156,7 +158,7 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 250.0,
-                  padding: const EdgeInsets.all(5.0), // Add padding to all sides
+                  padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     color: PKBAppState().tertiaryColor,
                   ),
@@ -178,7 +180,8 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   PillKaBooTheme.of(context).headlineMediumFamily),
                             ),
-                          ),),
+                          ),
+                        ),
                       ),
                       buildColorRow(0, ['검은색', '흰색', '회색'], 0),
                       buildColorRow(3, ['파란색', '빨간색', '노란색'],0),
@@ -199,7 +202,7 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(colors.length, (index) {
-          Color containerColor = getColorFromName(colors[index]); // Get the color object based on the name
+          Color containerColor = getColorFromName(colors[index]);
 
           bool isSelected;
           if (appColorIndex == 0) {

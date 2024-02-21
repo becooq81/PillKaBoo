@@ -119,7 +119,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
           backgroundColor: PKBAppState().tertiaryColor,
           appBar: AppBar(
             backgroundColor: PKBAppState().tertiaryColor,
-            automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+            automaticallyImplyLeading: false,
             title: Semantics(
               container: true,
               label: '이 약은 ${PKBAppState().infoMedName}입니다',
@@ -187,52 +187,53 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                 container: true,
                   label: childText,
                   child: Padding(
-padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                     child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ExcludeSemantics(
-                        excluding: true,
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                          child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Container(
-                                  width: imageContainerSize,
-                                  height: imageContainerSize,
-                                  decoration: BoxDecoration(
-                                    color: PKBAppState().secondaryColor, // Set the background color to white
-                                    shape: BoxShape.circle, // Set the container shape as circle
-                                  ),
-                                    child: SvgPicture.asset(
-                                      'assets/images/Child.svg',
-                                      fit: BoxFit.contain,
-                                      colorFilter: ColorFilter.mode(
-                                        PKBAppState().tertiaryColor,
-                                        BlendMode.srcIn,
-                                      ),
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Container(
+                                    width: imageContainerSize,
+                                    height: imageContainerSize,
+                                    decoration: BoxDecoration(
+                                      color: PKBAppState().secondaryColor,
+                                      shape: BoxShape.circle,
                                     ),
-                                ),
+                                      child: SvgPicture.asset(
+                                        'assets/images/Child.svg',
+                                        fit: BoxFit.contain,
+                                        colorFilter: ColorFilter.mode(
+                                          PKBAppState().tertiaryColor,
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
+                                  ),
+                              ),
                             ),
+                        ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '아이',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                                color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
                           ),
-                      ),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
-                      '아이',
-                      style: PillKaBooTheme.of(context).titleMedium.override(
-                            fontFamily:
-                                PillKaBooTheme.of(context).titleMediumFamily,
-                            fontSize: textFontSize,
-                            color: PKBAppState().secondaryColor,
-                            fontWeight: FontWeight.bold,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                PillKaBooTheme.of(context).titleMediumFamily),
-                          ),
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),)
+                  )
               ),
               Semantics(
                 container: true,
@@ -251,11 +252,11 @@ padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                               width: imageContainerSize,
                               height: imageContainerSize,
                               decoration: BoxDecoration(
-                                color: PKBAppState().secondaryColor, // Set the background color
-                                shape: BoxShape.circle, // Circular shape
+                                color: PKBAppState().secondaryColor,
+                                shape: BoxShape.circle,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                                padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images/date.svg',
                                   fit: BoxFit.contain,
@@ -305,11 +306,11 @@ padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                             width: imageContainerSize,
                             height: imageContainerSize,
                             decoration: BoxDecoration(
-                              color: PKBAppState().secondaryColor, // Set the background color
-                              shape: BoxShape.circle, // Circular shape
+                              color: PKBAppState().secondaryColor,
+                              shape: BoxShape.circle,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                              padding: const EdgeInsets.all(10.0),
                               child: SvgPicture.asset(
                                 'assets/images/ing.svg',
                                 fit: BoxFit.contain,
@@ -358,11 +359,11 @@ padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                             width: imageContainerSize,
                             height: imageContainerSize,
                             decoration: BoxDecoration(
-                              color: PKBAppState().secondaryColor, // Set the background color
-                              shape: BoxShape.circle, // Circular shape
+                              color: PKBAppState().secondaryColor,
+                              shape: BoxShape.circle,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                              padding: const EdgeInsets.all(10.0),
                               child: SvgPicture.asset(
                                 'assets/images/use.svg',
                                 fit: BoxFit.contain,
@@ -411,11 +412,11 @@ padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                           width: imageContainerSize,
                           height: imageContainerSize,
                           decoration: BoxDecoration(
-                            color: PKBAppState().secondaryColor, // Set the background color
-                            shape: BoxShape.circle, // Circular shape
+                            color: PKBAppState().secondaryColor,
+                            shape: BoxShape.circle,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                            padding: const EdgeInsets.all(10.0),
                             child: SvgPicture.asset(
                               'assets/images/howeat.svg',
                               fit: BoxFit.contain,
@@ -451,102 +452,107 @@ padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                 container: true,
                 label: warningText,
                 child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Container(
-                        width: imageContainerSize,
-                        height: imageContainerSize,
-                        decoration: BoxDecoration(
-                          color: PKBAppState().secondaryColor, // Set the background color
-                          shape: BoxShape.circle, // Circular shape
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 5, 10, 10), // Adjust padding as needed
-                          child: SvgPicture.asset(
-                            'assets/images/warning.svg',
-                            fit: BoxFit.contain,
-                            colorFilter: ColorFilter.mode(
-                              PKBAppState().tertiaryColor,
-                              BlendMode.srcIn,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ExcludeSemantics(
+                      excluding: true,
+                      child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Container(
+                          width: imageContainerSize,
+                          height: imageContainerSize,
+                          decoration: BoxDecoration(
+                            color: PKBAppState().secondaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                            child: SvgPicture.asset(
+                              'assets/images/warning.svg',
+                              fit: BoxFit.contain,
+                              colorFilter: ColorFilter.mode(
+                                PKBAppState().tertiaryColor,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),),
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: Text(
-                    '주의사항',
-                    style: PillKaBooTheme.of(context).titleMedium.override(
-                          fontFamily:
-                              PillKaBooTheme.of(context).titleMediumFamily,
-                          fontSize: textFontSize,
-                          fontWeight: FontWeight.bold,
-                      color: PKBAppState().secondaryColor,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              PillKaBooTheme.of(context).titleMediumFamily),
-                        ),
-                  ),)
-                ],
-              ),),
+                    ),),
+                    ExcludeSemantics(
+                      excluding: true,
+                      child: Text(
+                      '주의사항',
+                      style: PillKaBooTheme.of(context).titleMedium.override(
+                            fontFamily:
+                                PillKaBooTheme.of(context).titleMediumFamily,
+                            fontSize: textFontSize,
+                            fontWeight: FontWeight.bold,
+                            color: PKBAppState().secondaryColor,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                PillKaBooTheme.of(context).titleMediumFamily),
+                          ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Semantics(
                 container: true,
                 label: comboText,
                 child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Container(
-                        width: imageContainerSize,
-                        height: imageContainerSize,
-                        decoration: BoxDecoration(
-                          color: PKBAppState().secondaryColor, // Set the background color
-                          shape: BoxShape.circle, // Circular shape
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0), // Adjust padding as needed
-                          child: SvgPicture.asset(
-                            'assets/images/forb.svg',
-                            fit: BoxFit.contain,
-                            colorFilter: ColorFilter.mode(
-                              PKBAppState().tertiaryColor,
-                              BlendMode.srcIn,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ExcludeSemantics(
+                      excluding: true,
+                      child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Container(
+                            width: imageContainerSize,
+                            height: imageContainerSize,
+                            decoration: BoxDecoration(
+                              color: PKBAppState().secondaryColor, // Set the background color
+                              shape: BoxShape.circle, // Circular shape
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                              child: SvgPicture.asset(
+                                'assets/images/forb.svg',
+                                fit: BoxFit.contain,
+                                colorFilter: ColorFilter.mode(
+                                  PKBAppState().tertiaryColor,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),),
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: Text(
-                    '금지조합',
-                    style: PillKaBooTheme.of(context).titleMedium.override(
-                          fontFamily:
-                              PillKaBooTheme.of(context).titleMediumFamily,
-                          fontSize: textFontSize,
-                          fontWeight: FontWeight.bold,
-                      color: PKBAppState().secondaryColor,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              PillKaBooTheme.of(context).titleMediumFamily),
-                        ),
-                  ),)
-                ],
-              ),),
+                    ExcludeSemantics(
+                      excluding: true,
+                      child: Text(
+                          '금지조합',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: PKBAppState().secondaryColor,
+                                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                          ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Semantics(
                 container: true,
                 label: sideEffectText,
@@ -564,11 +570,11 @@ padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
                         width: imageContainerSize,
                         height: imageContainerSize,
                         decoration: BoxDecoration(
-                          color: PKBAppState().secondaryColor, // Set the background color
-                          shape: BoxShape.circle, // Circular shape
+                          color: PKBAppState().secondaryColor,
+                          shape: BoxShape.circle,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(10.0),
                           child: SvgPicture.asset(
                             'assets/images/sideef.svg',
                             fit: BoxFit.contain,

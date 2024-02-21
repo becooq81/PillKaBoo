@@ -65,7 +65,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false,
           title: Semantics(
             container: true,
             label: '환경 설정 메뉴',
@@ -110,10 +110,10 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                         width: containerWidth,
                         height: containerHeight,
                         decoration: BoxDecoration(
-                          color: PKBAppState().tertiaryColor, // Background color
+                          color: PKBAppState().tertiaryColor,
                           borderRadius: BorderRadius.circular(26.0),
                           border: Border.all(
-                            color: PKBAppState().secondaryColor, // Border color
+                            color: PKBAppState().secondaryColor,
                             width: 1.0,
                           ),
                         ),
@@ -184,10 +184,10 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                         width: containerWidth,
                         height: containerHeight,
                         decoration: BoxDecoration(
-                          color: PKBAppState().tertiaryColor, // Background color
+                          color: PKBAppState().tertiaryColor,
                           borderRadius: BorderRadius.circular(26.0),
                           border: Border.all(
-                            color: PKBAppState().secondaryColor, // Border color
+                            color: PKBAppState().secondaryColor,
                             width: 1.0,
                           ),
                         ),
@@ -260,10 +260,10 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                         width: containerWidth,
                         height: containerHeight,
                         decoration: BoxDecoration(
-                          color: PKBAppState().tertiaryColor, // Background color
+                          color: PKBAppState().tertiaryColor,
                           borderRadius: BorderRadius.circular(26.0),
                           border: Border.all(
-                            color: PKBAppState().secondaryColor, // Border color
+                            color: PKBAppState().secondaryColor,
                             width: 1.0,
                           ),
                         ),

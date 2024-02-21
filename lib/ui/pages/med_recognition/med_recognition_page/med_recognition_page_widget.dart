@@ -93,10 +93,10 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                       container: true,
                       label: '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.',
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // This helps in distributing space evenly.
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 16.0), // Add padding to the left of the text
+                            padding: const EdgeInsets.only(left: 16.0),
                             child: Text(
                               '약 인식',
                               style: TextStyle(
@@ -107,7 +107,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                               ),
                             ),
                           ),
-                          const Spacer(), // Pushes the button to the far right
+                          const Spacer(),
                           const widgets.HomeButtonWidget(),
                         ],
                       ),

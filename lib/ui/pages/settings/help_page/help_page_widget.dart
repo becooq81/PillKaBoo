@@ -62,7 +62,7 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false,
           title: Semantics(
             container: true,
             label: '도움말',
@@ -112,11 +112,11 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                                   width: imageContainerSize,
                                   height: imageContainerSize,
                                   decoration: BoxDecoration(
-                                    color: PKBAppState().secondaryColor, // Set the background color to white
-                                    shape: BoxShape.circle, // Set the container shape as circle
+                                    color: PKBAppState().secondaryColor,
+                                    shape: BoxShape.circle,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                                    padding: const EdgeInsets.all(10.0),
                                     child: SvgPicture.asset(
                                       'assets/images/main_menu_pill.svg',
                                       fit: BoxFit.contain,
@@ -146,7 +146,8 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                             ),
                           ),
                         ],
-                      ),)
+                      ),
+                    )
                 ),
                 Semantics(
                   container: true,
@@ -165,11 +166,11 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                                 width: imageContainerSize,
                                 height: imageContainerSize,
                                 decoration: BoxDecoration(
-                                  color: PKBAppState().secondaryColor, // Set the background color
-                                  shape: BoxShape.circle, // Circular shape
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(15.0), // Adjust padding as needed
+                                  padding: const EdgeInsets.all(15.0),
                                   child: SvgPicture.asset(
                                     'assets/images/liquid_sub_pouring.svg',
                                     fit: BoxFit.contain,
@@ -219,11 +220,11 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                               width: imageContainerSize,
                               height: imageContainerSize,
                               decoration: BoxDecoration(
-                                color: PKBAppState().secondaryColor, // Set the background color
-                                shape: BoxShape.circle, // Circular shape
+                                color: PKBAppState().secondaryColor,
+                                shape: BoxShape.circle,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                                padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images/rest.svg',
                                   fit: BoxFit.contain,
