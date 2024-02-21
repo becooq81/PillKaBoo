@@ -31,7 +31,7 @@ class MedRecognizerWidget extends StatefulWidget {
   _MedRecognizerWidgetState createState() => _MedRecognizerWidgetState();
 }
 
-class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
+class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsBindingObserver {
 
   final _textRecognizer = TextRecognizer(script: TextRecognitionScript.korean); // 한국어 Text Recognition 언어 설정
   final BarcodeScanner _barcodeScanner = BarcodeScanner();
@@ -50,10 +50,14 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      GlobalAudioPlayer().playRepeat();
+    });
+
+    WidgetsBinding.instance.addObserver(this); // Register observer
     listenForPermissions();
     _isDateRecognized = false;
     _isBarcodeRecognized = false;
-    GlobalAudioPlayer().playRepeat();
     setState(() {
       PKBAppState().infoMedName = "";
       PKBAppState().infoExprDate = "";
@@ -80,12 +84,26 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
 
   @override
   void dispose() async {
+    WidgetsBinding.instance.removeObserver(this); // Unregister observer
     _canProcess = false;
     _textRecognizer.close();
     _barcodeScanner.close();
     GlobalAudioPlayer().pause();
     super.dispose();
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // App is resumed (in foreground), start audio playback
+      GlobalAudioPlayer().playRepeat();
+    } else if (state == AppLifecycleState.paused) {
+      // App is paused (in background), pause audio playback
+      GlobalAudioPlayer().pause();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,24 +113,21 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
       }
     });
 
-    // Continue to build your widget as normal.
     return _isBarcodeRecognized && _isDateRecognized
         ? const CircularProgressIndicator()
         : DetectorView(
-      title: 'Barcode Scanner',
-      customPaint: _customPaint,
-      text: _recognizedBarcode,
-      onImage: _processImage,
-      initialCameraLensDirection: _cameraLensDirection,
-      onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
-    );
+          title: 'Barcode Scanner',
+          customPaint: _customPaint,
+          text: _recognizedBarcode,
+          onImage: _processImage,
+          initialCameraLensDirection: _cameraLensDirection,
+          onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
+        );
   }
 
   // 진동
   void triggerVibrationIfNecessary() {
-
     Vibration.vibrate();
-    // Reset the flags if necessary, or handle them accordingly
   }
 
   /// text recognition & barcode detection methods
@@ -128,8 +143,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
     final text = await _textRecognizer.processImage(inputImage);
     final barcodes = await _barcodeScanner.processImage(inputImage);
 
-    print("TEXT: ${text.text}");
-    print("BARCODES: $barcodes");
     if (!_isDateRecognized) {
       List<String> splitText = text.text.split(RegExp(r'\s+'));
       for (String word in splitText) {
@@ -147,7 +160,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
                   "${date.year}년 ${date.month}월 ${date.day}일";
             }
             PKBAppState().infoExprDate = _exprDate;
-            print("EXPIRY DATE: ${PKBAppState().infoExprDate}");
             _exprDate = "";
           }
         }
@@ -176,7 +188,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
               if (_medTitle == ""){
                 _medTitle = med['itemName'];
                 PKBAppState().infoMedName = _medTitle;
-                print("MEDICINE NAME: ${PKBAppState().infoMedName}");
                 _medTitle = "";
                 PKBAppState().infoUsage = med['efcyQesitm'];
                 PKBAppState().infoHowToTake = med['useMethodQesitm'];
