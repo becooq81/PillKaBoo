@@ -158,6 +158,8 @@ class LiquidVolumeEstimator {
     for (TextBlock block in text.blocks) {
       for (TextLine line in block.lines) {
         for (TextElement element in line.elements) {
+          debugPrint("TEXT DETECTED: ${element.text}");
+
           final parsed = int.tryParse(element.text);
           if (parsed != null && parsed <= 20) {
             final y =
@@ -174,15 +176,23 @@ class LiquidVolumeEstimator {
   Future<int?> call(XFile frame) async {
     final bytesImage = await convXFile2BytesImage(frame);
 
+    debugPrint("FRAME SHAPE: ${bytesImage.width} ${bytesImage.height}");
+
     final detectedBoxCoords = await detectBottle(bytesImage);
     if (detectedBoxCoords == null) {
       debugPrint("NO BOTTLE DETECTED");
-      return null;
+      // return null;
     }
 
-    final croppedBytesImage = cropBytesImage(bytesImage, detectedBoxCoords);
+    final croppedBytesImage = cropBytesImage(
+        bytesImage, detectedBoxCoords ?? BoxCoords(240, 512, 360, 768));
+
+    debugPrint(
+        "CROPPED: ${croppedBytesImage.height}, ${croppedBytesImage.width}");
 
     final scalePositions = getScalePositions(bytesImage);
+
+    debugPrint("SCALE POSITIONS: $scalePositions");
 
     final liquidLevel = getLiquidLevel(croppedBytesImage);
     if (liquidLevel == null) {
