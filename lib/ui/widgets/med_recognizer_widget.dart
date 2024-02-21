@@ -1,4 +1,3 @@
-
 import '../../core/pillkaboo_util.dart';
 import '../../app/global_audio_player.dart';
 import 'views/detector_view.dart';
@@ -129,6 +128,8 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
     final text = await _textRecognizer.processImage(inputImage);
     final barcodes = await _barcodeScanner.processImage(inputImage);
 
+    print("TEXT: ${text.text}");
+    print("BARCODES: $barcodes");
     if (!_isDateRecognized) {
       List<String> splitText = text.text.split(RegExp(r'\s+'));
       for (String word in splitText) {
@@ -146,6 +147,7 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
                   "${date.year}년 ${date.month}월 ${date.day}일";
             }
             PKBAppState().infoExprDate = _exprDate;
+            print("EXPIRY DATE: ${PKBAppState().infoExprDate}");
             _exprDate = "";
           }
         }
@@ -174,6 +176,7 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
               if (_medTitle == ""){
                 _medTitle = med['itemName'];
                 PKBAppState().infoMedName = _medTitle;
+                print("MEDICINE NAME: ${PKBAppState().infoMedName}");
                 _medTitle = "";
                 PKBAppState().infoUsage = med['efcyQesitm'];
                 PKBAppState().infoHowToTake = med['useMethodQesitm'];
@@ -231,6 +234,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
   }
 
   void _navigateToMedInfoPage(BuildContext context) {
-    context.go('/medInfoPage');
+    context.pushNamed('MedInfoPage');
   }
 }

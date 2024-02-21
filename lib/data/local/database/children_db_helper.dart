@@ -27,7 +27,7 @@ class ChildrenDBHelper {
   }
   static Future<void> loadCsvData(Database db) async {
     final String csvData = await rootBundle.loadString(
-        'assets/pdfs/children.csv');
+        'assets/data/children.csv');
     List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
     Batch batch = db.batch();
     for (var row in csvTable.skip(1)) { // Assuming the first row is headers

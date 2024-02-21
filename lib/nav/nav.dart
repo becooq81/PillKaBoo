@@ -43,7 +43,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
               ),
             )
-          : const MedRecognitionPageWidget(),
+          : const MainMenuPageWidget(),
       routes: [
         PKBRoute(
           name: '_initialize',
