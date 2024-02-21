@@ -151,21 +151,37 @@ Future<InputImage> convImgImage2InputImage(img.Image image) async {
   return InputImage.fromFilePath(path);
 }
 
-int estimateCC(List<int?> scalePositions, int liquidLevel) {
+int? estimateCC(List<num?> scalePositions, int liquidLevel) {
   debugPrint("estimateCC");
-  int cc = 0;
-  int min = 1000;
+  final nonNullCnt =
+      scalePositions.map((x) => (x != null) as int).reduce((a, b) => a + b);
+  if (nonNullCnt < 2) {
+    debugPrint("nonNullCnt < 2");
+    return null;
+  }
+
+  int p0 = 0, p1 = 0;
+
   for (var entry in scalePositions.asMap().entries) {
     int i = entry.key;
-    int? s = entry.value;
+    num? s = entry.value;
     if (s != null) {
-      final dd = (liquidLevel - s) * (liquidLevel - s);
-      if (dd < min) {
-        cc = i + 1;
-        min = dd;
-      }
+      p0 = i;
+      break;
     }
   }
+
+  for (var entry in scalePositions.reversed.toList().asMap().entries) {
+    int i = entry.key;
+    num? s = entry.value;
+    if (s != null) {
+      p1 = 19 - i;
+      break;
+    }
+  }
+
+  final unit = (scalePositions[p0]! - scalePositions[p1]!) / (p1 - p0);
+  final cc = ((liquidLevel - scalePositions[p0]!) / unit + p0).round();
   return cc;
 }
 
@@ -204,11 +220,11 @@ class LiquidVolumeEstimator {
         : BoxCoords.fromList(detectedObjects[0]["box"]);
   }
 
-  Future<List<int?>> getScalePositions(img.Image image) async {
+  Future<List<num?>> getScalePositions(img.Image image) async {
     debugPrint("getScalePositions");
 
     InputImage inputImage = await convImgImage2InputImage(image);
-    List<int?> positions = List.filled(20, null);
+    List<num?> positions = List.filled(20, null);
     final text = await textRecognizer.processImage(inputImage);
     for (TextBlock block in text.blocks) {
       for (TextLine line in block.lines) {
@@ -220,7 +236,7 @@ class LiquidVolumeEstimator {
             final y =
                 (element.cornerPoints[0].y + element.boundingBox.center.dy)
                     .round();
-            positions[parsed] = y;
+            positions[parsed - 1] = y;
           }
         }
       }
