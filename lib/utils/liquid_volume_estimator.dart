@@ -66,24 +66,21 @@ BytesImage convImgImage2BytesImage(img.Image imgImage) {
   return BytesImage(imgImage.toUint8List(), imgImage.height, imgImage.width);
 }
 
-Future<BytesImage> cropBytesImage(
+Future<img.Image> cropBytesImage(
     BytesImage bytesImage, BoxCoords boxCoords) async {
   debugPrint("cropBytesImage");
   final imgImage = await convBytesImage2imgImage(bytesImage);
   final newHeight = boxCoords.y1 - boxCoords.y0;
   final newWidth = boxCoords.x1 - boxCoords.x0;
-  debugPrint("whywhywhywhywhy");
   final croppedImgImage = img.copyCrop(imgImage,
       x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
   debugPrint("CROPPED SHAPE: $newHeight $newWidth");
-  return convImgImage2BytesImage(croppedImgImage);
+  return croppedImgImage;
 }
 
-List preprocess(BytesImage bytesImage, [int binarizeThreshold = 100]) {
+Future<List> preprocess(img.Image image, [int binarizeThreshold = 100]) async {
   debugPrint("preprocess");
-  img.Image image = img.decodeJpg(bytesImage.bytes)!;
   Uint8List arrImage = image.getBytes(order: img.ChannelOrder.rgb);
-
   return arrImage
       .reshape(3, arrImage.length ~/ 3)
       .map((x) => (x[0] + x[1] + x[2]) / 3)
@@ -110,9 +107,9 @@ int? getLiquidLevelFromRowsum(List rsum, [int levelThreshold = 5]) {
   return null;
 }
 
-int? getLiquidLevel(BytesImage image) {
+Future<int?> getLiquidLevel(img.Image image) async {
   debugPrint("getLiquidLevel");
-  final preprocessed = preprocess(image);
+  final preprocessed = await preprocess(image);
   final rsum = rowsum(preprocessed);
   final liquidLevel = getLiquidLevelFromRowsum(rsum);
   debugPrint("liquidLevel: $liquidLevel");
@@ -132,6 +129,7 @@ InputImage convBytesImage2InputImage(BytesImage bytesImage) {
 }
 */
 
+/*
 Future<InputImage> convBytesImage2InputImage(BytesImage bytesImage) async {
   debugPrint("convert BytesImage to InputImage");
   final path = join(
@@ -139,6 +137,17 @@ Future<InputImage> convBytesImage2InputImage(BytesImage bytesImage) async {
     "${DateTime.now()}.jpg",
   );
   await File(path).writeAsBytes(bytesImage.bytes);
+  return InputImage.fromFilePath(path);
+}
+*/
+
+Future<InputImage> convImgImage2InputImage(img.Image image) async {
+  debugPrint("convert img.Image to InputImage");
+  final path = join(
+    (await getApplicationDocumentsDirectory()).path,
+    "${DateTime.now()}.jpg",
+  );
+  await img.writeFile(path, img.encodeJpg(image));
   return InputImage.fromFilePath(path);
 }
 
@@ -195,9 +204,10 @@ class LiquidVolumeEstimator {
         : BoxCoords.fromList(detectedObjects[0]["box"]);
   }
 
-  Future<List<int?>> getScalePositions(BytesImage bytesImage) async {
+  Future<List<int?>> getScalePositions(img.Image image) async {
     debugPrint("getScalePositions");
-    InputImage inputImage = await convBytesImage2InputImage(bytesImage);
+
+    InputImage inputImage = await convImgImage2InputImage(image);
     List<int?> positions = List.filled(20, null);
     final text = await textRecognizer.processImage(inputImage);
     for (TextBlock block in text.blocks) {
@@ -228,18 +238,17 @@ class LiquidVolumeEstimator {
       // return null;
     }
 
-    final croppedBytesImage = cropBytesImage(
+    final croppedImgImage = await cropBytesImage(
         bytesImage, detectedBoxCoords ?? BoxCoords(240, 512, 360, 768));
-    //final croppedBytesImage = bytesImage;
 
-    final scalePositions = getScalePositions(bytesImage);
+    final scalePositions = await getScalePositions(croppedImgImage);
 
-    final liquidLevel = getLiquidLevel(await croppedBytesImage);
+    final liquidLevel = await getLiquidLevel(croppedImgImage);
     if (liquidLevel == null) {
       debugPrint("CANNOT FIND LIQUID SURFACE LINE");
       return null;
     }
 
-    return estimateCC(await scalePositions, liquidLevel);
+    return estimateCC(scalePositions, liquidLevel);
   }
 }
