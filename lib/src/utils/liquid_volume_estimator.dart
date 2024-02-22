@@ -213,7 +213,7 @@ class LiquidVolumeEstimator {
 
   LiquidVolumeEstimator()
       : vision = FlutterVision(),
-        textRecognizer = TextRecognizer(script: TextRecognitionScript.latin) {}
+        textRecognizer = TextRecognizer(script: TextRecognitionScript.korean) {}
 
   void stop() {
     vision.closeYoloModel();
