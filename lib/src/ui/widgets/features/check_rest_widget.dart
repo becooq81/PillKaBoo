@@ -1,6 +1,6 @@
-import '../../core/pillkaboo_util.dart';
-import '../../app/global_audio_player.dart';
-import 'views/detector_view.dart';
+import '../../../core/pillkaboo_util.dart';
+import '../../../app/global_audio_player.dart';
+import '../views/detector_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';

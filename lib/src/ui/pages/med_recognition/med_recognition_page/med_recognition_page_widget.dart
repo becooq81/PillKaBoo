@@ -34,9 +34,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
           context.pushReplacement('/medInfoPage');
         }
       }
-    }, onError: (error) {
-      print("STREAM ERROR");
-    });;
+    });
     _model = createModel(context, () => MedRecognitionPageModel());
   }
 

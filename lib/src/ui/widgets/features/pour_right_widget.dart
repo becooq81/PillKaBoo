@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:pill/src/core/pillkaboo_util.dart';
 import 'dart:core';
-import '../../utils/liquid_volume_estimator.dart';
+import '../../../utils/liquid_volume_estimator.dart';
 
 class PourRightWidget extends StatefulWidget {
   final StreamController<bool> controller;

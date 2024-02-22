@@ -1,12 +1,12 @@
-import '../../core/pillkaboo_util.dart';
-import '../../app/global_audio_player.dart';
-import 'views/detector_view.dart';
-import '../../data/local/database/barcode_db_helper.dart';
-import '../../data/local/database/processed_file_db_helper.dart';
-import '../../data/local/database/ingredients_db_helper.dart';
-import '../../data/local/database/children_db_helper.dart';
-import '../../utils/date_parser.dart';
-import 'barcode_detector_painter.dart';
+import '../../../core/pillkaboo_util.dart';
+import '../../../app/global_audio_player.dart';
+import '../views/detector_view.dart';
+import '../../../data/local/database/barcode_db_helper.dart';
+import '../../../data/local/database/processed_file_db_helper.dart';
+import '../../../data/local/database/ingredients_db_helper.dart';
+import '../../../data/local/database/children_db_helper.dart';
+import '../../../utils/date_parser.dart';
+import '../views/barcode_detector_painter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
