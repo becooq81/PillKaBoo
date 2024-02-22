@@ -153,9 +153,7 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                 Semantics(
                     container: true,
                     label: howToRecognizePrescribed,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
-                      child: Row(
+                    child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           ExcludeSemantics(
@@ -203,7 +201,6 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                           ),
                         ],
                       ),
-                    )
                 ),
                 Semantics(
                   container: true,
