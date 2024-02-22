@@ -86,10 +86,7 @@ class DateParser {
     DateTime? parsedDate = parseDate(text);
     if (parsedDate != null) {
       DateTime now = DateTime.now();
-      // Create a new DateTime object representing today but without the time part
       DateTime today = DateTime(now.year, now.month, now.day);
-      print(today);
-      // Check if the parsed date is before or equal to today
       if (parsedDate.isBefore(today) || isSameDay(parsedDate, today)) {
         return parsedDate;
       }
