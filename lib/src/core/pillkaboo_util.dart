@@ -326,7 +326,9 @@ extension ListDivideExt<T extends Widget> on Iterable<T> {
 extension StatefulWidgetExtensions on State<StatefulWidget> {
   void safeSetState(VoidCallback fn) {
     if (mounted) {
-      setState(fn);
+      if (mounted) {
+        //setState(fn);
+      }
     }
   }
 }

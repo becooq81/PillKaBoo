@@ -42,7 +42,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
   CustomPaint? _customPaint; // 이미지에 그려질 CustomPaint
 
   String? _recognizedBarcode; // 인식된 바코드
-  String? _recognizedText;
 
   var _cameraLensDirection = CameraLensDirection.back; // 카메라 렌즈 방향
 
@@ -130,7 +129,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
     _isBusy = true;
     setState(() {
       _recognizedBarcode = '';
-      _recognizedText = '';
     });
 
     final text = await _textRecognizer.processImage(inputImage);

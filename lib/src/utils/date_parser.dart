@@ -38,6 +38,7 @@ class DateParser {
         return DateTime(year, month, day);
       }
     }
+    return null;
   }
 
 
@@ -71,6 +72,7 @@ class DateParser {
         final DateFormat formatter = DateFormat(format);
         return formatter.parseStrict(text);
       } catch (e) {
+        continue;
       }
     }
 
