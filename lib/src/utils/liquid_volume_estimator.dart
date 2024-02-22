@@ -236,8 +236,7 @@ class LiquidVolumeEstimator {
         imageWidth: bytesImage.width,
         iouThreshold: 0.8,
         classThreshold: 0);
-    detectedObjects
-        .sort((x, y) => ((x["box"][4] - y["box"][4]) * 100000).round());
+    detectedObjects.sort((x, y) => y["box"][4].compareTo(x["box"][4]));
     debugPrint("detectedObjects: $detectedObjects");
 
     return detectedObjects.isEmpty
