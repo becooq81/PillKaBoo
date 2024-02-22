@@ -1,5 +1,4 @@
 .dart_tool/
 build/
-*.tflite
 .flutter-plugins
 .flutter-plugins-dependencies
