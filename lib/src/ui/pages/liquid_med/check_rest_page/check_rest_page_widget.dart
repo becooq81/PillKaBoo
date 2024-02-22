@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../../../core/pillkaboo_util.dart';
 import '../../../widgets/index.dart' as widgets;
 
@@ -19,18 +21,28 @@ class CheckRestPageWidget extends StatefulWidget {
 
 class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
   late CheckRestPageModel _model;
+  final StreamController<bool> _controller = StreamController();
+
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _controller.stream.listen((success) {
+      if (success) {
+        if (mounted) {
+          context.pushReplacement('/checkRestResultPage');
+        }
+      }
+    });
     _model = createModel(context, () => CheckRestPageModel());
   }
 
   @override
   void dispose() {
     _model.dispose();
+    _controller.close();
     super.dispose();
   }
 
@@ -79,6 +91,7 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
                         child: widgets.CheckRestWidget(
                           width: MediaQuery.of(context).size.width * 1.0,
                           height: MediaQuery.of(context).size.height * 0.90,
+                          controller: _controller,
                         ),
                       ),
                     ],

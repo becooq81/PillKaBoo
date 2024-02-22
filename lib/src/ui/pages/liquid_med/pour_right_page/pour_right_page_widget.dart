@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../../../core/pillkaboo_util.dart';
 import '../../../widgets/index.dart' as widgets;
 
@@ -18,12 +20,22 @@ class PourRightPageWidget extends StatefulWidget {
 
 class _PourRightPageWidgetState extends State<PourRightPageWidget> {
   late PourRightPageModel _model;
+  final StreamController<bool> _controller = StreamController();
+
+  
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _controller.stream.listen((success) {
+      if (success) {
+        if (mounted) {
+          context.pushReplacement('/pourRightPageResultPage');
+        }
+      }
+    });
     _model = createModel(context, () => PourRightPageModel());
   }
 
@@ -78,6 +90,7 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                         child: widgets.PourRightWidget(
                           width: MediaQuery.of(context).size.width * 1.0,
                           height: MediaQuery.of(context).size.height * 0.90,
+                          controller: _controller,
                         ),
                       ),
                     ],

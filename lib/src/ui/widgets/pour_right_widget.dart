@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:pill/src/core/pillkaboo_util.dart';
 import 'dart:core';
 import '../../utils/liquid_volume_estimator.dart';
 
 class PourRightWidget extends StatefulWidget {
+  final StreamController<bool> controller;
+
   const PourRightWidget({
     Key? key,
     this.width,
     this.height,
+    required this.controller,
   }) : super(key: key);
   final double? width;
   final double? height;
@@ -68,6 +72,12 @@ class _CameraViewState extends State<PourRightWidget> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_currentCC >= PKBAppState().pourAmount) {
+        _currentCC = 0;
+        widget.controller.add(true);
+      }
+    });
     return Scaffold(body: _liveFeedBody());
   }
 

@@ -13,10 +13,12 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 class CheckRestWidget extends StatefulWidget {
+  final StreamController<bool> controller;
   const CheckRestWidget({
     super.key,
     this.width,
     this.height,
+    required this.controller,
   });
   final double? width;
   final double? height;
@@ -69,7 +71,7 @@ class _CheckRestWidgetState extends State<CheckRestWidget> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isAmountRecognized) {
-        context.pushReplacement('/checkRestResultPage'); // 양 맞춰지면 결과 페이지로 이동
+        widget.controller.add(true);
       }
     });
 
