@@ -1,7 +1,7 @@
-import '../../../../app/global_audio_player.dart';
-import '../../../../core/pillkaboo_util.dart';
-import '../../../styles/pillkaboo_icon_button.dart';
-import '../../../styles/pillkaboo_theme.dart';
+import '../../../../../app/global_audio_player.dart';
+import '../../../../../core/pillkaboo_util.dart';
+import '../../../../styles/pillkaboo_icon_button.dart';
+import '../../../../styles/pillkaboo_theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

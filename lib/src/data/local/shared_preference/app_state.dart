@@ -47,6 +47,7 @@ class PKBAppState extends ChangeNotifier {
   String infoSideEffect = '';
   String infoMedName = '';
   int pourAmount = 0;
+  String slotOfDay = '';
 
 
   Color _primaryColor = const Color(0xFFF9E000);

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../../../core/pillkaboo_util.dart';
-import '../../../widgets/index.dart' as widgets;
+import '../../../../../core/pillkaboo_util.dart';
+import '../../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

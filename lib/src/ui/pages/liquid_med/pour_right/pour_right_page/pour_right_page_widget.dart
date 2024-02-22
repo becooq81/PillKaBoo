@@ -1,28 +1,28 @@
 import 'dart:async';
 
-import '../../../../core/pillkaboo_util.dart';
-import '../../../widgets/index.dart' as widgets;
+import '../../../../../core/pillkaboo_util.dart';
+import '../../../../widgets/index.dart' as widgets;
 
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'check_rest_page_model.dart';
-export 'check_rest_page_model.dart';
+import 'pour_right_page_model.dart';
+export 'pour_right_page_model.dart';
 
 
-
-class CheckRestPageWidget extends StatefulWidget {
-  const CheckRestPageWidget({super.key});
+class PourRightPageWidget extends StatefulWidget {
+  const PourRightPageWidget({super.key});
 
   @override
-  State<CheckRestPageWidget> createState() => _CheckRestPageWidgetState();
+  State<PourRightPageWidget> createState() => _PourRightPageWidgetState();
 }
 
-class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
-  late CheckRestPageModel _model;
+class _PourRightPageWidgetState extends State<PourRightPageWidget> {
+  late PourRightPageModel _model;
   final StreamController<bool> _controller = StreamController();
 
+  
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -32,17 +32,17 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
     _controller.stream.listen((success) {
       if (success) {
         if (mounted) {
-          context.pushReplacement('/checkRestResultPage');
+          context.pushReplacement('/pourRightResultPage');
         }
       }
     });
-    _model = createModel(context, () => CheckRestPageModel());
+    _model = createModel(context, () => PourRightPageModel());
   }
 
   @override
   void dispose() {
     _model.dispose();
-    _controller.close();
+
     super.dispose();
   }
 
@@ -57,11 +57,10 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
       );
     }
 
-    context.watch<PKBAppState>();
-
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double appBarHeight = 60.0/892.0 * MediaQuery.of(context).size.height;
 
+    context.watch<PKBAppState>();
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -77,7 +76,7 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
             focusColor: Colors.transparent,
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            child: Stack(
+            child:Stack(
               children: [
                 Align(
                   alignment: const AlignmentDirectional(0.0, 0.0),
@@ -88,7 +87,7 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 1.0,
                         height: MediaQuery.of(context).size.height * 0.90,
-                        child: widgets.CheckRestWidget(
+                        child: widgets.PourRightWidget(
                           width: MediaQuery.of(context).size.width * 1.0,
                           height: MediaQuery.of(context).size.height * 0.90,
                           controller: _controller,
@@ -103,14 +102,14 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
                   color: PKBAppState().tertiaryColor,
                   child: Semantics(
                     container: true,
-                    label: '해당 물약의 잔량을 확인합니다.',
+                    label: '카메라를 고정해주세요. ${PKBAppState().pourAmount}ml 소분을 시작합니다.',
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
-                            '잔량 확인',
+                            '물약 따르기',
                             style: TextStyle(
                               fontFamily: 'Pretendard',
                               fontSize: appBarFontSize,
@@ -128,7 +127,7 @@ class _CheckRestPageWidgetState extends State<CheckRestPageWidget> {
               ],
             ),),
           ),
-      ),
+        ),
     );
 
   }

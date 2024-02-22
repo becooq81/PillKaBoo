@@ -1,30 +1,28 @@
 import 'dart:async';
 
-import '../../../../core/pillkaboo_util.dart';
-import '../../../widgets/index.dart' as widgets;
+import '../../../../../../core/pillkaboo_util.dart';
+import '../../../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'pour_right_page_model.dart';
-export 'pour_right_page_model.dart';
+import 'prescribed_med_recognition_page_model.dart';
+export 'prescribed_med_recognition_page_model.dart';
 
 
-class PourRightPageWidget extends StatefulWidget {
-  const PourRightPageWidget({super.key});
+class PrescribedMedRecognitionPageWidget extends StatefulWidget {
+  const PrescribedMedRecognitionPageWidget({super.key});
 
   @override
-  State<PourRightPageWidget> createState() => _PourRightPageWidgetState();
+  State<PrescribedMedRecognitionPageWidget> createState() => _PrescribedMedRecognitionPageWidgetState();
 }
 
-class _PourRightPageWidgetState extends State<PourRightPageWidget> {
-  late PourRightPageModel _model;
+class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecognitionPageWidget> {
+  late PrescribedMedRecognitionPageModel _model;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final StreamController<bool> _controller = StreamController();
 
-  
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -32,17 +30,21 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
     _controller.stream.listen((success) {
       if (success) {
         if (mounted) {
-          context.pushReplacement('/pourRightResultPage');
+          context.pushReplacement('/prescribedMedResultPage');
         }
       }
+    }, onError: (error) {
+      print("STREAM ERROR");
     });
-    _model = createModel(context, () => PourRightPageModel());
+    PKBAppState().slotOfDay = "";
+    _model = createModel(context, () => PrescribedMedRecognitionPageModel());
   }
+
+
 
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
@@ -57,10 +59,10 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
       );
     }
 
+    context.watch<PKBAppState>();
+
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double appBarHeight = 60.0/892.0 * MediaQuery.of(context).size.height;
-
-    context.watch<PKBAppState>();
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -76,7 +78,7 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
             focusColor: Colors.transparent,
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            child:Stack(
+            child: Stack(
               children: [
                 Align(
                   alignment: const AlignmentDirectional(0.0, 0.0),
@@ -87,7 +89,7 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 1.0,
                         height: MediaQuery.of(context).size.height * 0.90,
-                        child: widgets.PourRightWidget(
+                        child: widgets.PrescribedMedRecognizerWidget(
                           width: MediaQuery.of(context).size.width * 1.0,
                           height: MediaQuery.of(context).size.height * 0.90,
                           controller: _controller,
@@ -102,14 +104,14 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                   color: PKBAppState().tertiaryColor,
                   child: Semantics(
                     container: true,
-                    label: '카메라를 고정해주세요. ${PKBAppState().pourAmount}ml 소분을 시작합니다.',
+                    label: '카메라에서 30cm를 떨어져서 하나의 처방약을 비추고, 뒤집은 후 다시 비춰주세요.',
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
-                            '물약 따르기',
+                            '처방약 인식',
                             style: TextStyle(
                               fontFamily: 'Pretendard',
                               fontSize: appBarFontSize,
@@ -125,9 +127,10 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                   ),
                 ),
               ],
-            ),),
+            ),
           ),
         ),
+      ),
     );
 
   }
