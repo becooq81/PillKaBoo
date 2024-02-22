@@ -80,39 +80,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const MedInfoPageWidget(),
         ),
         PKBRoute(
-          name: 'CheckRestPage',
-          path: '/checkRestPage',
-          builder: (context, params) => const CheckRestPageWidget(),
-        ),
-        PKBRoute(
-          name: 'PourRightPage',
-          path: '/pourRightPage',
-          builder: (context, params) => const PourRightPageWidget(),
-        ),
-        PKBRoute(
           name: 'SettingsMenuPage',
           path: '/settingsMenuPage',
           builder: (context, params) => const SettingsMenuPageWidget(),
-        ),
-        PKBRoute(
-          name: 'LiquidMedSubMenuPage',
-          path: '/liquidMedSubMenuPage',
-          builder: (context, params) => const LiquidMedSubMenuPageWidget(),
-        ),
-        PKBRoute(
-          name: 'PourRightSliderPage',
-          path: '/pourRightSliderPage',
-          builder: (context, params) => const PourRightSliderPageWidget(),
-        ),
-        PKBRoute(
-          name: 'CheckRestResultPage',
-          path: '/checkRestResultPage',
-          builder: (context, params) => const CheckRestResultPageWidget(),
-        ), 
-        PKBRoute(
-          name: 'PourRightResultPage',
-          path: '/pourRightResultPage',
-          builder: (context, params) => const PourRightResultPageWidget(),
         ),
         PKBRoute(
           name: 'PickColorPage',
