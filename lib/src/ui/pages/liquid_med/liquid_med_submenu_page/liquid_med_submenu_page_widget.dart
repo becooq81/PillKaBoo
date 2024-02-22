@@ -68,7 +68,7 @@ class _LiquidMedSubMenuPageWidgetState extends State<LiquidMedSubMenuPageWidget>
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false,
           title: Semantics(
             container: true,
             label: '물약 복용 보조 메뉴',
@@ -112,10 +112,10 @@ class _LiquidMedSubMenuPageWidgetState extends State<LiquidMedSubMenuPageWidget>
                       width: containerWidth,
                       height: containerHeight,
                         decoration: BoxDecoration(
-                          color: PKBAppState().tertiaryColor, // Background color
+                          color: PKBAppState().tertiaryColor,
                           borderRadius: BorderRadius.circular(26.0),
                           border: Border.all(
-                            color: PKBAppState().secondaryColor, // Border color
+                            color: PKBAppState().secondaryColor,
                             width: 1.0,
                           ),
                         ),
@@ -175,10 +175,10 @@ class _LiquidMedSubMenuPageWidgetState extends State<LiquidMedSubMenuPageWidget>
                       width: containerWidth,
                       height: containerHeight,
                         decoration: BoxDecoration(
-                          color: PKBAppState().tertiaryColor, // Background color
+                          color: PKBAppState().tertiaryColor,
                           borderRadius: BorderRadius.circular(26.0),
                           border: Border.all(
-                            color: PKBAppState().secondaryColor, // Border color
+                            color: PKBAppState().secondaryColor,
                             width: 1.0,
                           ),
                         ),

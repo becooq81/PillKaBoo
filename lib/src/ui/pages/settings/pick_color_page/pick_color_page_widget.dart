@@ -42,7 +42,6 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // System UI overlay style for iOS (optional)
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(

@@ -78,7 +78,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false, 
           title: Semantics(
             container: true,
             label: '잔량 확인 결과',
@@ -153,7 +153,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
                           ),
                         ),
                         TextSpan(
-                          text: ' ml', // Text part 2
+                          text: ' ml', 
                           style: TextStyle(
                             fontSize: 30.0,
                             color: PKBAppState().secondaryColor,

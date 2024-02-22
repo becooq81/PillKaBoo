@@ -156,11 +156,8 @@ T? castToType<T>(dynamic value) {
   }
   switch (T) {
     case const (double):
-      // Doubles may be stored as ints in some cases.
       return value.toDouble() as T;
     case const (int):
-      // Likewise, ints may be stored as doubles. If this is the case
-      // (i.e. no decimal value), return the value as an int.
       if (value is num && value.toInt() == value) {
         return value.toInt() as T;
       }
@@ -327,10 +324,8 @@ extension ListDivideExt<T extends Widget> on Iterable<T> {
 }
 
 extension StatefulWidgetExtensions on State<StatefulWidget> {
-  /// Check if the widget exist before safely setting state.
   void safeSetState(VoidCallback fn) {
     if (mounted) {
-      // ignore: invalid_use_of_protected_member
       setState(fn);
     }
   }

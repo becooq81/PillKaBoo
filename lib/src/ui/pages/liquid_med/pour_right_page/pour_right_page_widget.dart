@@ -91,10 +91,10 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                     container: true,
                     label: '카메라를 고정해주세요. ${PKBAppState().pourAmount}ml 소분을 시작합니다.',
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // This helps in distributing space evenly.
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 16.0), // Add padding to the left of the text
+                          padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
                             '물약 따르기',
                             style: TextStyle(
@@ -105,7 +105,7 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
                             ),
                           ),
                         ),
-                        const Spacer(), // Pushes the button to the far right
+                        const Spacer(),
                         const widgets.HomeButtonWidget(),
                       ],
                     ),

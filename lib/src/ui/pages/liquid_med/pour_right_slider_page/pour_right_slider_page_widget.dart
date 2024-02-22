@@ -67,7 +67,7 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false,
           title: ExcludeSemantics(
               excluding: true,
               child: Text(
@@ -110,7 +110,7 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
                       ),
                     ),
                       TextSpan(
-                        text: ' ml', // Text part 2
+                        text: ' ml',
                         style: TextStyle(
                             fontSize: 30.0,
                             color: PKBAppState().secondaryColor,
@@ -121,7 +121,7 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
                       ],
                     ),
                   ),),
-                  const SizedBox(height: 20), // Add some spacing between the text and the slider
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -136,10 +136,10 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
                         child: widgets.GestureSlider(
                           minValue: 0,
                           maxValue: 30,
-                          initialValue: currentValue, // Use the state's currentValue as the initial value
+                          initialValue: currentValue,
                           onValueChanged: (newValue) {
                             setState(() {
-                              currentValue = newValue; // Update the state's currentValue with the new value from the slider
+                              currentValue = newValue;
                             });
                           },
                         ),
@@ -169,15 +169,14 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    PKBAppState().tertiaryColor, // Background color
+                    PKBAppState().tertiaryColor, 
                   ),
-                  // Adjust the shape for a fully rounded border
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(26), // Fully rounded border
+                      borderRadius: BorderRadius.circular(26), 
                       side: BorderSide(
-                        color: PKBAppState().secondaryColor, // Border color
-                        width: 2.0, // Border width
+                        color: PKBAppState().secondaryColor, 
+                        width: 2.0, 
                       ),
                     ),
                   ),

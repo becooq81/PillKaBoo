@@ -26,14 +26,10 @@ class ProcessedFileDBHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'processed_file.db');
     await copyDatabaseFromAssets(path, 'assets/data/processed_file.db');
-    // Open the database
     Database db = await openDatabase(path, version: 1,
       onCreate: (Database db, int version) async {
-        // Create tables and indexes if they don't exist - example:
-        // await db.execute('CREATE TABLE IF NOT EXISTS your_table_name (...);');
       },
     );
-    // Ensure the index on itemSeq column exists
     await db.execute('CREATE INDEX IF NOT EXISTS idx_itemSeq ON med_table (itemSeq);');
     return db;
   }
@@ -53,20 +49,16 @@ class ProcessedFileDBHelper {
   static Future<void> replaceDatabaseWithSQL(String sqlContent) async {
     final dbPath = await getDatabasesPath();
     final databasePath = join(dbPath, 'processed_file.db');
-    // Close the existing database if open
     if (_db != null && _db!.isOpen) {
       await _db!.close();
       _db = null;
     }
-    // Delete the existing database file
     try {
       await File(databasePath).delete();
     } catch (e) {
       print("Error deleting existing database file: $e");
     }
-    // Create a new database with the same schema
     _db = await initializeDB();
-    // Split the SQL content into individual statements and execute them
     try {
       final batch = _db!.batch();
       final sqlStatements = sqlContent.split(';');
@@ -98,9 +90,7 @@ class ProcessedFileDBHelper {
     String identified = "";
 
     for (String item in itemColumn) {
-      // Calculate the similarity score
       int score = tokenSetPartialRatio(item, inputName);
-      // If the score is higher than the threshold, add the item to the list
       if (score > 95) {
         identified = item;
       }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../../../core/pillkaboo_util.dart';
 import '../../../widgets/index.dart' as widgets;
 
@@ -19,20 +21,30 @@ class MedRecognitionPageWidget extends StatefulWidget {
 class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
   late MedRecognitionPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final StreamController<bool> _controller = StreamController();
 
 
 
   @override
   void initState() {
     super.initState();
+    _controller.stream.listen((success) {
+      if (success) {
+        if (mounted) {
+          context.pushReplacement('/medInfoPage');
+        }
+      }
+    }, onError: (error) {
+      print("STREAM ERROR");
+    });;
     _model = createModel(context, () => MedRecognitionPageModel());
   }
-
 
 
   @override
   void dispose() {
     _model.dispose();
+    _controller.close();
     super.dispose();
   }
 
@@ -80,6 +92,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                           child: widgets.MedRecognizerWidget(
                             width: MediaQuery.of(context).size.width * 1.0,
                             height: MediaQuery.of(context).size.height * 0.90,
+                            controller: _controller,
                           ),
                         ),
                       ],

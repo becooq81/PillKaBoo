@@ -15,7 +15,6 @@ class IngredientsDBHelper {
   static Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     String dbPath = join(path, 'ingredients.db');
-    // Open the database and create the table if it doesn't exist
     return await openDatabase(dbPath, version: 1, onCreate: (Database db, int version) async {
       await db.execute(
         'CREATE TABLE IF NOT EXISTS ingredients_table (품목일련번호 TEXT, 주성분 TEXT)',
@@ -30,7 +29,7 @@ class IngredientsDBHelper {
         'assets/data/ingredients.csv');
     List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
     Batch batch = db.batch();
-    for (var row in csvTable.skip(1)) { // Assuming the first row is headers
+    for (var row in csvTable.skip(1)) { 
       batch.insert('ingredients_table', {
         '품목일련번호': row[0].toString(),
         '주성분': row[1].toString(),
@@ -44,7 +43,7 @@ class IngredientsDBHelper {
     final List<Map<String, dynamic>> matches = await db.query(
       'ingredients_table',
       where: '품목일련번호 = ?',
-      whereArgs: [inputSeqNum], // Assuming inputBarcode is a string that represents the start of the 표준코드 values you're looking for
+      whereArgs: [inputSeqNum], 
     );
     return matches;
   }

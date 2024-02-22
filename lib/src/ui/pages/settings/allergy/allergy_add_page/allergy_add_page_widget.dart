@@ -67,7 +67,7 @@ class _AllergyAddPageWidgetState extends State<AllergyAddPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false,
           title: Semantics(
             container: true,
             label: '알러지 성분 추가',
@@ -108,11 +108,11 @@ class _AllergyAddPageWidgetState extends State<AllergyAddPageWidget> {
                 decoration: InputDecoration(
                   hintText: '알레르기 성분을 입력해주세요',
                   filled: true,
-                  fillColor: PKBAppState().secondaryColor, // Background color
-                  contentPadding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0), // Adjusts height by increasing inner padding
+                  fillColor: PKBAppState().secondaryColor,
+                  contentPadding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
                   border: OutlineInputBorder(
-                    borderSide: BorderSide.none, // Hides the border to emphasize the background color
-                    borderRadius: BorderRadius.circular(10.0), // Optional: Adds rounded corners
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
                 style: TextStyle(
@@ -123,17 +123,17 @@ class _AllergyAddPageWidgetState extends State<AllergyAddPageWidget> {
                 ),
                 autofocus: true,
               ),),),
-              const SizedBox(height: 10), // Add some space between the text field and the button
+              const SizedBox(height: 10), 
               SizedBox(
                 width: MediaQuery.of(context).size.width - 40,
                 height: 60,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(PKBAppState().tertiaryColor), // Background color
+                    backgroundColor: MaterialStateProperty.all(PKBAppState().tertiaryColor),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(26.0),
-                        side: BorderSide(color: PKBAppState().secondaryColor), // Border color
+                        side: BorderSide(color: PKBAppState().secondaryColor),
                       ),
                     ),
                   ),

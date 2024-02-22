@@ -60,7 +60,7 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false,
           title: Semantics(
             container: true,
             label: '알러지 성분 설정',
@@ -101,10 +101,10 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
                 width: MediaQuery.of(context).size.width*0.9,
                 height: 52.35,
                       decoration: BoxDecoration(
-                        color: PKBAppState().tertiaryColor, // Background color
+                        color: PKBAppState().tertiaryColor,
                         borderRadius: BorderRadius.circular(26.0),
                         border: Border.all(
-                          color: PKBAppState().secondaryColor, // Border color
+                          color: PKBAppState().secondaryColor,
                           width: 1.0,
                         ),
                       ),
@@ -128,16 +128,15 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
                           return Container(
                               margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                               decoration: BoxDecoration(
-                                color: Colors.transparent, // Transparent background
-                                border: Border.all(color: PKBAppState().secondaryColor, width: 1.0), // White border
+                                color: Colors.transparent,
+                                border: Border.all(color: PKBAppState().secondaryColor, width: 1.0),
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                             child: Row(
                               children: [
                                 Expanded(
-                                  // Wrap Text in Expanded to ensure it takes up remaining space
                                   child: Padding(
-                                    padding: const EdgeInsets.all(10.0), // Padding around the Text
+                                    padding: const EdgeInsets.all(10.0),
                                     child: Text(
                                     PKBAppState().userAllergies[index],
                                     style: TextStyle(
@@ -147,7 +146,7 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: PKBAppState().secondaryColor, // Background color
+                                    color: PKBAppState().secondaryColor,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Semantics(
@@ -160,12 +159,12 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
                                       });
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0), // Padding around the SVG
+                                      padding: const EdgeInsets.all(8.0),
                                       child: SvgPicture.asset(
-                                        'assets/images/trash.svg', // Path to the SVG asset
+                                        'assets/images/trash.svg',
                                         height: 38,
                                         colorFilter: ColorFilter.mode(
-                                          PKBAppState().tertiaryColor, // SVG color
+                                          PKBAppState().tertiaryColor,
                                           BlendMode.srcIn,
                                         ),
                                       ),

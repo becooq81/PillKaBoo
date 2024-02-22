@@ -2,7 +2,6 @@ import 'package:intl/intl.dart';
 
 class DateParser {
   static bool _isNumeric(String str) {
-    // Regular expression to check if string is numeric
     return RegExp(r'^\d+$').hasMatch(str);
   }
 
@@ -12,7 +11,6 @@ class DateParser {
       String monthStr = text.substring(2, 4);
       String dayStr = text.substring(4, 6);
 
-      // Check if year, month, and day parts are numeric
       if (_isNumeric(yearStr) && _isNumeric(monthStr) && _isNumeric(dayStr)) {
         int year = int.parse(yearStr);
         int month = int.parse(monthStr);
@@ -29,7 +27,6 @@ class DateParser {
       String monthStr = text.substring(4, 6);
       String dayStr = text.substring(6, 8);
 
-      // Check if year, month, and day parts are numeric
       if (_isNumeric(yearStr) && _isNumeric(monthStr) && _isNumeric(dayStr)) {
         int year = int.parse(yearStr);
         int month = int.parse(monthStr);
@@ -59,11 +56,9 @@ class DateParser {
   }
 
   static DateTime? parseDate(String text) {
-    // Attempt to parse using custom formats first
     DateTime? customParsedDate = parseCustomFormat(text);
     if (customParsedDate != null) return customParsedDate;
 
-    // List of DateFormat patterns to try if custom parsing fails
     List<String> formats = [
       'yyyy.MM.dd',
       'yyyy-MM-dd',
@@ -76,18 +71,14 @@ class DateParser {
         final DateFormat formatter = DateFormat(format);
         return formatter.parseStrict(text);
       } catch (e) {
-        // Ignore and try the next format
       }
     }
 
-    // If none of the formats match, return null
     return null;
   }
 
   static bool isDate(String text) {
-    // Attempt to parse the date using existing methods
     DateTime? parsedDate = parseDate(text);
-    // Return true if a date is successfully parsed, false otherwise
     return parsedDate != null;
   }
 }

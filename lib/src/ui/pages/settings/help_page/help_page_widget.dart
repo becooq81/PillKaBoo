@@ -273,11 +273,11 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                               width: imageContainerSize,
                               height: imageContainerSize,
                               decoration: BoxDecoration(
-                                color: PKBAppState().secondaryColor, // Set the background color
-                                shape: BoxShape.circle, // Circular shape
+                                color: PKBAppState().secondaryColor,
+                                shape: BoxShape.circle, 
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(15.0), // Adjust padding as needed
+                                padding: const EdgeInsets.all(15.0),
                                 child: SvgPicture.asset(
                                   'assets/images/allergy.svg',
                                   fit: BoxFit.contain,
@@ -326,11 +326,11 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                               width: imageContainerSize,
                               height: imageContainerSize,
                               decoration: BoxDecoration(
-                                color: PKBAppState().secondaryColor, // Set the background color
-                                shape: BoxShape.circle, // Circular shape
+                                color: PKBAppState().secondaryColor,
+                                shape: BoxShape.circle,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                                padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images/Palette.svg',
                                   fit: BoxFit.contain,

@@ -77,10 +77,10 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                     width: containerWidth,
                     height: containerHeight,
                     decoration: BoxDecoration(
-                      color: PKBAppState().tertiaryColor, // Background color
+                      color: PKBAppState().tertiaryColor,
                       borderRadius: BorderRadius.circular(26.0),
                       border: Border.all(
-                        color: PKBAppState().secondaryColor, // Border color
+                        color: PKBAppState().secondaryColor,
                         width: 1.0,
                       ),
                     ),
@@ -150,10 +150,10 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                       width: containerWidth,
                       height: containerHeight,
                       decoration: BoxDecoration(
-                        color: PKBAppState().tertiaryColor, // Background color
+                        color: PKBAppState().tertiaryColor,
                         borderRadius: BorderRadius.circular(26.0),
                         border: Border.all(
-                          color: PKBAppState().secondaryColor, // Border color
+                          color: PKBAppState().secondaryColor,
                           width: 1.0,
                         ),
                       ),
@@ -224,10 +224,10 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                       width: containerWidth,
                       height: containerHeight,
                       decoration: BoxDecoration(
-                        color: PKBAppState().tertiaryColor, // Background color
+                        color: PKBAppState().tertiaryColor,
                         borderRadius: BorderRadius.circular(26.0),
                         border: Border.all(
-                          color: PKBAppState().secondaryColor, // Border color
+                          color: PKBAppState().secondaryColor,
                           width: 1.0,
                         ),
                       ),

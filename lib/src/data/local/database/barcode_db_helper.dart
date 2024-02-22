@@ -15,7 +15,6 @@ class BarcodeDBHelper {
   static Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     String dbPath = join(path, 'barcodes.db');
-    // Open the database and create the table if it doesn't exist
     return await openDatabase(dbPath, version: 1, onCreate: (Database db, int version) async {
       await db.execute(
         'CREATE TABLE IF NOT EXISTS barcodes_table (한글상품명 TEXT, 품목기준코드 TEXT, 표준코드 TEXT)',
@@ -30,7 +29,7 @@ class BarcodeDBHelper {
         'assets/data/barcodes.csv');
     List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
     Batch batch = db.batch();
-    for (var row in csvTable.skip(1)) { // Assuming the first row is headers
+    for (var row in csvTable.skip(1)) {
       batch.insert('barcodes_table', {
         '한글상품명': row[0].toString(),
         '품목기준코드': row[1].toString(),

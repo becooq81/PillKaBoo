@@ -15,7 +15,6 @@ class ChildrenDBHelper {
   static Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     String dbPath = join(path, 'children.db');
-    // Open the database and create the table if it doesn't exist
     return await openDatabase(dbPath, version: 1, onCreate: (Database db, int version) async {
       await db.execute(
         'CREATE TABLE IF NOT EXISTS children_table (품목일련번호 TEXT, combined TEXT)',
@@ -30,7 +29,7 @@ class ChildrenDBHelper {
         'assets/data/children.csv');
     List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
     Batch batch = db.batch();
-    for (var row in csvTable.skip(1)) { // Assuming the first row is headers
+    for (var row in csvTable.skip(1)) {
       batch.insert('children_table', {
         '품목일련번호': row[0].toString(),
         'combined': row[1].toString()

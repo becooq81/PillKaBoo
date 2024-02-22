@@ -29,7 +29,6 @@ class HomeButtonWidget extends StatelessWidget {
                 size: iconSize,
               ),
               onPressed: () {
-                // if global audio player is playing, stop it
                 if (GlobalAudioPlayer().isPlaying) {
                   GlobalAudioPlayer().pause();
                 }

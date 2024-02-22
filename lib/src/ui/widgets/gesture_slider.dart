@@ -57,7 +57,7 @@ class _GestureSliderState extends State<GestureSlider> {
     double thumbDiameter = 30.0;
     double trackHeight = 23.0;
     double thumbPositionPercentage = currentValue.toDouble() / (widget.maxValue - widget.minValue);
-    double trackWidth = MediaQuery.of(context).size.width * 0.75; // Assuming this is your track width
+    double trackWidth = MediaQuery.of(context).size.width * 0.75; 
     double thumbPosition = thumbPositionPercentage * trackWidth;
 
     return Semantics(
@@ -76,17 +76,16 @@ class _GestureSliderState extends State<GestureSlider> {
             decrement();
           }
         },
-        child: ExcludeSemantics( // Exclude child semantics to prevent duplicate reading
+        child: ExcludeSemantics(
           child: Container(
             height: trackHeight,
             decoration: BoxDecoration(
-              color: PKBAppState().secondaryColor, // Original track color
+              color: PKBAppState().secondaryColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Stack(
               alignment: Alignment.centerLeft,
               children: [
-                // Background color to the left of the thumb
                 Positioned(
                   left: 0,
                   top: 0,
@@ -94,19 +93,18 @@ class _GestureSliderState extends State<GestureSlider> {
                   child: Container(
                     width: thumbPosition,
                     decoration: BoxDecoration(
-                      color: PKBAppState().primaryColor, // Color to the left of the thumb
+                      color: PKBAppState().primaryColor,
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                 ),
-                // Thumb
                 Positioned(
-                  left: thumbPosition - (thumbDiameter / 2), // Center the thumb
+                  left: thumbPosition - (thumbDiameter / 2),
                   child: Container(
                     height: thumbDiameter,
                     width: thumbDiameter,
                     decoration: BoxDecoration(
-                      color: PKBAppState().primaryColor, // Thumb color
+                      color: PKBAppState().primaryColor,
                       shape: BoxShape.circle,
                     ),
                   ),

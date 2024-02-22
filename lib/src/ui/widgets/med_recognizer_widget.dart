@@ -20,10 +20,12 @@ import 'package:vibration/vibration.dart';
 
 
 class MedRecognizerWidget extends StatefulWidget {
+  final StreamController<bool> controller;
   const MedRecognizerWidget({
     super.key,
     this.width,
     this.height,
+    required this.controller,
   });
   final double? width;
   final double? height;
@@ -31,21 +33,25 @@ class MedRecognizerWidget extends StatefulWidget {
   _MedRecognizerWidgetState createState() => _MedRecognizerWidgetState();
 }
 
-class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsBindingObserver {
+class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
 
   final _textRecognizer = TextRecognizer(script: TextRecognitionScript.korean); // 한국어 Text Recognition 언어 설정
   final BarcodeScanner _barcodeScanner = BarcodeScanner();
   bool _canProcess = true; // 이미지 처리 가능 여부
   bool _isBusy = false; // 이미지 처리 중 여부
   CustomPaint? _customPaint; // 이미지에 그려질 CustomPaint
+
   String? _recognizedBarcode; // 인식된 바코드
+  String? _recognizedText;
+
   var _cameraLensDirection = CameraLensDirection.back; // 카메라 렌즈 방향
-  Map<String, dynamic> _medicineInfo = {}; // 약 정보
+
   bool _isDateRecognized = false; // 날짜 인식 여부
   bool _isBarcodeRecognized = false; // 바코드 인식 여부
 
   String _medTitle = "";
   String _exprDate = "";
+  Map<String, dynamic> _medicineInfo = {}; // 약 정보
 
   @override
   void initState() {
@@ -91,28 +97,27 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsB
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isBarcodeRecognized && _isDateRecognized && PKBAppState().infoMedName != "" && PKBAppState().infoExprDate != "") {
-        _navigateToMedInfoPage(context);
+        _isBarcodeRecognized = false;
+        _isDateRecognized = false;
+        widget.controller.add(true);
       }
     });
 
-    // Continue to build your widget as normal.
     return _isBarcodeRecognized && _isDateRecognized
         ? const CircularProgressIndicator()
         : DetectorView(
-      title: 'Barcode Scanner',
-      customPaint: _customPaint,
-      text: _recognizedBarcode,
-      onImage: _processImage,
-      initialCameraLensDirection: _cameraLensDirection,
-      onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
-    );
+          title: 'Barcode Scanner',
+          customPaint: _customPaint,
+          text: _recognizedBarcode,
+          onImage: _processImage,
+          initialCameraLensDirection: _cameraLensDirection,
+          onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
+        );
   }
 
   // 진동
   void triggerVibrationIfNecessary() {
-
     Vibration.vibrate();
-    // Reset the flags if necessary, or handle them accordingly
   }
 
   /**
@@ -125,6 +130,7 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsB
     _isBusy = true;
     setState(() {
       _recognizedBarcode = '';
+      _recognizedText = '';
     });
 
     final text = await _textRecognizer.processImage(inputImage);
@@ -148,6 +154,7 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsB
             }
             PKBAppState().infoExprDate = _exprDate;
             _exprDate = "";
+            break;
           }
         }
       }
@@ -190,6 +197,7 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsB
               final ingre = ingreInfo.first;
               PKBAppState().infoIngredient = ingre['주성분'];
               for (String allergy in PKBAppState().userAllergies) {
+                print("Allergy in user: $allergy");
                 if (ingre['주성분'].contains(allergy)) {
                   if (PKBAppState().foundAllergies.contains(allergy)) {
                     continue;
@@ -231,7 +239,4 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsB
     }
   }
 
-  void _navigateToMedInfoPage(BuildContext context) {
-    context.pushReplacement('/medInfoPage');
-  }
 }

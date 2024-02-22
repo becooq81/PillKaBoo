@@ -65,7 +65,7 @@ class _PourRightResultPageWidgetState extends State<PourRightResultPageWidget> {
         backgroundColor: PKBAppState().tertiaryColor,
         appBar: AppBar(
           backgroundColor: PKBAppState().tertiaryColor,
-          automaticallyImplyLeading: false, // Keep this if you don't want the default back button to appear
+          automaticallyImplyLeading: false, 
           title: Semantics(
             container: true,
             label: '물약 따르기 결과',
