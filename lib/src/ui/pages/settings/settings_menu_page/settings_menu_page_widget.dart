@@ -124,7 +124,9 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                             Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   30.0, 0.0, 0.0, 0.0),
-                              child: ClipRRect(
+                              child: ExcludeSemantics(
+                                excluding: true,
+                                child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: SvgPicture.asset(
                                   'assets/images/allergy.svg',
@@ -136,7 +138,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                                     BlendMode.srcIn,
                                   ),
                                 ),
-                              ),
+                              ),),
                             ),
                             Expanded(
                               child: Center(
