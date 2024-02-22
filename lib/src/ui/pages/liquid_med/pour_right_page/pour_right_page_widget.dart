@@ -32,7 +32,7 @@ class _PourRightPageWidgetState extends State<PourRightPageWidget> {
     _controller.stream.listen((success) {
       if (success) {
         if (mounted) {
-          context.pushReplacement('/pourRightPageResultPage');
+          context.pushReplacement('/pourRightResultPage');
         }
       }
     });
