@@ -152,13 +152,12 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
               const SizedBox(
                 height: 30,
               ),
-                Align(
-                  alignment: Alignment.center,
-                  child: RichText(
-                text: TextSpan(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextSpan(
-                      text: PKBAppState().infoPrescribedDate,
+                    Text(
+                      PKBAppState().infoPrescribedDate,
                       style: TextStyle(
                         color: PKBAppState().primaryColor,
                         fontSize: 30,
@@ -166,18 +165,18 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
                         fontFamily: 'Pretendard',
                       ),
                     ),
-                    TextSpan(
-                      text: '\n에 처방받은 약입니다',
+                    Text(
+                      '에 처방받은 약입니다',
                       style: TextStyle(
                         color: PKBAppState().secondaryColor,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Pretendard',
                       ),
-                    )
-                  ],
+                    ),
+                  ]
                 ),
-              ),),
+              
             ],
           ),
           ),
