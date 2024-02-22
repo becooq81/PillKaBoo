@@ -80,7 +80,7 @@ class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerW
 
     // Continue to build your widget as normal.
     return _isTextRecognized && _isDateRecognized
-        ? const CircularProgressIndicator()
+        ? const LinearProgressIndicator()
         : DetectorView(
           title: 'Barcode Scanner',
           customPaint: _customPaint,

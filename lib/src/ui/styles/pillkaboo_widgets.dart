@@ -84,7 +84,7 @@ class _PKBButtonWidgetState extends State<PKBButtonWidget> {
               child: SizedBox(
                 width: 23,
                 height: 23,
-                child: CircularProgressIndicator(
+                child: LinearProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
                     widget.options.textStyle!.color ?? Colors.white,
                   ),

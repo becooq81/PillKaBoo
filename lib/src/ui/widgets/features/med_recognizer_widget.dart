@@ -104,7 +104,7 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
     });
 
     return _isBarcodeRecognized && _isDateRecognized
-        ? const CircularProgressIndicator()
+        ? const LinearProgressIndicator()
         : DetectorView(
           title: 'Barcode Scanner',
           customPaint: _customPaint,

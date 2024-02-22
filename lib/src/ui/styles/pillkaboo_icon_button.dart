@@ -135,7 +135,7 @@ class _PillKaBooIconButtonState extends State<PillKaBooIconButton> {
                 ? SizedBox(
               width: iconSize,
               height: iconSize,
-              child: CircularProgressIndicator(
+              child: LinearProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(
                   iconColor ?? Colors.white,
                 ),
