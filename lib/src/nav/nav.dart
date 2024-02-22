@@ -167,8 +167,8 @@ extension _GoRouterStateExtensions on GoRouterState {
       : TransitionInfo.appDefault();
 }
 
-class FFParameters {
-  FFParameters(this.state, [this.asyncParams = const {}]);
+class PKBParameters {
+  PKBParameters(this.state, [this.asyncParams = const {}]);
 
   final GoRouterState state;
   final Map<String, Future<dynamic> Function(String)> asyncParams;
@@ -234,20 +234,20 @@ class PKBRoute {
   final String path;
   final bool requireAuth;
   final Map<String, Future<dynamic> Function(String)> asyncParams;
-  final Widget Function(BuildContext, FFParameters) builder;
+  final Widget Function(BuildContext, PKBParameters) builder;
   final List<GoRoute> routes;
 
   GoRoute toRoute(AppStateNotifier appStateNotifier) => GoRoute(
         name: name,
         path: path,
         pageBuilder: (context, state) {
-          final ffParams = FFParameters(state, asyncParams);
-          final page = ffParams.hasFutures
+          final pkbParams = PKBParameters(state, asyncParams);
+          final page = pkbParams.hasFutures
               ? FutureBuilder(
-                  future: ffParams.completeFutures(),
-                  builder: (context, _) => builder(context, ffParams),
+                  future: pkbParams.completeFutures(),
+                  builder: (context, _) => builder(context, pkbParams),
                 )
-              : builder(context, ffParams);
+              : builder(context, pkbParams);
           final child = page;
 
           final transitionInfo = state.transitionInfo;
