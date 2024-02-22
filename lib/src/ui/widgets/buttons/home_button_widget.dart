@@ -13,6 +13,7 @@ class HomeButtonWidget extends StatelessWidget {
     final double buttonSize = 60.0/892.0 * MediaQuery.of(context).size.height;
 
     return Semantics(
+      container: true,
         label: '홈으로 가기. 실행하려면 두번 누르세요',
         child: ExcludeSemantics(
           excluding: true,
@@ -32,7 +33,7 @@ class HomeButtonWidget extends StatelessWidget {
                 if (GlobalAudioPlayer().isPlaying) {
                   GlobalAudioPlayer().pause();
                 }
-                context.pushNamed('MainMenuPage');
+                context.pushReplacement('MainMenuPage');
               },
             ),
         ),
