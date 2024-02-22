@@ -153,7 +153,7 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
               const SizedBox(
                 height: 10,
               ),
-              RichText(
+                RichText(
                 text: TextSpan(
                   children: [
                     TextSpan(
