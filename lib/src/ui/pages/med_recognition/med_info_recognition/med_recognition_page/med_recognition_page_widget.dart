@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../../../core/pillkaboo_util.dart';
-import '../../../widgets/index.dart' as widgets;
+import '../../../../../core/pillkaboo_util.dart';
+import '../../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -108,7 +108,9 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
+                            child: ExcludeSemantics(
+                              excluding: true,
+                              child: Text(
                               '약 인식',
                               style: TextStyle(
                                 fontFamily: 'Pretendard',
@@ -116,7 +118,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                                 color: PKBAppState().secondaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
+                            ),),
                           ),
                           const Spacer(),
                           const widgets.HomeButtonWidget(),

@@ -1,4 +1,4 @@
-import '../../../../core/pillkaboo_util.dart';
+import '../../../../../core/pillkaboo_util.dart';
 import 'med_info_page_widget.dart' show MedInfoPageWidget;
 import 'package:flutter/material.dart';
 

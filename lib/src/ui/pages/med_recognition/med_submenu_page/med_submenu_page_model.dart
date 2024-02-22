@@ -1,10 +1,11 @@
 import '../../../../core/pillkaboo_util.dart';
-import 'check_rest_page_widget.dart' show CheckRestPageWidget;
+import 'med_submenu_page_widget.dart' show MedSubMenuPageWidget;
 import 'package:flutter/material.dart';
 
-class CheckRestPageModel extends PillKaBooModel<CheckRestPageWidget> {
+class MedSubMenuPageModel extends PillKaBooModel<MedSubMenuPageWidget> {
 
   final unfocusNode = FocusNode();
+
 
   @override
   void initState(BuildContext context) {}
