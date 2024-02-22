@@ -144,7 +144,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
                   child: Semantics(
-                    label: '처방전 시간 인식',
+                    label: '처방약 시간 인식',
                     container: true,
                     child: Container(
                       width: containerWidth,
