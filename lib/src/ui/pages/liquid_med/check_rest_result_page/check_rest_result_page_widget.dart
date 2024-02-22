@@ -104,7 +104,8 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
+          child: Center(
+            child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -188,7 +189,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
                   ],
                 ),
             ],
-          ),
+          ),),
         ),
       ),
     );

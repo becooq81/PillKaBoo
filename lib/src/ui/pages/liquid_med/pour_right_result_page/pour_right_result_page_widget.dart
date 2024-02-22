@@ -91,7 +91,8 @@ class _PourRightResultPageWidgetState extends State<PourRightResultPageWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
+          child: Center(
+            child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -110,7 +111,7 @@ class _PourRightResultPageWidgetState extends State<PourRightResultPageWidget> {
                 fit: BoxFit.contain,
               ),
             ],
-          ),
+          ),),
         ),
       ),
     );
