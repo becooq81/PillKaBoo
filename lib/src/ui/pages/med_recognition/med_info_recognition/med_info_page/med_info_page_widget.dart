@@ -60,13 +60,13 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
 
     String childText = '', exprDateText = '', ingredientText = '', usageText = '', howToTakeText = '', warningText = '', comboText = '', sideEffectText = '';
     if (PKBAppState().infoChild == '' && PKBAppState().foundAllergies == '') {
-      childText = '해당 약에는 아이 관련 주의사항이 없습니다.';
+      childText = '해당 약에는 15세 이하의 아이 관련 주의사항이 없습니다.';
     } else if (PKBAppState().infoChild == '') {
       childText = '${PKBAppState().foundAllergies} 알러지를 주의해주세요.';
     } else if (PKBAppState().foundAllergies == '') {
-      childText = '아이 관련 주의사항 ${PKBAppState().infoChild}';
+      childText = '15세 이하의 아이 관련 주의사항 ${PKBAppState().infoChild}';
     } else {
-      childText = '알러지의 경우, ${PKBAppState().foundAllergies} 알러지를 주의해주세요. 아이 관련 주의사항 ${PKBAppState().infoChild}.';
+      childText = '알러지의 경우, ${PKBAppState().foundAllergies} 알러지를 주의해주세요. 15세 이하의 아이 관련 주의사항 ${PKBAppState().infoChild}.';
     }
 
     if (PKBAppState().infoExprDate == '') {
@@ -226,7 +226,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         ExcludeSemantics(
                           excluding: true,
                           child: Text(
-                          '아이',
+                          '15세 이하의 아이',
                           style: PillKaBooTheme.of(context).titleMedium.override(
                                 fontFamily:
                                     PillKaBooTheme.of(context).titleMediumFamily,
