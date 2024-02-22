@@ -72,7 +72,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
                   child: Semantics(
-                    label: '약 인식',
+                    label: '약 정보 인식',
                     child: Container(
                     width: containerWidth,
                     height: containerHeight,
@@ -90,7 +90,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushReplacement('/medSubmenuPage');
+                        context.pushReplacement('/medRecognitionPage');
                       },
                       child: ExcludeSemantics(
                         excluding: true,
@@ -117,7 +117,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                           ),
                           Expanded(
                             child: Center(child: Text(
-                              '약 인식',
+                              '약 정보 인식',
                               style: PillKaBooTheme.of(context)
                                   .titleMedium
                                   .override(
@@ -144,7 +144,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
                   child: Semantics(
-                    label: '물약 복용 보조',
+                    label: '처방전 시간 인식',
                     container: true,
                     child: Container(
                       width: containerWidth,
@@ -163,7 +163,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.pushReplacement('/liquidMedSubMenuPage');
+                          context.pushReplacement('/prescribedMedRecognitionPage');
                         },
                         child: ExcludeSemantics(
                           excluding: true,
@@ -177,7 +177,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: SvgPicture.asset(
-                                    'assets/images/Dose.svg',
+                                    'assets/images/prescribed.svg',
                                     width: iconSize,
                                     height: iconSize,
                                     fit: BoxFit.fitHeight,
@@ -191,7 +191,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                               Expanded(
                                 child: Center(
                                   child: Text(
-                                  '물약 복용 보조',
+                                  '처방약 시간 인식',
                                   style: PillKaBooTheme.of(context)
                                       .titleMedium
                                       .override(
