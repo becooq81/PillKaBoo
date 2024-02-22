@@ -2,6 +2,7 @@ import '../../../core/pillkaboo_util.dart';
 import '../../../app/global_audio_player.dart';
 import '../views/detector_view.dart';
 import '../views/text_detector_painter.dart';
+import '../../../utils/date_parser.dart';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -34,7 +35,8 @@ class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerW
   CustomPaint? _customPaint; // 이미지에 그려질 CustomPaint
   var _cameraLensDirection = CameraLensDirection.back; // 카메라 렌즈 방향
   String? _text;
-  bool _isTextRecognized = false; // 날짜 인식 여부
+  bool _isTextRecognized = false; // 시간 인식 여부
+  bool _isDateRecognized = false;
 
   @override
   void initState() {
@@ -68,14 +70,16 @@ class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerW
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isTextRecognized && PKBAppState().slotOfDay != "") {
+      if (_isTextRecognized && _isDateRecognized && PKBAppState().slotOfDay != "") {
+        triggerVibrationIfNecessary();
         _isTextRecognized = false;
+        _isDateRecognized = false;
         widget.controller.add(true);
       }
     });
 
     // Continue to build your widget as normal.
-    return _isTextRecognized
+    return _isTextRecognized && _isDateRecognized
         ? const CircularProgressIndicator()
         : DetectorView(
           title: 'Barcode Scanner',
@@ -118,6 +122,19 @@ class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerW
     } else {
       PKBAppState().slotOfDay = "";
     }
+
+    List<String> splitText = recognizedText.text.split(RegExp(r'\s+'));
+      for (String word in splitText) {
+        if (DateParser.isDate(word)) {
+          final date = DateParser.parseDate(word);
+          if (date != null) {
+            if (mounted) {
+              _isDateRecognized = true;
+              PKBAppState().infoPrescribedDate = "${date.year}년 ${date.month}월 ${date.day}일";
+            }
+          }
+        }
+      }
 
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {

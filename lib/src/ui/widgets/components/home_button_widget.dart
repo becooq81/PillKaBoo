@@ -33,7 +33,7 @@ class HomeButtonWidget extends StatelessWidget {
                 if (GlobalAudioPlayer().isPlaying) {
                   GlobalAudioPlayer().pause();
                 }
-                context.pushReplacement('/mainMenuPage');
+                context.go("/mainMenuPage");
               },
             ),
         ),

@@ -165,7 +165,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         PKBAppState().infoChild = "";
                         PKBAppState().foundAllergies = "";
                       });
-                      context.pushReplacement('/mainMenuPage');
+                      context.go("/mainMenuPage");
                     },
                   ),
                 ),

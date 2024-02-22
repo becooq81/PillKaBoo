@@ -31,7 +31,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
     _controller.stream.listen((success) {
       if (success) {
         if (mounted) {
-          context.pushReplacement('/medInfoPage');
+          context.go('/medInfoPage');
         }
       }
     });

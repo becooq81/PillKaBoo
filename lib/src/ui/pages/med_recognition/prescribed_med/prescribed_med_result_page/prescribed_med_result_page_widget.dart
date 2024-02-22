@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
@@ -8,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/semantics.dart';
-import 'dart:ui' as ui;
 
 import 'prescribed_med_result_page_model.dart';
 export 'prescribed_med_result_page_model.dart';
@@ -156,7 +152,31 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
               ),),
               const SizedBox(
                 height: 10,
-              )
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: PKBAppState().infoPrescribedDate,
+                      style: TextStyle(
+                        color: PKBAppState().primaryColor,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Pretendard',
+                      ),
+                    ),
+                    TextSpan(
+                      text: '\n에 처방받은 약입니다',
+                      style: TextStyle(
+                        color: PKBAppState().secondaryColor,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Pretendard',
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
           ),

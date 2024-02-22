@@ -43,6 +43,7 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
   @override
   void dispose() {
     _model.dispose();
+    _controller.close();
     super.dispose();
   }
 
