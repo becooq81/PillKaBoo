@@ -61,7 +61,6 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
       imgPath = 'assets/images/night.png';
     } else {
       imgPath = 'assets/images/warning.svg';
-      print("잔량 확인 결과 페이지에서 slotOfDay가 잘못 설정되었습니다.");
     }
 
 

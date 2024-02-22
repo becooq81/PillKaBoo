@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../../../../../core/pillkaboo_util.dart';
-import '../../../../../widgets/index.dart' as widgets;
+import '../../../../../core/pillkaboo_util.dart';
+import '../../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +33,6 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
           context.pushReplacement('/prescribedMedResultPage');
         }
       }
-    }, onError: (error) {
-      print("STREAM ERROR");
     });
     PKBAppState().slotOfDay = "";
     _model = createModel(context, () => PrescribedMedRecognitionPageModel());
