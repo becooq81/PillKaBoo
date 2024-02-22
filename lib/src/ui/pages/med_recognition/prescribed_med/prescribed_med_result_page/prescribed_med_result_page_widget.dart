@@ -104,7 +104,12 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
         body: SafeArea(
           top: true,
           child: Center(
-            child: Column(
+            child: Semantics(
+              container: true,
+              label: '이 약은 ${PKBAppState().slotOfDay} 약입니다. ${PKBAppState().infoPrescribedDate}에 처방받은 약입니다.',
+              child: ExcludeSemantics(
+                excluding: true,
+                child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -180,7 +185,7 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
                 ),
               
             ],
-          ),
+          ),),),
           ),
         ),
       ),
