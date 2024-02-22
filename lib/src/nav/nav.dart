@@ -133,6 +133,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'HelpPage',
           path: '/helpPage',
           builder: (context, params) => const HelpPageWidget(),
+        ),
+        PKBRoute(
+          name: 'MedSubmenuPage',
+          path: '/medSubmenuPage',
+          builder: (context, params) => const MedSubMenuPageWidget(),
+        ),
+        PKBRoute(
+          name: 'PrescribedMedRecognitionPage',
+          path: '/prescribedMedRecognitionPage',
+          builder: (context, params) => const PrescribedMedRecognitionPageWidget(),
+        ),
+        PKBRoute(
+          name: 'PrescribedMedResultPage',
+          path: '/prescribedMedResultPage',
+          builder: (context, params) => const PrescribedMedResultPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(), 
     );
