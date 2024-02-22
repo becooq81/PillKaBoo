@@ -139,7 +139,6 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 30,
               ),
@@ -151,7 +150,7 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
                 fit: BoxFit.contain,
               ),),
               const SizedBox(
-                height: 10,
+                height: 30,
               ),
                 RichText(
                 text: TextSpan(
