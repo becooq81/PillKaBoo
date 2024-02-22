@@ -3,6 +3,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:pill/src/app/global_audio_player.dart';
 import 'package:pill/src/core/pillkaboo_util.dart';
@@ -39,6 +41,8 @@ class _CameraViewState extends State<PourRightWidget> {
   bool _isBusy = false;
   bool _canProcess = true;
   int _currentCC = 0;
+
+  TextRecognizer textRecognizer = TextRecognizer(script: TextRecognitionScript.korean);
 
   LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
 
@@ -312,6 +316,17 @@ class _CameraViewState extends State<PourRightWidget> {
   }
 
   Future<void> _analyzePicture(XFile picture) async {
+
+    final path = join(
+      (await getApplicationDocumentsDirectory()).path,
+      "${DateTime.now()}.jpg",
+    );
+    await picture.saveTo(path);
+    final File file = File(path);
+    final inputImage = InputImage.fromFile(file);
+    if (inputImage == null) return;
+    final text = await textRecognizer.processImage(inputImage);
+    print("TEXT: ${text.text}");
     _currentCC = await liquidVolumeEstimator(picture) ?? 0;
     double newRate = calculatePlaybackRate(_currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
     // Adjust the playback rate
@@ -414,4 +429,6 @@ class _CameraViewState extends State<PourRightWidget> {
       ),
     );
   }
+
+
 }
