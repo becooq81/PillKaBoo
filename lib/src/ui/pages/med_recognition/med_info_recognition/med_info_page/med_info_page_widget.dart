@@ -170,7 +170,6 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                       if (GlobalAudioPlayer().isPlaying) {
                         GlobalAudioPlayer().pause();
                       }
-                      printRouteStack(context);
                       context.push('/mainMenuPage');
                     },
                   ),

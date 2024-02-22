@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 class GlobalAudioPlayer {
   static final GlobalAudioPlayer _instance = GlobalAudioPlayer._internal();
   final AudioPlayer audioPlayer;
+  bool _isLooping = false;
 
   factory GlobalAudioPlayer() {
     return _instance;
@@ -27,6 +28,14 @@ class GlobalAudioPlayer {
     await audioPlayer.setPlaybackRate(rate);
     await audioPlayer.setReleaseMode(ReleaseMode.loop);
     await audioPlayer.play(AssetSource('audios/piep-33489.mp3'));
+  }
+
+  Future<void> changeRateForRepeat(double rate) async {
+    if (_isLooping) {
+      await audioPlayer.setPlaybackRate(rate);
+    } else {
+      await playRepeatWithRate(rate);
+    }
   }
 
   void pause() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:pill/src/app/global_audio_player.dart';
 import 'package:pill/src/core/pillkaboo_util.dart';
 import 'dart:core';
 import '../../../utils/liquid_volume_estimator.dart';
@@ -38,12 +39,14 @@ class _CameraViewState extends State<PourRightWidget> {
   bool _isBusy = false;
   bool _canProcess = true;
   int _currentCC = 0;
+  
 
   LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
 
   @override
   void initState() {
     super.initState();
+    GlobalAudioPlayer().playRepeat();
     _initialize();
   }
 
@@ -296,8 +299,23 @@ class _CameraViewState extends State<PourRightWidget> {
     }
   }
 
+  double calculatePlaybackRate(double currentCC, double pourAmount) {
+    const double maxRate = 2.0; // Maximum playback rate
+    const double minRate = 1.0; // Normal playback rate
+    
+    if (currentCC >= pourAmount || pourAmount == 0) return minRate;
+
+    // Calculate the rate based on how close currentCC is to pourAmount
+    double rate = minRate + (maxRate - minRate) * (currentCC / pourAmount);
+
+    return rate.clamp(minRate, maxRate); // Ensure the rate is within [minRate, maxRate]
+  }
+
+
   Future<void> _analyzePicture(XFile picture) async {
     _currentCC = await liquidVolumeEstimator(picture) ?? 0;
+    double newRate = calculatePlaybackRate(_currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
+    GlobalAudioPlayer().changeRateForRepeat(newRate);
     debugPrint("ESTIMATED CC: $_currentCC");
     _isBusy = false;
   }

@@ -106,7 +106,7 @@ class _MedSubMenuPageWidgetState extends State<MedSubMenuPageWidget> {
                     container: true,
                     child: GestureDetector(
                       onTap: () async {
-                        context.push('/medRecognitionPage');
+                        context.pushReplacement('/medRecognitionPage');
                       },
                       child: Container(
                       width: containerWidth,
@@ -171,7 +171,7 @@ class _MedSubMenuPageWidgetState extends State<MedSubMenuPageWidget> {
                     container: true,
                     child: GestureDetector(
                       onTap: () async {
-                        context.push('/prescribedMedRecognitionPage');
+                        context.pushReplacement('/prescribedMedRecognitionPage');
                       },
                       child: Container(
                       width: containerWidth,
