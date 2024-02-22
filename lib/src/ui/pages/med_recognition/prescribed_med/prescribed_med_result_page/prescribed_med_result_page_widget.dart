@@ -1,6 +1,7 @@
 import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
+import '../../../../../app/global_audio_player.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
   @override
   void initState() {
     super.initState();
+    GlobalAudioPlayer().playOnce();
     _model = createModel(context, () => PrescribedMedResultPageModel());
   }
 
