@@ -33,11 +33,17 @@ class HomeButtonWidget extends StatelessWidget {
                 if (GlobalAudioPlayer().isPlaying) {
                   GlobalAudioPlayer().pause();
                 }
-                context.go("/mainMenuPage");
+                clearAndNavigate(context);
               },
             ),
         ),
       ),
     );
+  }
+  void clearAndNavigate(BuildContext context) {
+    while (context.canPop() == true) {
+      context.pop();
+    }
+    context.pushReplacement('/mainMenuPage');
   }
 }

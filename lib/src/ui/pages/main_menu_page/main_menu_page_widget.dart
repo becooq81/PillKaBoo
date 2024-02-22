@@ -90,7 +90,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.go('/medRecognitionPage');
+                        context.pushReplacement('/medRecognitionPage');
                       },
                       child: ExcludeSemantics(
                         excluding: true,

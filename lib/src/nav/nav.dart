@@ -44,7 +44,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ),
             )
           : const MainMenuPageWidget(),
-      routes: [
+      routes: <RouteBase>[
         GoRoute(
           name: '_initialize',
           path: '/',
@@ -68,70 +68,70 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'MedRecognitionPage',
           path: '/medRecognitionPage',
           builder: (BuildContext context, GoRouterState state) {
-            return MedRecognitionPageWidget(key: UniqueKey());
+            return const MedRecognitionPageWidget();
           }
         ),
         GoRoute(
           name: 'MainMenuPage',
           path: '/mainMenuPage',
           builder: (BuildContext context, GoRouterState state) {
-            return MainMenuPageWidget(key: UniqueKey());
+            return const MainMenuPageWidget();
           }
         ),
         GoRoute(
           name: 'MedInfoPage',
           path: '/medInfoPage',
           builder: (BuildContext context, GoRouterState state) {
-            return MedInfoPageWidget(key: UniqueKey());
+            return const MedInfoPageWidget();
           }
         ),
         GoRoute(
           name: 'SettingsMenuPage',
           path: '/settingsMenuPage',
           builder: (BuildContext context, GoRouterState state) {
-            return MedInfoPageWidget(key: UniqueKey());
+            return const SettingsMenuPageWidget();
           }
         ),
         GoRoute(
           name: 'PickColorPage',
           path: '/pickColorPage',
           builder: (BuildContext context, GoRouterState state) {
-            return PickColorPageWidget(key: UniqueKey());
+            return const PickColorPageWidget();
           }
         ),
         GoRoute(
           name: 'AllergyListPage',
           path: '/allergyListPage',
           builder: (BuildContext context, GoRouterState state) {
-            return AllergyListPageWidget(key: UniqueKey());
+            return const AllergyListPageWidget();
           }
         ),
         GoRoute(
           name: 'AllergyAddPage',
           path: '/allergyAddPage',
           builder: (BuildContext context, GoRouterState state) {
-            return AllergyAddPageWidget(key: UniqueKey());
+            return const AllergyAddPageWidget();
           }
         ),
         GoRoute(
           name: 'HelpPage',
           path: '/helpPage',
           builder: (BuildContext context, GoRouterState state) {
-            return HelpPageWidget(key: UniqueKey());
+            return const HelpPageWidget();
           }
         ),
         GoRoute(
           name: 'PrescribedMedRecognitionPage',
           path: '/prescribedMedRecognitionPage',
           builder: (BuildContext context, GoRouterState state) {
-            return PrescribedMedRecognitionPageWidget(key: UniqueKey());
+            return const PrescribedMedRecognitionPageWidget();
           }
         ),
         GoRoute(
           name: 'PrescribedMedResultPage',
           path: '/prescribedMedResultPage',
           builder: (BuildContext context, GoRouterState state) {
-            return PrescribedMedResultPageWidget(key: UniqueKey());
+            return const PrescribedMedResultPageWidget();
           }
         ),
       ],
