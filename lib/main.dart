@@ -43,7 +43,7 @@ void main() async {
 
   Workmanager().initialize(
     callbackDispatcher,
-    isInDebugMode: true, // TODO: set to false in production 
+    isInDebugMode: false,
   );
 
   runApp(ChangeNotifierProvider(

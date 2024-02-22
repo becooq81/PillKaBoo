@@ -42,7 +42,7 @@ class ProcessedFileDBHelper {
         List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
         await File(dbPath).writeAsBytes(bytes, flush: true);
       } catch (e) {
-        print("Error copying database from assets: $e");
+        //print("Error copying database from assets: $e");
       }
     }
   }
@@ -56,7 +56,7 @@ class ProcessedFileDBHelper {
     try {
       await File(databasePath).delete();
     } catch (e) {
-      print("Error deleting existing database file: $e");
+      //print("Error deleting existing database file: $e");
     }
     _db = await initializeDB();
     try {
@@ -69,9 +69,9 @@ class ProcessedFileDBHelper {
         }
       }
       await batch.commit(noResult: true);
-      print("Database replaced successfully");
+      //print("Database replaced successfully");
     } catch (e) {
-      print("Error replacing database: $e");
+      //print("Error replacing database: $e");
     }
   }
   static Future<List<Map<String, dynamic>>> searchByItemSeq(String inputSeq) async {
@@ -84,7 +84,6 @@ class ProcessedFileDBHelper {
     return matches;
   }
   static Future<List<Map<String, dynamic>>> searchByItemName(String inputName) async {
-    print("searchByItemName: $inputName");
     final Database db = await ProcessedFileDBHelper.database;
     final itemColumn = await getColumnAsListOfStrings("itemName");
     String identified = "";
