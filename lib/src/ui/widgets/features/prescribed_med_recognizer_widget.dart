@@ -126,7 +126,7 @@ class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerW
     List<String> splitText = recognizedText.text.split(RegExp(r'\s+'));
       for (String word in splitText) {
         if (DateParser.isDate(word)) {
-          final date = DateParser.parseDate(word);
+          final date = DateParser.parseDateIfBeforeToday(word);
           if (date != null) {
             if (mounted) {
               _isDateRecognized = true;
