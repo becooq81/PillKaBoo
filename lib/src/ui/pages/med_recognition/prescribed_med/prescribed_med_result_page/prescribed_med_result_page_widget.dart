@@ -152,7 +152,9 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
               const SizedBox(
                 height: 30,
               ),
-                RichText(
+                Align(
+                  alignment: Alignment.center,
+                  child: RichText(
                 text: TextSpan(
                   children: [
                     TextSpan(
@@ -175,7 +177,7 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
                     )
                   ],
                 ),
-              ),
+              ),),
             ],
           ),
           ),
