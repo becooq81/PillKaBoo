@@ -39,27 +39,6 @@
    │  └─ download_file.dart
    ├─ 📂ui
    │  ├─ 📂pages
-   │  │     ├─ 📂liquid_med
-   │  │     │   ├─ 📂check_rest
-   │  │     │   │  ├─ 📂check_rest_page
-   │  │     │   │  │  ├─ check_rest_page_model.dart
-   │  │     │   │  │  └─ check_rest_page_widget.dart
-   │  │     │   │  └─ 📂check_rest_result_page
-   │  │     │   │     ├─ check_rest_result_page_model.dart
-   │  │     │   │     └─ check_rest_result_page_widget.dart
-   │  │     │   ├─ 📂liquid_med_submenu_page
-   │  │     │   │  ├─ liquid_med_submenu_page_model.dart
-   │  │     │   │  └─ liquid_med_submenu_page_widget.dart
-   │  │     │   └─ 📂pour_right
-   │  │     │      ├─ 📂pour_right_page
-   │  │     │      │  ├─ pour_right_page_model.dart
-   │  │     │      │  └─ pour_right_page_widget.dart
-   │  │     │      ├─ 📂pour_right_result_page
-   │  │     │      │  ├─ pour_right_result_page_model.dart
-   │  │     │      │  └─ pour_right_result_page_widget.dart
-   │  │     │      └─ 📂pour_right_slider_page
-   │  │     │         ├─ pour_right_slider_page_model.dart
-   │  │     │         └─ pour_right_slider_page_widget.dart
    │  │     ├─ 📂main_menu_page
    │  │     │  ├─ main_menu_page_model.dart
    │  │     │  └─ main_menu_page_widget.dart
@@ -107,9 +86,7 @@
    │  │  │  ├─ gesture_slider.dart
    │  │  │  └─ home_button_widget.dart
    │  │  ├─ 📂features
-   │  │  │  ├─ check_rest_widget.dart
    │  │  │  ├─ med_recognizer_widget.dart
-   │  │  │  ├─ pour_right_widget.dart
    │  │  │  └─ prescribed_med_recognizer_widget.dart
    │  │  ├─ 📂views
    │  │  │  ├─ barcode_detector_view.dart
@@ -119,8 +96,7 @@
    │  │  └─ pillkaboo_widgets.dart
    └─ 📂utils
       ├─ coordinates_translator.dart
-      ├─ date_parser.dart
-      └─ liquid_volume_estimator.dart
+      └─ date_parser.dart
 ```
 
 # Getting started
