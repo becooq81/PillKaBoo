@@ -71,8 +71,8 @@ Future<img.Image> cropBytesImage(
     BytesImage bytesImage, BoxCoords boxCoords) async {
   debugPrint("cropBytesImage");
   final imgImage = await convBytesImage2imgImage(bytesImage);
-  final newHeight = min(boxCoords.y1 - boxCoords.y0, 32);
-  final newWidth = min(boxCoords.x1 - boxCoords.x0, 32);
+  final newHeight = max(boxCoords.y1 - boxCoords.y0, 32);
+  final newWidth = max(boxCoords.x1 - boxCoords.x0, 32);
   final croppedImgImage = img.copyCrop(imgImage,
       x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
   debugPrint("CROPPED SHAPE: $newHeight $newWidth");
@@ -204,7 +204,7 @@ int? estimateCC(List<num?> scalePositions, int liquidLevel) {
 
   final unit = (scalePositions[p0]! - scalePositions[p1]!) / (p1 - p0);
   final cc = ((liquidLevel - scalePositions[p0]!) / unit + p0).round();
-  return min(cc, 0);
+  return max(cc, 0);
 }
 
 class LiquidVolumeEstimator {
@@ -236,7 +236,8 @@ class LiquidVolumeEstimator {
         imageWidth: bytesImage.width,
         iouThreshold: 0.8,
         classThreshold: 0);
-
+    detectedObjects
+        .sort((x, y) => ((x["box"][4] - y["box"][4]) * 100000).round());
     debugPrint("detectedObjects: $detectedObjects");
 
     return detectedObjects.isEmpty
