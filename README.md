@@ -81,19 +81,19 @@
    │  │  ├─ pillkaboo_icon_button.dart
    │  │  ├─ pillkaboo_theme.dart
    │  │  └─ pillkaboo_widgets.dart
-   │  ├─ 📂widgets
-   │  │  ├─ 📂components
-   │  │  │  ├─ gesture_slider.dart
-   │  │  │  └─ home_button_widget.dart
-   │  │  ├─ 📂features
-   │  │  │  ├─ med_recognizer_widget.dart
-   │  │  │  └─ prescribed_med_recognizer_widget.dart
-   │  │  ├─ 📂views
-   │  │  │  ├─ barcode_detector_view.dart
-   │  │  │  ├─ camera_view.dart
-   │  │  │  ├─ detector_view.dart
-   │  │  │  └─ text_detector_view.dart
-   │  │  └─ pillkaboo_widgets.dart
+   │  └─ 📂widgets
+   │     ├─ 📂components
+   │     │  ├─ gesture_slider.dart
+   │     │  └─ home_button_widget.dart
+   │     ├─ 📂features
+   │     │  ├─ med_recognizer_widget.dart
+   │     │  └─ prescribed_med_recognizer_widget.dart
+   │     ├─ 📂views
+   │     │  ├─ barcode_detector_view.dart
+   │     │  ├─ camera_view.dart
+   │     │  ├─ detector_view.dart
+   │     │  └─ text_detector_view.dart
+   │     └─ pillkaboo_widgets.dart
    └─ 📂utils
       ├─ coordinates_translator.dart
       └─ date_parser.dart
