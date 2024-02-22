@@ -109,7 +109,9 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
+                          child: ExcludeSemantics(
+                            excluding: true,
+                            child: Text(
                             '처방약 인식',
                             style: TextStyle(
                               fontFamily: 'Pretendard',
@@ -117,7 +119,7 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
                               color: PKBAppState().secondaryColor,
                               fontWeight: FontWeight.bold,
                             ),
-                          ),
+                          ),),
                         ),
                         const Spacer(),
                         const widgets.HomeButtonWidget(),
