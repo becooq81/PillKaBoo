@@ -2,7 +2,6 @@ export 'src/ui/pages/main_menu_page/main_menu_page_widget.dart' show MainMenuPag
 
 export 'src/ui/pages/med_recognition/med_info_recognition/med_recognition_page/med_recognition_page_widget.dart' show MedRecognitionPageWidget;
 export 'src/ui/pages/med_recognition/med_info_recognition/med_info_page/med_info_page_widget.dart' show MedInfoPageWidget;
-export 'src/ui/pages/med_recognition/med_submenu_page/med_submenu_page_widget.dart' show MedSubMenuPageWidget;
 export 'src/ui/pages/med_recognition/prescribed_med/prescribed_med_result_page/prescribed_med_result_page_widget.dart' show PrescribedMedResultPageWidget;
 export 'src/ui/pages/med_recognition/prescribed_med/prescribed_med_recognition_page/prescribed_med_recognition_page_widget.dart' show PrescribedMedRecognitionPageWidget;  
 

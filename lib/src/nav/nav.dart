@@ -45,7 +45,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             )
           : const MainMenuPageWidget(),
       routes: [
-        PKBRoute(
+        GoRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.showSplashImage
@@ -64,62 +64,77 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 )
               : const MainMenuPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MedRecognitionPage',
           path: '/medRecognitionPage',
-          builder: (context, params) => const MedRecognitionPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MedRecognitionPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MainMenuPage',
           path: '/mainMenuPage',
-          builder: (context, params) => const MainMenuPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MainMenuPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MedInfoPage',
           path: '/medInfoPage',
-          builder: (context, params) => const MedInfoPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MedInfoPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'SettingsMenuPage',
           path: '/settingsMenuPage',
-          builder: (context, params) => const SettingsMenuPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MedInfoPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PickColorPage',
           path: '/pickColorPage',
-          builder: (context, params) => const PickColorPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return PickColorPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
-            name: 'AllergyListPage',
-            path: '/allergyListPage',
-            builder: (context, params) => const AllergyListPageWidget(),
+        GoRoute(
+          name: 'AllergyListPage',
+          path: '/allergyListPage',
+          builder: (BuildContext context, GoRouterState state) {
+            return AllergyListPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'AllergyAddPage',
           path: '/allergyAddPage',
-          builder: (context, params) => const AllergyAddPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return AllergyAddPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'HelpPage',
           path: '/helpPage',
-          builder: (context, params) => const HelpPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return HelpPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PrescribedMedRecognitionPage',
           path: '/prescribedMedRecognitionPage',
-          builder: (context, params) => const PrescribedMedRecognitionPageWidget(),
-        ),  
-        PKBRoute(
+          builder: (BuildContext context, GoRouterState state) {
+            return PrescribedMedRecognitionPageWidget(key: UniqueKey());
+          }
+        ),
+        GoRoute(
           name: 'PrescribedMedResultPage',
           path: '/prescribedMedResultPage',
-          builder: (context, params) => const PrescribedMedResultPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return PrescribedMedResultPageWidget(key: UniqueKey());
+          }
         ),
-        PKBRoute(
-          name: 'MedSubmenuPage',
-          path: '/medSubmenuPage',
-          builder: (context, params) => const MedSubMenuPageWidget(),
-        ),        
-      ].map((r) => r.toRoute(appStateNotifier)).toList(), 
+      ],
     );
 
 extension NavParamExtensions on Map<String, String?> {
