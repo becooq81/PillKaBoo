@@ -121,6 +121,8 @@ flutter:
     - assets/lottie_animations/
     - assets/rive_animations/
     - assets/data/
+    - assets/labels.txt
+    - assets/yolov8n.tflite
   fonts:
     - family: 'ButtonFont'
       fonts:

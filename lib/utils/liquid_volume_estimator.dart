@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:camera/camera.dart';
@@ -70,36 +71,57 @@ Future<img.Image> cropBytesImage(
     BytesImage bytesImage, BoxCoords boxCoords) async {
   debugPrint("cropBytesImage");
   final imgImage = await convBytesImage2imgImage(bytesImage);
-  final newHeight = boxCoords.y1 - boxCoords.y0;
-  final newWidth = boxCoords.x1 - boxCoords.x0;
+  final newHeight = min(boxCoords.y1 - boxCoords.y0, 32);
+  final newWidth = min(boxCoords.x1 - boxCoords.x0, 32);
   final croppedImgImage = img.copyCrop(imgImage,
       x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
   debugPrint("CROPPED SHAPE: $newHeight $newWidth");
   return croppedImgImage;
 }
 
-Future<List> preprocess(img.Image image, [int binarizeThreshold = 100]) async {
+Future<List> preprocess(img.Image image) async {
   debugPrint("preprocess");
   Uint8List arrImage = image.getBytes(order: img.ChannelOrder.rgb);
-  return arrImage
-      .reshape(3, arrImage.length ~/ 3)
+  debugPrint("arrImage: ${arrImage.length} ${arrImage.length ~/ 3}");
+  final gray = arrImage
+      .reshape(arrImage.length ~/ 3, 3)
       .map((x) => (x[0] + x[1] + x[2]) / 3)
-      .toList()
-      .map((x) => x >= binarizeThreshold ? 1 : 0)
+      .toList();
+  final m = mean(gray);
+  final res = gray
+      .map((x) => x >= m ? 1 : 0)
       .toList()
       .reshape(image.height, image.width);
+  debugPrint("preprocess shape: ${res.length} ${res[0].length}");
+  return res;
 }
 
 List rowsum(List preprocessed) {
   debugPrint("rowsum");
-  return preprocessed.map((x) => x.reduce((a, b) => a + b)).toList();
+  debugPrint(
+      "rowsum len: ${preprocessed[0].length} ${preprocessed[0].length ~/ 5}");
+  return preprocessed
+      .map((x) => x.sublist(0, x.length ~/ 5).reduce((a, b) => a + b))
+      .toList();
 }
 
-int? getLiquidLevelFromRowsum(List rsum, [int levelThreshold = 5]) {
+double mean(List data) {
+  return data.reduce((a, b) => a + b) / data.length;
+}
+
+double variance(List data) {
+  final m = mean(data);
+  return data.map((x) => (x - m) * (x - m)).reduce((a, b) => a + b) /
+      data.length;
+}
+
+int? getLiquidLevelFromRowsum(List rsum,
+    [int levelThreshold = 5, double varThreshold = 10]) {
   debugPrint("getLiquidLevelFromRowsum");
+  if (variance(rsum.sublist(rsum.length ~/ 3 * 2)) > varThreshold) return 0;
   for (var entry in rsum.asMap().entries) {
     int i = entry.key;
-    int v = entry.value;
+    num v = entry.value;
     if (v < levelThreshold) {
       return i;
     }
@@ -154,7 +176,7 @@ Future<InputImage> convImgImage2InputImage(img.Image image) async {
 int? estimateCC(List<num?> scalePositions, int liquidLevel) {
   debugPrint("estimateCC");
   final nonNullCnt =
-      scalePositions.map((x) => (x != null) as int).reduce((a, b) => a + b);
+      scalePositions.map((x) => x != null ? 1 : 0).reduce((a, b) => a + b);
   if (nonNullCnt < 2) {
     debugPrint("nonNullCnt < 2");
     return null;
@@ -182,7 +204,7 @@ int? estimateCC(List<num?> scalePositions, int liquidLevel) {
 
   final unit = (scalePositions[p0]! - scalePositions[p1]!) / (p1 - p0);
   final cc = ((liquidLevel - scalePositions[p0]!) / unit + p0).round();
-  return cc;
+  return min(cc, 0);
 }
 
 class LiquidVolumeEstimator {
@@ -191,15 +213,7 @@ class LiquidVolumeEstimator {
 
   LiquidVolumeEstimator()
       : vision = FlutterVision(),
-        textRecognizer = TextRecognizer(script: TextRecognitionScript.latin) {
-    vision.loadYoloModel(
-        labels: "assets/labels.txt",
-        modelPath: "assets/yolov8n.tflite",
-        modelVersion: "yolov8",
-        quantization: false,
-        numThreads: 1,
-        useGpu: false);
-  }
+        textRecognizer = TextRecognizer(script: TextRecognitionScript.latin) {}
 
   void stop() {
     vision.closeYoloModel();
@@ -208,16 +222,27 @@ class LiquidVolumeEstimator {
 
   Future<BoxCoords?> detectBottle(BytesImage bytesImage) async {
     debugPrint("detectBottle");
+
+    await vision.loadYoloModel(
+        labels: "assets/labels.txt",
+        modelPath: "assets/yolov8n.tflite",
+        modelVersion: "yolov8",
+        quantization: false,
+        useGpu: true);
+
     final detectedObjects = await vision.yoloOnImage(
         bytesList: bytesImage.bytes,
         imageHeight: bytesImage.height,
-        imageWidth: bytesImage.width);
+        imageWidth: bytesImage.width,
+        iouThreshold: 0.8,
+        classThreshold: 0);
 
     debugPrint("detectedObjects: $detectedObjects");
 
     return detectedObjects.isEmpty
         ? null
-        : BoxCoords.fromList(detectedObjects[0]["box"]);
+        : BoxCoords.fromList(List<int>.from(
+            detectedObjects[0]["box"].map((double x) => x.round())));
   }
 
   Future<List<num?>> getScalePositions(img.Image image) async {
@@ -241,6 +266,8 @@ class LiquidVolumeEstimator {
         }
       }
     }
+    debugPrint("scalePositions: $positions");
+
     return positions;
   }
 
