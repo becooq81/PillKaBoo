@@ -1,5 +1,5 @@
 import '../../../../../core/pillkaboo_util.dart';
-import '../../../../common/pillkaboo_theme.dart';
+import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
@@ -93,7 +93,7 @@ class _AllergyListPageWidgetState extends State<AllergyListPageWidget> {
               Center(
                 child: GestureDetector(
                   onTap: () async {
-                    context.go('/allergyAddPage');
+                    context.pushReplacement('/allergyAddPage');
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

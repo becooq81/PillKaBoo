@@ -1,4 +1,4 @@
-import '../../../../common/pillkaboo_theme.dart';
+import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
 
@@ -141,7 +141,7 @@ class _AllergyAddPageWidgetState extends State<AllergyAddPageWidget> {
                     setState(() {
                       PKBAppState().addToUserAllergies(_controller.text);
                     });
-                    context.go('/allergyListPage');
+                    context.pushReplacement('/allergyListPage');
                   },
                   child: Text('확인',
                       style: TextStyle(

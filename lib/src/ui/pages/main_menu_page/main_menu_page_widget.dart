@@ -1,4 +1,4 @@
-import '../../common/pillkaboo_theme.dart';
+import '../../styles/pillkaboo_theme.dart';
 import '../../../core/pillkaboo_util.dart';
 
 import 'package:flutter/material.dart';
@@ -90,7 +90,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.go('/medRecognitionPage');
+                        context.pushReplacement('/medRecognitionPage');
                       },
                       child: ExcludeSemantics(
                         excluding: true,
@@ -163,7 +163,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.go('/liquidMedSubMenuPage');
+                          context.pushReplacement('/liquidMedSubMenuPage');
                         },
                         child: ExcludeSemantics(
                           excluding: true,
@@ -237,7 +237,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.go('/settingsMenuPage');
+                          context.pushReplacement('/settingsMenuPage');
                         },
                         child: ExcludeSemantics(
                           excluding: true,

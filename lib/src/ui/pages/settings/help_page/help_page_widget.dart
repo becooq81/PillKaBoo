@@ -1,5 +1,5 @@
 import '../../../widgets/index.dart' as widgets;
-import '../../../common/pillkaboo_theme.dart';
+import '../../../styles/pillkaboo_theme.dart';
 import '../../../../core/pillkaboo_util.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';

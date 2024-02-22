@@ -1,5 +1,5 @@
 import '../../../../core/pillkaboo_util.dart';
-import '../../../common/pillkaboo_theme.dart';
+import '../../../styles/pillkaboo_theme.dart';
 import '../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
@@ -106,7 +106,7 @@ class _LiquidMedSubMenuPageWidgetState extends State<LiquidMedSubMenuPageWidget>
                     container: true,
                     child: GestureDetector(
                       onTap: () async {
-                        context.go('/pourRightSliderPage');
+                        context.pushReplacement('/pourRightSliderPage');
                       },
                       child: Container(
                       width: containerWidth,
@@ -169,7 +169,7 @@ class _LiquidMedSubMenuPageWidgetState extends State<LiquidMedSubMenuPageWidget>
                     container: true,
                     child: GestureDetector(
                       onTap: () async {
-                        context.go('/checkRestPage');
+                        context.pushReplacement('/checkRestPage');
                       },
                       child: Container(
                       width: containerWidth,

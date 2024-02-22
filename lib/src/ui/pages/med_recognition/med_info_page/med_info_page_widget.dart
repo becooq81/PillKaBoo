@@ -1,7 +1,7 @@
 import '../../../../app/global_audio_player.dart';
 import '../../../../core/pillkaboo_util.dart';
-import '../../../common/pillkaboo_icon_button.dart';
-import '../../../common/pillkaboo_theme.dart';
+import '../../../styles/pillkaboo_icon_button.dart';
+import '../../../styles/pillkaboo_theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -165,7 +165,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         PKBAppState().infoChild = "";
                         PKBAppState().foundAllergies = "";
                       });
-                      context.go('/mainMenuPage');
+                      context.pushReplacement('/mainMenuPage');
                     },
                   ),
                 ),
@@ -517,11 +517,11 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                             width: imageContainerSize,
                             height: imageContainerSize,
                             decoration: BoxDecoration(
-                              color: PKBAppState().secondaryColor, // Set the background color
-                              shape: BoxShape.circle, // Circular shape
+                              color: PKBAppState().secondaryColor,
+                              shape: BoxShape.circle,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(10.0), // Adjust padding as needed
+                              padding: const EdgeInsets.all(10.0),
                               child: SvgPicture.asset(
                                 'assets/images/forb.svg',
                                 fit: BoxFit.contain,

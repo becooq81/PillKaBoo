@@ -1,5 +1,5 @@
 import '../../../widgets/index.dart' as widgets;
-import '../../../common/pillkaboo_theme.dart';
+import '../../../styles/pillkaboo_theme.dart';
 import '../../../../core/pillkaboo_util.dart';
 
 import 'package:flutter/material.dart';
@@ -104,7 +104,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                     container: true,
                     child: GestureDetector(
                       onTap: () async {
-                        context.go('/allergyListPage');
+                        context.pushReplacement('/allergyListPage');
                       },
                       child: Container(
                         width: containerWidth,
@@ -178,7 +178,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                     explicitChildNodes: false,
                     child: GestureDetector(
                       onTap: () async {
-                        context.go('/pickColorPage');
+                        context.pushReplacement('/pickColorPage');
                       },
                       child: Container(
                         width: containerWidth,
@@ -254,7 +254,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                     explicitChildNodes: false,
                     child: GestureDetector(
                       onTap: () async {
-                        context.go('/helpPage');
+                        context.pushReplacement('/helpPage');
                       },
                       child: Container(
                         width: containerWidth,

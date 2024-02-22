@@ -69,7 +69,7 @@ class _CheckRestWidgetState extends State<CheckRestWidget> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isAmountRecognized) {
-        context.go('/checkRestResultPage'); // 양 맞춰지면 결과 페이지로 이동
+        context.pushReplacement('/checkRestResultPage'); // 양 맞춰지면 결과 페이지로 이동
       }
     });
 

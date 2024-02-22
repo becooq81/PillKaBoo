@@ -232,6 +232,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> with WidgetsB
   }
 
   void _navigateToMedInfoPage(BuildContext context) {
-    context.go('/medInfoPage');
+    context.pushReplacement('/medInfoPage');
   }
 }

@@ -1,5 +1,5 @@
 import '../../../../core/pillkaboo_util.dart';
-import '../../../common/pillkaboo_theme.dart';
+import '../../../styles/pillkaboo_theme.dart';
 import '../../../widgets/index.dart' as widgets;
 
 import 'package:flutter/material.dart';
@@ -165,7 +165,7 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
               child: ElevatedButton(
                 onPressed: () {
                   PKBAppState().pourAmount = currentValue;
-                  context.go('/pourRightPage');
+                  context.pushReplacement('/pourRightPage');
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
