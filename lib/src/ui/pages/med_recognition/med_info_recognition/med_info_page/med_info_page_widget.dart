@@ -1,3 +1,5 @@
+import 'package:pill/index.dart';
+
 import '../../../../../app/global_audio_player.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../styles/pillkaboo_icon_button.dart';
@@ -165,7 +167,11 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         PKBAppState().infoChild = "";
                         PKBAppState().foundAllergies = "";
                       });
-                      context.pushReplacement('/mainMenuPage');
+                      if (GlobalAudioPlayer().isPlaying) {
+                        GlobalAudioPlayer().pause();
+                      }
+                      printRouteStack(context);
+                      context.push('/mainMenuPage');
                     },
                   ),
                 ),
@@ -611,4 +617,5 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     )
     );
   }
+
 }

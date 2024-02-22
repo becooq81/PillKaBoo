@@ -90,7 +90,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushReplacement('/medSubmenuPage');
+                        context.push('/medSubmenuPage');
                       },
                       child: ExcludeSemantics(
                         excluding: true,
@@ -163,7 +163,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.pushReplacement('/liquidMedSubMenuPage');
+                          context.push('/liquidMedSubMenuPage');
                         },
                         child: ExcludeSemantics(
                           excluding: true,

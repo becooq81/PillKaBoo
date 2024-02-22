@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pill/index.dart';
 import '../../styles/pillkaboo_icon_button.dart';
 import '../../../core/pillkaboo_util.dart';
 import '../../../app/global_audio_player.dart';
@@ -33,7 +34,7 @@ class HomeButtonWidget extends StatelessWidget {
                 if (GlobalAudioPlayer().isPlaying) {
                   GlobalAudioPlayer().pause();
                 }
-                context.pushReplacement('/mainMenuPage');
+                context.push('/mainMenuPage');
               },
             ),
         ),

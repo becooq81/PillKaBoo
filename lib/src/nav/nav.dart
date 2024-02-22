@@ -29,23 +29,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => appStateNotifier.showSplashImage
-          ? Builder(
-              builder: (context) => Container(
-                color: Colors.transparent,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/Screenshot_2024-01-30_at_9.58.21_AM.png',
-                    width: MediaQuery.sizeOf(context).width * 1.0,
-                    height: MediaQuery.sizeOf(context).height * 1.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            )
-          : const MainMenuPageWidget(),
+      errorBuilder: (context, state) {
+        return const MainMenuPageWidget();
+      },
       routes: [
-        PKBRoute(
+        GoRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.showSplashImage
@@ -64,92 +52,98 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 )
               : const MainMenuPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MedRecognitionPage',
           path: '/medRecognitionPage',
-          builder: (context, params) => const MedRecognitionPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MedRecognitionPageWidget(key: UniqueKey());
+          },
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MainMenuPage',
           path: '/mainMenuPage',
-          builder: (context, params) => const MainMenuPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MainMenuPageWidget(key: UniqueKey());
+          },
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MedInfoPage',
           path: '/medInfoPage',
-          builder: (context, params) => const MedInfoPageWidget(),
+          builder: (BuildContext context, GoRouterState state) {
+            return MedInfoPageWidget(key: UniqueKey());
+          },
         ),
-        PKBRoute(
+        GoRoute(
           name: 'CheckRestPage',
           path: '/checkRestPage',
           builder: (context, params) => const CheckRestPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PourRightPage',
           path: '/pourRightPage',
           builder: (context, params) => const PourRightPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'SettingsMenuPage',
           path: '/settingsMenuPage',
           builder: (context, params) => const SettingsMenuPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'LiquidMedSubMenuPage',
           path: '/liquidMedSubMenuPage',
           builder: (context, params) => const LiquidMedSubMenuPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PourRightSliderPage',
           path: '/pourRightSliderPage',
           builder: (context, params) => const PourRightSliderPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'CheckRestResultPage',
           path: '/checkRestResultPage',
           builder: (context, params) => const CheckRestResultPageWidget(),
         ), 
-        PKBRoute(
+        GoRoute(
           name: 'PourRightResultPage',
           path: '/pourRightResultPage',
           builder: (context, params) => const PourRightResultPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PickColorPage',
           path: '/pickColorPage',
           builder: (context, params) => const PickColorPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
             name: 'AllergyListPage',
             path: '/allergyListPage',
             builder: (context, params) => const AllergyListPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'AllergyAddPage',
           path: '/allergyAddPage',
           builder: (context, params) => const AllergyAddPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'HelpPage',
           path: '/helpPage',
           builder: (context, params) => const HelpPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'MedSubmenuPage',
           path: '/medSubmenuPage',
           builder: (context, params) => const MedSubMenuPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PrescribedMedRecognitionPage',
           path: '/prescribedMedRecognitionPage',
           builder: (context, params) => const PrescribedMedRecognitionPageWidget(),
         ),
-        PKBRoute(
+        GoRoute(
           name: 'PrescribedMedResultPage',
           path: '/prescribedMedResultPage',
           builder: (context, params) => const PrescribedMedResultPageWidget(),
         )
-      ].map((r) => r.toRoute(appStateNotifier)).toList(), 
+      ],
     );
 
 extension NavParamExtensions on Map<String, String?> {
@@ -182,8 +176,8 @@ extension _GoRouterStateExtensions on GoRouterState {
       : TransitionInfo.appDefault();
 }
 
-class FFParameters {
-  FFParameters(this.state, [this.asyncParams = const {}]);
+class PKBParameters {
+  PKBParameters(this.state, [this.asyncParams = const {}]);
 
   final GoRouterState state;
   final Map<String, Future<dynamic> Function(String)> asyncParams;
@@ -249,20 +243,20 @@ class PKBRoute {
   final String path;
   final bool requireAuth;
   final Map<String, Future<dynamic> Function(String)> asyncParams;
-  final Widget Function(BuildContext, FFParameters) builder;
+  final Widget Function(BuildContext, PKBParameters) builder;
   final List<GoRoute> routes;
 
   GoRoute toRoute(AppStateNotifier appStateNotifier) => GoRoute(
         name: name,
         path: path,
         pageBuilder: (context, state) {
-          final ffParams = FFParameters(state, asyncParams);
-          final page = ffParams.hasFutures
+          final pkbParams = PKBParameters(state, asyncParams);
+          final page = pkbParams.hasFutures
               ? FutureBuilder(
-                  future: ffParams.completeFutures(),
-                  builder: (context, _) => builder(context, ffParams),
+                  future: pkbParams.completeFutures(),
+                  builder: (context, _) => builder(context, pkbParams),
                 )
-              : builder(context, ffParams);
+              : builder(context, pkbParams);
           final child = page;
 
           final transitionInfo = state.transitionInfo;

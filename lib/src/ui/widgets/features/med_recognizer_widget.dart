@@ -197,7 +197,6 @@ class _MedRecognizerWidgetState extends State<MedRecognizerWidget> {
               final ingre = ingreInfo.first;
               PKBAppState().infoIngredient = ingre['주성분'];
               for (String allergy in PKBAppState().userAllergies) {
-                print("Allergy in user: $allergy");
                 if (ingre['주성분'].contains(allergy)) {
                   if (PKBAppState().foundAllergies.contains(allergy)) {
                     continue;
