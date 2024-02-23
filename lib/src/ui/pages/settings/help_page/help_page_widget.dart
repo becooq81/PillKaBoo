@@ -52,7 +52,6 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
     double imageContainerSize = 85.0/892.0 * MediaQuery.of(context).size.height;
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double textFontSize = 30.0/892.0 * MediaQuery.of(context).size.height;
-    double paddingBelowAppBar = 25.0/892.0 * MediaQuery.of(context).size.height;
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -98,9 +97,7 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                 Semantics(
                     container: true,
                     label: howToRecognizeMedicine,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
-                      child: Row(
+                    child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           ExcludeSemantics(
@@ -147,7 +144,58 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                             ),
                           ),
                         ],
-                      ),
+                    )
+                ),
+                Semantics(
+                    container: true,
+                    label: howToRecognizePrescribed,
+                    child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ExcludeSemantics(
+                            excluding: true,
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Container(
+                                  width: imageContainerSize,
+                                  height: imageContainerSize,
+                                  decoration: BoxDecoration(
+                                    color: PKBAppState().secondaryColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(
+                                      'assets/images/prescribed.svg',
+                                      fit: BoxFit.contain,
+                                      colorFilter: ColorFilter.mode(
+                                        PKBAppState().tertiaryColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          ExcludeSemantics(
+                            excluding: true,
+                            child: Text(
+                              '처방약 시간 인식',
+                              style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                                color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                            ),
+                          ),
+                        ],
                     )
                 ),
                 Semantics(

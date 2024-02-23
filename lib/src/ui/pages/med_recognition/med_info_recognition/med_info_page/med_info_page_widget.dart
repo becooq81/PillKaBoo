@@ -618,4 +618,5 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     )
     );
   }
+
 }
