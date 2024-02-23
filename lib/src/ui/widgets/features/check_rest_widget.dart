@@ -7,7 +7,7 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:pill/src/app/global_audio_player.dart';
 import 'package:pill/src/core/pillkaboo_util.dart';
 import 'dart:core';
-import '../../../utils/liquid_volume_estimator.dart';
+//import '../../../utils/liquid_volume_estimator.dart';
 
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
@@ -44,7 +44,7 @@ class _CameraViewState extends State<CheckRestWidget> {
   bool _canProcess = true;
   int _currentCC = 0;
 
-  LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
+  //LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
 
   @override
   void initState() {
@@ -85,7 +85,7 @@ class _CameraViewState extends State<CheckRestWidget> {
   void dispose() {
     _pictureTimer?.cancel();
     _stopLiveFeed();
-    liquidVolumeEstimator.stop();
+    //liquidVolumeEstimator.stop();
     super.dispose();
   }
 
