@@ -103,11 +103,12 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                     child: Semantics(
                       container: true,
                       label: '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.',
-                      child: ExcludeSemantics(
-                        child: Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
+                          ExcludeSemantics(
+                            excluding: true,
+                            child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: ExcludeSemantics(
                               excluding: true,
@@ -120,12 +121,16 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),),
-                          ),
+                          ),),
                           const Spacer(),
-                          const widgets.HomeButtonWidget(),
+                          Semantics(
+                            container: true,
+                            label: '홈으로 가기. 실행하려면 두번 누르세요',
+                            child: const widgets.HomeButtonWidget(),
+                          )
                         ],
                       ),),
-                    ),
+                    
                   ),
                 ],
             ),
