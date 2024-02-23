@@ -330,7 +330,15 @@ class _CameraViewState extends State<PourRightWidget> {
     final res = await http.Response.fromStream(await req.send());
     final resData = jsonDecode(res.body) as Map<String, dynamic>;
 
-    _currentCC = resData["cc"];
+    if (resData["cc"] == null) {
+      PKBAppState().isRestAmountRecognized = false;
+      debugPrint("null");
+    } else {
+      PKBAppState().isRestAmountRecognized = true;
+      _currentCC = resData["cc"];
+      debugPrint("recognized");
+    }
+
     double newRate = calculatePlaybackRate(
         _currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
     // Adjust the playback rate
