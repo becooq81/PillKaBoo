@@ -59,14 +59,10 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     context.watch<PKBAppState>();
 
     String childText = '', exprDateText = '', ingredientText = '', usageText = '', howToTakeText = '', warningText = '', comboText = '', sideEffectText = '';
-    if (PKBAppState().infoChild == '' && PKBAppState().foundAllergies == '') {
-      childText = '해당 약에는 15세 이하의 아이 관련 주의사항이 없습니다.';
-    } else if (PKBAppState().infoChild == '') {
-      childText = '${PKBAppState().foundAllergies} 알러지를 주의해주세요.';
-    } else if (PKBAppState().foundAllergies == '') {
-      childText = '15세 이하의 아이 관련 주의사항 ${PKBAppState().infoChild}';
+    if (PKBAppState().foundAllergies == '') {
+      childText = '해당 약에는 알러지 관련 주의사항이 없습니다.';
     } else {
-      childText = '알러지의 경우, ${PKBAppState().foundAllergies} 알러지를 주의해주세요. 15세 이하의 아이 관련 주의사항 ${PKBAppState().infoChild}.';
+      childText = '${PKBAppState().foundAllergies} 알러지를 주의해주세요.';
     }
 
     if (PKBAppState().infoExprDate == '') {
@@ -212,7 +208,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                                       shape: BoxShape.circle,
                                     ),
                                       child: SvgPicture.asset(
-                                        'assets/images/Child.svg',
+                                        'assets/images/allergy.svg',
                                         fit: BoxFit.contain,
                                         colorFilter: ColorFilter.mode(
                                           PKBAppState().tertiaryColor,
@@ -226,7 +222,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         ExcludeSemantics(
                           excluding: true,
                           child: Text(
-                          '15세 이하의 아이',
+                          '알러지',
                           style: PillKaBooTheme.of(context).titleMedium.override(
                                 fontFamily:
                                     PillKaBooTheme.of(context).titleMediumFamily,
