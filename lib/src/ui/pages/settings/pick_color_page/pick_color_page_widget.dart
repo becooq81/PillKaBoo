@@ -78,7 +78,7 @@ class _PickColorPageWidgetState extends State<PickColorPageWidget> {
               ),
             ),
           ),
-          actions: const [
+          actions:  [
             widgets.HomeButtonWidget(),
           ],
           centerTitle: false,
