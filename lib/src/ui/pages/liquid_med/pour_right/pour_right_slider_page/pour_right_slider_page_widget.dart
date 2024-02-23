@@ -160,41 +160,48 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
             child: Align(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
-              height: 75.0,
-              width: MediaQuery.of(context).size.width * 0.85,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (currentValue == 0) {
-                    SemanticsService.announce("0ml은 선택할 수 없습니다.", ui.TextDirection.ltr);
-                  } else {
-                    PKBAppState().pourAmount = currentValue;
-                    context.pushReplacement('/pourRightPage');
-                  }
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    PKBAppState().tertiaryColor, 
-                  ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(26), 
-                      side: BorderSide(
-                        color: PKBAppState().secondaryColor, 
-                        width: 2.0, 
-                      ),
-                    ),
-                  ),
-                ),
-                child: Text('확인',
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: PKBAppState().secondaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Pretendard',
-                  ),
-                ),
-              ),
+  height: 75.0,
+  width: MediaQuery.of(context).size.width * 0.85,
+  child: Semantics(
+    label: currentValue == 0 ? "0ml은 선택할 수 없습니다." : "확인",
+    container: true,
+    child: ElevatedButton(
+      onPressed: () {
+        if (currentValue == 0) {
+          
+        } else {
+          PKBAppState().pourAmount = currentValue;
+          context.pushReplacement('/pourRightPage');
+        }
+      },
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          PKBAppState().tertiaryColor,
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(26),
+            side: BorderSide(
+              color: PKBAppState().secondaryColor,
+              width: 2.0,
             ),
+          ),
+        ),
+      ),
+      child: ExcludeSemantics(
+        excluding: true,
+        child: Text('확인',
+        style: TextStyle(
+          fontSize: 30.0,
+          color: PKBAppState().secondaryColor,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Pretendard',
+        ),
+      ),),
+    ),
+  ),
+),
+
           ),),
         ],
       ),
