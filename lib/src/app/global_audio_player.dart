@@ -13,18 +13,21 @@ class GlobalAudioPlayer {
 
   // Play audio on repeat
   Future<void> playRepeat() async {
+    _isLooping = true;
     await audioPlayer.setReleaseMode(ReleaseMode.loop);
     await audioPlayer.play(AssetSource('audios/piep-33489.mp3'));
   }
 
   // Play audio one time
   Future<void> playOnce() async {
+    _isLooping = false;
     await audioPlayer.setReleaseMode(ReleaseMode.release);
     await audioPlayer.play(AssetSource('audios/success.mp3'));
   }
 
   // Play audio on repeat with controllable rate
   Future<void> playRepeatWithRate(double rate) async {
+    _isLooping = true;
     await audioPlayer.setPlaybackRate(rate);
     await audioPlayer.setReleaseMode(ReleaseMode.loop);
     await audioPlayer.play(AssetSource('audios/piep-33489.mp3'));

@@ -164,8 +164,12 @@ class _PourRightSliderPageWidgetState extends State<PourRightSliderPageWidget> {
               width: MediaQuery.of(context).size.width * 0.85,
               child: ElevatedButton(
                 onPressed: () {
-                  PKBAppState().pourAmount = currentValue;
-                  context.pushReplacement('/pourRightPage');
+                  if (currentValue == 0) {
+                    SemanticsService.announce("0ml은 선택할 수 없습니다.", ui.TextDirection.ltr);
+                  } else {
+                    PKBAppState().pourAmount = currentValue;
+                    context.pushReplacement('/pourRightPage');
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(

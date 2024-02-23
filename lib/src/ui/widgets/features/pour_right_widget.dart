@@ -95,6 +95,7 @@ class _CameraViewState extends State<PourRightWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_currentCC >= PKBAppState().pourAmount) {
         _currentCC = 0;
+        GlobalAudioPlayer().pause();
         widget.controller.add(true);
       }
     });
