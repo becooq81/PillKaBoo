@@ -34,10 +34,10 @@ class BoxCoords {
 }
 
 Future<BytesImage> convXFile2BytesImage(XFile xFile) async {
-  debugPrint("convert XFile to BytesImage");
+  //debugPrint("convert XFile to BytesImage");
   final bytes = await xFile.readAsBytes();
   final image = await decodeImageFromList(bytes);
-  debugPrint("FRAME SHAPE: ${image.height} ${image.width}");
+  //debugPrint("FRAME SHAPE: ${image.height} ${image.width}");
   return BytesImage(bytes, image.height, image.width);
 }
 
@@ -52,7 +52,7 @@ img.Image convBytesImage2imgImage(BytesImage bytesImage) {
 */
 
 Future<img.Image> convBytesImage2imgImage(BytesImage bytesImage) async {
-  debugPrint("convert BytesImage to img.Image");
+  //debugPrint("convert BytesImage to img.Image");
   final path = join(
     (await getApplicationDocumentsDirectory()).path,
     "${DateTime.now()}.jpg",
@@ -63,26 +63,26 @@ Future<img.Image> convBytesImage2imgImage(BytesImage bytesImage) async {
 }
 
 BytesImage convImgImage2BytesImage(img.Image imgImage) {
-  debugPrint("convert img.Image to BytesImage");
+  //debugPrint("convert img.Image to BytesImage");
   return BytesImage(imgImage.toUint8List(), imgImage.height, imgImage.width);
 }
 
 Future<img.Image> cropBytesImage(
     BytesImage bytesImage, BoxCoords boxCoords) async {
-  debugPrint("cropBytesImage");
+  //debugPrint("cropBytesImage");
   final imgImage = await convBytesImage2imgImage(bytesImage);
   final newHeight = max(boxCoords.y1 - boxCoords.y0, 32);
   final newWidth = max(boxCoords.x1 - boxCoords.x0, 32);
   final croppedImgImage = img.copyCrop(imgImage,
       x: boxCoords.x0, y: boxCoords.y0, width: newWidth, height: newHeight);
-  debugPrint("CROPPED SHAPE: $newHeight $newWidth");
+  //debugPrint("CROPPED SHAPE: $newHeight $newWidth");
   return croppedImgImage;
 }
 
 Future<List> preprocess(img.Image image) async {
-  debugPrint("preprocess");
+  //debugPrint("preprocess");
   Uint8List arrImage = image.getBytes(order: img.ChannelOrder.rgb);
-  debugPrint("arrImage: ${arrImage.length} ${arrImage.length ~/ 3}");
+  //debugPrint("arrImage: ${arrImage.length} ${arrImage.length ~/ 3}");
   final gray = arrImage
       .reshape(arrImage.length ~/ 3, 3)
       .map((x) => (x[0] + x[1] + x[2]) / 3)
@@ -92,16 +92,20 @@ Future<List> preprocess(img.Image image) async {
       .map((x) => x >= m ? 1 : 0)
       .toList()
       .reshape(image.height, image.width);
-  debugPrint("preprocess shape: ${res.length} ${res[0].length}");
+  //debugPrint("preprocess shape: ${res.length} ${res[0].length}");
   return res;
 }
 
 List rowsum(List preprocessed) {
-  debugPrint("rowsum");
-  debugPrint(
-      "rowsum len: ${preprocessed[0].length} ${preprocessed[0].length ~/ 5}");
+  //debugPrint("rowsum");
+  //debugPrint("rowsum len: ${preprocessed[0].length} ${preprocessed[0].length ~/ 5}");
   return preprocessed
-      .map((x) => x.sublist(0, x.length ~/ 5).reduce((a, b) => a + b))
+      .map((x) =>
+          x
+              .sublist(0, x.length ~/ 5)
+              .map((x) => x / 255)
+              .reduce((a, b) => a + b) /
+          (x.length ~/ 5))
       .toList();
 }
 
@@ -116,9 +120,10 @@ double variance(List data) {
 }
 
 int? getLiquidLevelFromRowsum(List rsum,
-    [int levelThreshold = 5, double varThreshold = 10]) {
-  debugPrint("getLiquidLevelFromRowsum");
-  if (variance(rsum.sublist(rsum.length ~/ 3 * 2)) > varThreshold) return 0;
+    [int levelThreshold = 50, double varThreshold = 10]) {
+  //debugPrint("getLiquidLevelFromRowsum");
+  if (variance(rsum.sublist(rsum.length ~/ 3 * 2)) > varThreshold)
+    return rsum.length;
   for (var entry in rsum.asMap().entries) {
     int i = entry.key;
     num v = entry.value;
@@ -130,7 +135,7 @@ int? getLiquidLevelFromRowsum(List rsum,
 }
 
 Future<int?> getLiquidLevel(img.Image image) async {
-  debugPrint("getLiquidLevel");
+  //debugPrint("getLiquidLevel");
   final preprocessed = await preprocess(image);
   final rsum = rowsum(preprocessed);
   final liquidLevel = getLiquidLevelFromRowsum(rsum);
@@ -164,7 +169,7 @@ Future<InputImage> convBytesImage2InputImage(BytesImage bytesImage) async {
 */
 
 Future<InputImage> convImgImage2InputImage(img.Image image) async {
-  debugPrint("convert img.Image to InputImage");
+  //debugPrint("convert img.Image to InputImage");
   final path = join(
     (await getApplicationDocumentsDirectory()).path,
     "${DateTime.now()}.jpg",
@@ -174,7 +179,7 @@ Future<InputImage> convImgImage2InputImage(img.Image image) async {
 }
 
 int? estimateCC(List<num?> scalePositions, int liquidLevel) {
-  debugPrint("estimateCC");
+  //debugPrint("estimateCC");
   final nonNullCnt =
       scalePositions.map((x) => x != null ? 1 : 0).reduce((a, b) => a + b);
   if (nonNullCnt < 2) {
@@ -213,7 +218,14 @@ class LiquidVolumeEstimator {
 
   LiquidVolumeEstimator()
       : vision = FlutterVision(),
-        textRecognizer = TextRecognizer(script: TextRecognitionScript.korean) {}
+        textRecognizer = TextRecognizer(script: TextRecognitionScript.korean) {
+    vision.loadYoloModel(
+        labels: "assets/labels.txt",
+        modelPath: "assets/yolov8n.tflite",
+        modelVersion: "yolov8",
+        quantization: false,
+        useGpu: true);
+  }
 
   void stop() {
     vision.closeYoloModel();
@@ -221,23 +233,15 @@ class LiquidVolumeEstimator {
   }
 
   Future<BoxCoords?> detectBottle(BytesImage bytesImage) async {
-    debugPrint("detectBottle");
-
-    await vision.loadYoloModel(
-        labels: "assets/labels.txt",
-        modelPath: "assets/yolov8n.tflite",
-        modelVersion: "yolov8",
-        quantization: false,
-        useGpu: true);
-
+    //debugPrint("detectBottle");
     final detectedObjects = await vision.yoloOnImage(
         bytesList: bytesImage.bytes,
         imageHeight: bytesImage.height,
         imageWidth: bytesImage.width,
-        iouThreshold: 0.8,
+        iouThreshold: 0.1,
         classThreshold: 0);
     detectedObjects.sort((x, y) => y["box"][4].compareTo(x["box"][4]));
-    debugPrint("detectedObjects: $detectedObjects");
+    //debugPrint("detectedObjects: $detectedObjects");
 
     return detectedObjects.isEmpty
         ? null
@@ -246,7 +250,7 @@ class LiquidVolumeEstimator {
   }
 
   Future<List<num?>> getScalePositions(img.Image image) async {
-    debugPrint("getScalePositions");
+    //debugPrint("getScalePositions");
 
     InputImage inputImage = await convImgImage2InputImage(image);
     List<num?> positions = List.filled(20, null);
@@ -254,10 +258,10 @@ class LiquidVolumeEstimator {
     for (TextBlock block in text.blocks) {
       for (TextLine line in block.lines) {
         for (TextElement element in line.elements) {
-          debugPrint("TEXT DETECTED: ${element.text}");
+          debugPrint("\nTEXT DETECTED: ${element.text}\n");
 
           final parsed = int.tryParse(element.text);
-          if (parsed != null && parsed <= 20) {
+          if (parsed != null && parsed <= 20 && parsed % 2 == 0) {
             final y =
                 (element.cornerPoints[0].y + element.boundingBox.center.dy)
                     .round();
@@ -266,7 +270,7 @@ class LiquidVolumeEstimator {
         }
       }
     }
-    debugPrint("scalePositions: $positions");
+    //debugPrint("scalePositions: $positions");
 
     return positions;
   }
@@ -278,13 +282,16 @@ class LiquidVolumeEstimator {
     final detectedBoxCoords = await detectBottle(bytesImage);
     if (detectedBoxCoords == null) {
       debugPrint("NO BOTTLE DETECTED");
-      // return null;
+      return null;
     }
 
-    final croppedImgImage = await cropBytesImage(
-        bytesImage, detectedBoxCoords ?? BoxCoords(240, 512, 360, 768));
+    final croppedImgImage = await cropBytesImage(bytesImage, detectedBoxCoords);
 
-    final scalePositions = await getScalePositions(croppedImgImage);
+    final scalePositions =
+        (await getScalePositions(await convBytesImage2imgImage(bytesImage)))
+            .map((x) => x != null ? x - detectedBoxCoords.y0 : null)
+            .toList();
+    //final scalePositions = await getScalePositions(croppedImgImage);
 
     final liquidLevel = await getLiquidLevel(croppedImgImage);
     if (liquidLevel == null) {
@@ -292,6 +299,10 @@ class LiquidVolumeEstimator {
       return null;
     }
 
-    return estimateCC(scalePositions, liquidLevel);
+    final cc =
+        20 * (croppedImgImage.height - liquidLevel) / croppedImgImage.height;
+    //final cc = estimateCC(scalePositions, liquidLevel);
+    debugPrint("cc: $cc");
+    return cc.round();
   }
 }
