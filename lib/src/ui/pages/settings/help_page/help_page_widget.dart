@@ -97,7 +97,9 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                 Semantics(
                     container: true,
                     label: howToRecognizeMedicine,
-                    child: Row(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
+                      child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           ExcludeSemantics(
@@ -144,7 +146,8 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                             ),
                           ),
                         ],
-                    )
+                    ),
+                    ),
                 ),
                 Semantics(
                     container: true,
