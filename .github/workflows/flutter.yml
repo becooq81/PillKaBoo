@@ -1,0 +1,43 @@
+name: Flutter
+on:  
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+      id-token: write 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Flutter SDK
+        uses: flutter-actions/setup-flutter@v2
+        with:
+          channel: stable
+          version: 3.16.9
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze project source
+        run: dart analyze
+      - name: Run tests
+        run: flutter test
+      - name: Build APK
+        run: flutter build apk --debug --split-per-abi
+        
+      - name: Create Release
+        uses: ncipollo/release-action@v1 
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
