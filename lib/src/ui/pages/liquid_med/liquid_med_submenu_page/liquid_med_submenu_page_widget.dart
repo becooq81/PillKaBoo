@@ -12,23 +12,23 @@ export 'liquid_med_submenu_page_model.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-class LiquidMedSubMenuPageWidget extends StatefulWidget {
-  const LiquidMedSubMenuPageWidget({super.key});
+class LiquidMedSubmenuPageWidget extends StatefulWidget {
+  const LiquidMedSubmenuPageWidget({super.key});
 
   @override
-  State<LiquidMedSubMenuPageWidget> createState() =>
-      _LiquidMedSubMenuPageWidgetState();
+  State<LiquidMedSubmenuPageWidget> createState() =>
+      _LiquidMedSubmenuPageWidgetState();
 }
 
-class _LiquidMedSubMenuPageWidgetState extends State<LiquidMedSubMenuPageWidget> {
-  late LiquidMedSubMenuPageModel _model;
+class _LiquidMedSubmenuPageWidgetState extends State<LiquidMedSubmenuPageWidget> {
+  late LiquidMedSubmenuPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => LiquidMedSubMenuPageModel());
+    _model = createModel(context, () => LiquidMedSubmenuPageModel());
   }
 
   @override

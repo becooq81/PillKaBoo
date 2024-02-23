@@ -48,6 +48,7 @@ class PKBAppState extends ChangeNotifier {
   String infoMedName = '';
   int pourAmount = 0;
   String slotOfDay = '';
+  String infoPrescribedDate = '';
 
 
   Color _primaryColor = const Color(0xFFF9E000);

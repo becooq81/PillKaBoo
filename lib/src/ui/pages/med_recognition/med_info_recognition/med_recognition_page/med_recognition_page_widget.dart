@@ -31,7 +31,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
     _controller.stream.listen((success) {
       if (success) {
         if (mounted) {
-          context.push('/medInfoPage');
+          context.pushReplacement('/medInfoPage');
         }
       }
     });
@@ -103,7 +103,8 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                     child: Semantics(
                       container: true,
                       label: '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.',
-                      child: Row(
+                      child: ExcludeSemantics(
+                        child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
@@ -121,7 +122,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                           const Spacer(),
                           const widgets.HomeButtonWidget(),
                         ],
-                      ),
+                      ),),
                     ),
                   ),
                 ],

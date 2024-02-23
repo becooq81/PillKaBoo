@@ -81,4 +81,20 @@ class DateParser {
     DateTime? parsedDate = parseDate(text);
     return parsedDate != null;
   }
+
+  static DateTime? parseDateIfBeforeToday(String text) {
+    DateTime? parsedDate = parseDate(text);
+    if (parsedDate != null) {
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day);
+      if (parsedDate.isBefore(today) || isSameDay(parsedDate, today)) {
+        return parsedDate;
+      }
+    }
+    return null;
+  }
+
+  static bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+  }
 }

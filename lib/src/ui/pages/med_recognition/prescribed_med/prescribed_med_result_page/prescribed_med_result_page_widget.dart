@@ -1,13 +1,12 @@
 import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
+import '../../../../../app/global_audio_player.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/semantics.dart';
-import 'dart:ui' as ui;
 
 import 'prescribed_med_result_page_model.dart';
 export 'prescribed_med_result_page_model.dart';
@@ -29,8 +28,8 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
   @override
   void initState() {
     super.initState();
+    GlobalAudioPlayer().playOnce();
     _model = createModel(context, () => PrescribedMedResultPageModel());
-    SemanticsService.announce("이 약은 ${PKBAppState().slotOfDay} 약입니다.", ui.TextDirection.ltr,);
   }
 
   @override
@@ -142,18 +141,44 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 30,
               ),
-              Image.asset(
+              ExcludeSemantics(
+                excluding: true,
+                child: Image.asset(
                 imgPath,
                 height: 164.41,
                 fit: BoxFit.contain,
-              ),
+              ),),
               const SizedBox(
-                height: 10,
-              )
+                height: 30,
+              ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      PKBAppState().infoPrescribedDate,
+                      style: TextStyle(
+                        color: PKBAppState().primaryColor,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Pretendard',
+                      ),
+                    ),
+                    Text(
+                      '에 처방받은 약입니다',
+                      style: TextStyle(
+                        color: PKBAppState().secondaryColor,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Pretendard',
+                      ),
+                    ),
+                  ]
+                ),
+              
             ],
           ),
           ),

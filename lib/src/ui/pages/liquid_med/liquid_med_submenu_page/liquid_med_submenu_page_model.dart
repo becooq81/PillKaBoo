@@ -1,8 +1,8 @@
 import '../../../../core/pillkaboo_util.dart';
-import 'liquid_med_submenu_page_widget.dart' show LiquidMedSubMenuPageWidget;
+import 'liquid_med_submenu_page_widget.dart' show LiquidMedSubmenuPageWidget;
 import 'package:flutter/material.dart';
 
-class LiquidMedSubMenuPageModel extends PillKaBooModel<LiquidMedSubMenuPageWidget> {
+class LiquidMedSubmenuPageModel extends PillKaBooModel<LiquidMedSubmenuPageWidget> {
 
   final unfocusNode = FocusNode();
 

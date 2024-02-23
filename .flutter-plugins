@@ -16,7 +16,6 @@ flutter_plugin_android_lifecycle=/Users/jinny/.pub-cache/hosted/pub.dev/flutter_
 flutter_vision=/Users/jinny/.pub-cache/hosted/pub.dev/flutter_vision-1.1.4/
 google_mlkit_barcode_scanning=/Users/jinny/.pub-cache/hosted/pub.dev/google_mlkit_barcode_scanning-0.10.0/
 google_mlkit_commons=/Users/jinny/.pub-cache/hosted/pub.dev/google_mlkit_commons-0.6.1/
-google_mlkit_object_detection=/Users/jinny/.pub-cache/hosted/pub.dev/google_mlkit_object_detection-0.11.0/
 google_mlkit_text_recognition=/Users/jinny/.pub-cache/hosted/pub.dev/google_mlkit_text_recognition-0.11.0/
 path_provider=/Users/jinny/.pub-cache/hosted/pub.dev/path_provider-2.0.14/
 path_provider_android=/Users/jinny/.pub-cache/hosted/pub.dev/path_provider_android-2.0.25/

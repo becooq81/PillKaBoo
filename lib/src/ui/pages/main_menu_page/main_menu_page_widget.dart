@@ -73,54 +73,56 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 32.0),
                   child: Semantics(
                     label: '약 인식',
+                    container: true,
                     child: Container(
-                    width: containerWidth,
-                    height: containerHeight,
-                    decoration: BoxDecoration(
-                      color: PKBAppState().tertiaryColor,
-                      borderRadius: BorderRadius.circular(26.0),
-                      border: Border.all(
-                        color: PKBAppState().secondaryColor,
-                        width: 1.0,
+                      width: containerWidth,
+                      height: containerHeight,
+                      decoration: BoxDecoration(
+                        color: PKBAppState().tertiaryColor,
+                        borderRadius: BorderRadius.circular(26.0),
+                        border: Border.all(
+                          color: PKBAppState().secondaryColor,
+                          width: 1.0,
+                        ),
                       ),
-                    ),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        context.push('/medSubmenuPage');
-                      },
-                      child: ExcludeSemantics(
-                        excluding: true,
-                        child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                30.0, 0.0, 0.0, 0.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: SvgPicture.asset(
-                                'assets/images/main_menu_pill.svg',
-                                width: iconSize,
-                                height: iconSize,
-                                fit: BoxFit.fitHeight,
-                                colorFilter: ColorFilter.mode(
-                                  PKBAppState().secondaryColor,
-                                  BlendMode.srcIn,
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          context.pushReplacement('/medSubmenuPage');
+                        },
+                        child: ExcludeSemantics(
+                          excluding: true,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    30.0, 0.0, 0.0, 0.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/main_menu_pill.svg',
+                                    width: iconSize,
+                                    height: iconSize,
+                                    fit: BoxFit.fitHeight,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().secondaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(child: Text(
-                              '약 인식',
-                              style: PillKaBooTheme.of(context)
-                                  .titleMedium
-                                  .override(
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                  '약 인식',
+                                  style: PillKaBooTheme.of(context)
+                                      .titleMedium
+                                      .override(
                                     fontFamily: PillKaBooTheme.of(context)
                                         .titleMediumFamily,
                                     color:
@@ -129,14 +131,14 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                                     fontWeight: FontWeight.w900,
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(
-                                            PillKaBooTheme.of(context)
-                                                .titleMediumFamily),
-                                  ),),),
-                          ),
-                        ],
-                      ),),
-                    ),
-                  ),),
+                                        PillKaBooTheme.of(context)
+                                            .titleMediumFamily),
+                                ),
+                              ),),),
+                            ],
+                          ),),
+                      ),
+                    ),),
                 ),
               ),
               Align(
@@ -163,7 +165,7 @@ class _MainMenuPageWidgetState extends State<MainMenuPageWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.push('/liquidMedSubMenuPage');
+                          context.pushReplacement('/liquidMedSubMenuPage');
                         },
                         child: ExcludeSemantics(
                           excluding: true,

@@ -2,6 +2,7 @@ import '../../../core/pillkaboo_util.dart';
 import '../../../app/global_audio_player.dart';
 import '../views/detector_view.dart';
 import '../views/text_detector_painter.dart';
+import '../../../utils/date_parser.dart';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -23,10 +24,10 @@ class PrescribedMedRecognizerWidget extends StatefulWidget {
   final double? height;
 
   @override
-  _MedRecognizerWidgetState createState() => _MedRecognizerWidgetState();
+  _PrescribedMedRecognizerWidgetState createState() => _PrescribedMedRecognizerWidgetState();
 }
 
-class _MedRecognizerWidgetState extends State<PrescribedMedRecognizerWidget> {
+class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerWidget> {
 
   final _textRecognizer = TextRecognizer(script: TextRecognitionScript.korean); // 한국어 Text Recognition 언어 설정
   bool _canProcess = true; // 이미지 처리 가능 여부
@@ -34,7 +35,8 @@ class _MedRecognizerWidgetState extends State<PrescribedMedRecognizerWidget> {
   CustomPaint? _customPaint; // 이미지에 그려질 CustomPaint
   var _cameraLensDirection = CameraLensDirection.back; // 카메라 렌즈 방향
   String? _text;
-  bool _isTextRecognized = false; // 날짜 인식 여부
+  bool _isTextRecognized = false; // 시간 인식 여부
+  bool _isDateRecognized = false;
 
   @override
   void initState() {
@@ -68,14 +70,17 @@ class _MedRecognizerWidgetState extends State<PrescribedMedRecognizerWidget> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (PKBAppState().slotOfDay != "") {
+      if (_isTextRecognized && _isDateRecognized && PKBAppState().slotOfDay != "") {
+        triggerVibrationIfNecessary();
+        _isTextRecognized = false;
+        _isDateRecognized = false;
         widget.controller.add(true);
       }
     });
 
     // Continue to build your widget as normal.
-    return _isTextRecognized
-        ? const CircularProgressIndicator()
+    return _isTextRecognized && _isDateRecognized
+        ? const LinearProgressIndicator()
         : DetectorView(
           title: 'Barcode Scanner',
           customPaint: _customPaint,
@@ -106,14 +111,30 @@ class _MedRecognizerWidgetState extends State<PrescribedMedRecognizerWidget> {
     final recognizedText = await _textRecognizer.processImage(inputImage);
 
     if (partialRatio("아침", recognizedText.text) == 100) {
+      _isTextRecognized = true;
       PKBAppState().slotOfDay = "아침";
     } else if (partialRatio("점심", recognizedText.text) == 100) {
+      _isTextRecognized = true;
       PKBAppState().slotOfDay = "점심";
     } else if (partialRatio("저녁", recognizedText.text) == 100) {
+      _isTextRecognized = true;
       PKBAppState().slotOfDay = "저녁";
     } else {
       PKBAppState().slotOfDay = "";
     }
+
+    List<String> splitText = recognizedText.text.split(RegExp(r'\s+'));
+      for (String word in splitText) {
+        if (DateParser.isDate(word)) {
+          final date = DateParser.parseDateIfBeforeToday(word);
+          if (date != null) {
+            if (mounted) {
+              _isDateRecognized = true;
+              PKBAppState().infoPrescribedDate = "${date.year}년 ${date.month}월 ${date.day}일";
+            }
+          }
+        }
+      }
 
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {

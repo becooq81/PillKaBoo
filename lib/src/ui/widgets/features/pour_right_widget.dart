@@ -9,6 +9,11 @@ import 'package:pill/src/core/pillkaboo_util.dart';
 import 'dart:core';
 import '../../../utils/liquid_volume_estimator.dart';
 
+import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
+
 class PourRightWidget extends StatefulWidget {
   final StreamController<bool> controller;
 
@@ -39,7 +44,6 @@ class _CameraViewState extends State<PourRightWidget> {
   bool _isBusy = false;
   bool _canProcess = true;
   int _currentCC = 0;
-  
 
   LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
 
@@ -48,6 +52,19 @@ class _CameraViewState extends State<PourRightWidget> {
     super.initState();
     GlobalAudioPlayer().playRepeat();
     _initialize();
+  }
+
+  double calculatePlaybackRate(double currentCC, double pourAmount) {
+    const double maxRate = 2.0; // Maximum playback rate
+    const double minRate = 1.0; // Normal playback rate
+
+    if (currentCC >= pourAmount || pourAmount == 0) return minRate;
+
+    // Calculate the rate based on how close currentCC is to pourAmount
+    double rate = minRate + (maxRate - minRate) * (currentCC / pourAmount);
+
+    return rate.clamp(
+        minRate, maxRate); // Ensure the rate is within [minRate, maxRate]
   }
 
   void _initialize() async {
@@ -299,22 +316,32 @@ class _CameraViewState extends State<PourRightWidget> {
     }
   }
 
-  double calculatePlaybackRate(double currentCC, double pourAmount) {
-    const double maxRate = 2.0; // Maximum playback rate
-    const double minRate = 1.0; // Normal playback rate
-    
-    if (currentCC >= pourAmount || pourAmount == 0) return minRate;
-
-    // Calculate the rate based on how close currentCC is to pourAmount
-    double rate = minRate + (maxRate - minRate) * (currentCC / pourAmount);
-
-    return rate.clamp(minRate, maxRate); // Ensure the rate is within [minRate, maxRate]
-  }
-
-
   Future<void> _analyzePicture(XFile picture) async {
-    _currentCC = await liquidVolumeEstimator(picture) ?? 0;
-    double newRate = calculatePlaybackRate(_currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
+    final path = join(
+      (await getApplicationDocumentsDirectory()).path,
+      "${DateTime.now()}.jpg",
+    );
+    await picture.saveTo(path);
+
+    final req = http.MultipartRequest(
+        "POST", Uri.parse("http://pill.m3sigma.net:3000/"));
+    final image = await http.MultipartFile.fromPath("image", path);
+    req.files.add(image);
+    final res = await http.Response.fromStream(await req.send());
+    final resData = jsonDecode(res.body) as Map<String, dynamic>;
+
+    if (resData["cc"] == null) {
+      PKBAppState().isRestAmountRecognized = false;
+      debugPrint("null");
+    } else {
+      PKBAppState().isRestAmountRecognized = true;
+      _currentCC = resData["cc"];
+      debugPrint("recognized");
+    }
+
+    double newRate = calculatePlaybackRate(
+        _currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
+    // Adjust the playback rate
     GlobalAudioPlayer().changeRateForRepeat(newRate);
     debugPrint("ESTIMATED CC: $_currentCC");
     _isBusy = false;

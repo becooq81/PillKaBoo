@@ -40,6 +40,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     super.dispose();
   }
 
+  void clearAndNavigate(BuildContext context) {
+    while (context.canPop() == true) {
+      context.pop();
+    }
+    context.pushReplacement('/mainMenuPage');
+  }
+
+
   @override
   Widget build(BuildContext context) {
     if (isiOS) {
@@ -167,10 +175,10 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         PKBAppState().infoChild = "";
                         PKBAppState().foundAllergies = "";
                       });
+                      clearAndNavigate(context);
                       if (GlobalAudioPlayer().isPlaying) {
                         GlobalAudioPlayer().pause();
                       }
-                      context.push('/mainMenuPage');
                     },
                   ),
                 ),

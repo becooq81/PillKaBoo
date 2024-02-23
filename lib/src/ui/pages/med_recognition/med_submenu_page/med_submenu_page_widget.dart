@@ -12,23 +12,23 @@ export 'med_submenu_page_model.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-class MedSubMenuPageWidget extends StatefulWidget {
-  const MedSubMenuPageWidget({super.key});
+class MedSubmenuPageWidget extends StatefulWidget {
+  const MedSubmenuPageWidget({super.key});
 
   @override
-  State<MedSubMenuPageWidget> createState() =>
-      _MedSubMenuPageWidgetState();
+  State<MedSubmenuPageWidget> createState() =>
+      _MedSubmenuPageWidgetState();
 }
 
-class _MedSubMenuPageWidgetState extends State<MedSubMenuPageWidget> {
-  late MedSubMenuPageModel _model;
+class _MedSubmenuPageWidgetState extends State<MedSubmenuPageWidget> {
+  late MedSubmenuPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => MedSubMenuPageModel());
+    _model = createModel(context, () => MedSubmenuPageModel());
   }
 
   @override
@@ -131,7 +131,7 @@ class _MedSubMenuPageWidgetState extends State<MedSubMenuPageWidget> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: SvgPicture.asset(
-                                  'assets/images/main_menu_pill.svg',
+                                  'assets/images/submenu_pill.svg',
                                   width: iconSize,
                                   height: iconSize,
                                   fit: BoxFit.fitHeight,
