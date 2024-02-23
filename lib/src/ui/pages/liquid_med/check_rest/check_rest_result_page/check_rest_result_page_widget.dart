@@ -58,9 +58,9 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
 
     String imgPath;
     if (PKBAppState().isRestAmountRecognized) {
-      imgPath = 'assets/images/Group79.png';
+      imgPath = 'assets/images/Group-79.png';
     } else {
-      imgPath = 'assets/images/Group81.png';
+      imgPath = 'assets/images/Group-81.png';
     }
 
 
