@@ -85,6 +85,7 @@ class _CameraViewState extends State<PourRightWidget> {
   @override
   void dispose() {
     _pictureTimer?.cancel();
+    GlobalAudioPlayer().pause();
     _stopLiveFeed();
     //liquidVolumeEstimator.stop();
     super.dispose();
