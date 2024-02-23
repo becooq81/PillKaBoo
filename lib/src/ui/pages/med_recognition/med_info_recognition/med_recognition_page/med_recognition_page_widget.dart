@@ -130,7 +130,6 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                           )
                         ],
                       ),),
-                    
                   ),
                 ],
             ),
@@ -138,6 +137,5 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
         ),
       ),
     );
-
   }
 }
