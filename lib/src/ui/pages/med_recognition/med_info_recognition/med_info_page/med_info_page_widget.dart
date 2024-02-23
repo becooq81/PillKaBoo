@@ -60,7 +60,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
 
     String childText = '', exprDateText = '', ingredientText = '', usageText = '', howToTakeText = '', warningText = '', comboText = '', sideEffectText = '';
     if (PKBAppState().foundAllergies == '') {
-      childText = '해당 약에는 알러지 관련 주의사항이 없습니다.';
+      childText = '등록하신 알러지 해당하는 주성분이 없습니다.';
     } else {
       childText = '${PKBAppState().foundAllergies} 알러지를 주의해주세요.';
     }
