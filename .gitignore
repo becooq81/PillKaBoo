@@ -2,4 +2,4 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-/app-release.aab
+android/app/release/app-release.aab
