@@ -7,7 +7,7 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import '../../../app/global_audio_player.dart';
 import '../../../core/pillkaboo_util.dart';
 import 'dart:core';
-//import '../../../utils/liquid_volume_estimator.dart';
+import '../../../utils/liquid_volume_estimator.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -156,32 +156,16 @@ class _CameraViewState extends State<PourRightWidget> {
     }
   }
 
+
   Future<void> _analyzePicture(XFile picture) async {
-    final path = join(
-      (await getApplicationDocumentsDirectory()).path,
-      "${DateTime.now()}.jpg",
-    );
-    await picture.saveTo(path);
-
-    final req = http.MultipartRequest(
-        "POST", Uri.parse("http://pill.m3sigma.net:3000/"));
-    final image = await http.MultipartFile.fromPath("image", path);
-    req.files.add(image);
-    final res = await http.Response.fromStream(await req.send());
-    final resData = jsonDecode(res.body) as Map<String, dynamic>;
-
-    if (resData["cc"] == null) {
-      debugPrint("null");
-    } else {
-      _currentCC = resData["cc"];
-      GlobalAudioPlayer().pause();
-      if (_currentCC >= PKBAppState().pourAmount) {widget.controller.add(true);};
-      debugPrint("recognized");
-    }
-
-    double newRate = calculatePlaybackRate(
-        _currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
+    _currentCC = await liquidVolumeEstimator(picture) ?? 0;
+    double newRate = calculatePlaybackRate(_currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
+    // Adjust the playback rate
     GlobalAudioPlayer().changeRateForRepeat(newRate);
+    if (_currentCC >= PKBAppState().pourAmount) {
+      GlobalAudioPlayer().pause();
+      widget.controller.add(true);
+    }
     debugPrint("ESTIMATED CC: $_currentCC");
   }
 

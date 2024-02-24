@@ -6,7 +6,7 @@ import 'dart:async';
 import '../../../app/global_audio_player.dart';
 import '../../../core/pillkaboo_util.dart';
 import 'dart:core';
-//import '../../../utils/liquid_volume_estimator.dart';
+import '../../../utils/liquid_volume_estimator.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -35,7 +35,7 @@ class _CameraViewState extends State<CheckRestWidget> {
   int _currentCC = 0;
   bool _isRestRecognized = false;
 
-  //LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
+  LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
 
   @override
   void initState() {
@@ -147,29 +147,7 @@ class _CameraViewState extends State<CheckRestWidget> {
   }
 
   Future<void> _analyzePicture(XFile picture) async {
-    final path = join(
-      (await getApplicationDocumentsDirectory()).path,
-      "${DateTime.now()}.jpg",
-    );
-    await picture.saveTo(path);
-
-    final req = http.MultipartRequest(
-        "POST", Uri.parse("http://pill.m3sigma.net:3000/"));
-    final image = await http.MultipartFile.fromPath("image", path);
-    req.files.add(image);
-    final res = await http.Response.fromStream(await req.send());
-    final resData = jsonDecode(res.body) as Map<String, dynamic>;
-
-    if (resData["cc"] == null) {
-      debugPrint("null");
-    } else {
-      _currentCC = resData["cc"];
-      PKBAppState().restAmount = _currentCC;
-      debugPrint("APP STATE: ${PKBAppState().restAmount}");
-      _isRestRecognized = true;
-      widget.controller.add(true);
-      dispose();
-    }
+    _currentCC = await liquidVolumeEstimator(picture) ?? 0;
     debugPrint("ESTIMATED CC: $_currentCC");
   }
 
