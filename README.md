@@ -1,10 +1,14 @@
-# PillKaBoo
+<img src="https://github.com/becooq81/PillKaBoo-HomePage/blob/main/assets/%EC%8D%B8%EB%84%A4%EC%9D%BC.png" alt="PillKaBoo Logo" width="850" height="478.125">
 
-# Features
+![header](https://capsule-render.vercel.app/api?type=waving&color=F2E99D&height=250&section=header&text=Pill%20Ka%20Boo&fontAlign=20&fontAlignY=35&fontSize=50&fontColor=000000&animation=scaleIn&desc=:%20safe%20and%20independent%20medication%20for%20blind%20and%20VI%20parents&descAlign=37&descAlignY=50)
 
-# Architecture
+## PillKaBoo
 
-# Directory organization
+## Features
+
+## Architecture
+
+## Directory organization
 
 ```
 📂lib
@@ -123,4 +127,4 @@
       └─ liquid_volume_estimator.dart
 ```
 
-# Getting started
+## Getting started
