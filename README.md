@@ -17,6 +17,13 @@
 
 Inspired by MVVM & Clean Architecture
 
+## ML
+
+Our custom ML model is integrated into this repository with TensorFlow Lite. 
+
+`assets/yolov8n.tflite`
+
+
 ## Directory organization
 
 ```
