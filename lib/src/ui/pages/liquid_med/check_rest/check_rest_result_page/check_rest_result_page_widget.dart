@@ -145,7 +145,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        text: '${PKBAppState().pourAmount}',
+                        text: '${PKBAppState().restAmount}',
                         style: TextStyle(
                           fontSize: 60.0,
                           color: PKBAppState().primaryColor,

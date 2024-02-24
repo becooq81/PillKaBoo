@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
@@ -94,21 +96,50 @@ class _PourRightResultPageWidgetState extends State<PourRightResultPageWidget> {
           child: Center(
             child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '따르기 성공!',
-                style: TextStyle(
-                  color: PKBAppState().secondaryColor,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Pretendard',
-                ),
-              ),
-              Image.asset(
+              Padding(
+                padding: EdgeInsets.only(top: 250.0),
+                child: Image.asset(
                 'assets/images/pour_done.png',
-                height: 164.41,
+                height: 230,
                 fit: BoxFit.contain,
+              ),),
+              
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                width: 400,
+                child: ElevatedButton(
+                onPressed: () {
+                  context.pushReplacement('/checkRestPage');
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    PKBAppState().tertiaryColor, 
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(26), 
+                      side: BorderSide(
+                        color: PKBAppState().secondaryColor, 
+                        width: 2.0, 
+                      ),
+                    ),
+                  ),
+                ),
+                
+                child: Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text('잔량 확인',
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    color: PKBAppState().secondaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Pretendard',
+                  ),
+                ),
+              ),),),
               ),
             ],
           ),),

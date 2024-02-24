@@ -9,7 +9,6 @@ import '../../../core/pillkaboo_util.dart';
 import 'dart:core';
 //import '../../../utils/liquid_volume_estimator.dart';
 
-import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
@@ -76,14 +75,15 @@ class _CameraViewState extends State<PourRightWidget> {
   @override
   void dispose() {
     _pictureTimer?.cancel();
-    GlobalAudioPlayer().pause();
     _stopLiveFeed();
+    _controller?.dispose();
     //liquidVolumeEstimator.stop();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    /*
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_currentCC >= PKBAppState().pourAmount) {
         _currentCC = 0;
@@ -91,6 +91,7 @@ class _CameraViewState extends State<PourRightWidget> {
         widget.controller.add(true);
       }
     });
+    */
     return Scaffold(body: _liveFeedBody());
   }
 
@@ -173,6 +174,8 @@ class _CameraViewState extends State<PourRightWidget> {
       debugPrint("null");
     } else {
       _currentCC = resData["cc"];
+      GlobalAudioPlayer().pause();
+      if (_currentCC >= PKBAppState().pourAmount) {widget.controller.add(true);};
       debugPrint("recognized");
     }
 

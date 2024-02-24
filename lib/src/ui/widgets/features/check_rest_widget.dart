@@ -3,13 +3,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import '../../../app/global_audio_player.dart';
 import '../../../core/pillkaboo_util.dart';
 import 'dart:core';
 //import '../../../utils/liquid_volume_estimator.dart';
 
-import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
@@ -66,21 +64,24 @@ class _CameraViewState extends State<CheckRestWidget> {
   void dispose() {
     _pictureTimer?.cancel();
     GlobalAudioPlayer().pause();
-    _stopLiveFeed();
     //liquidVolumeEstimator.stop();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    /*
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isRestRecognized) {
-        _currentCC = 0;
         _isRestRecognized = false;
         GlobalAudioPlayer().pause();
         widget.controller.add(true);
+        print("WIDGET CONTRLLER WORKING");
       }
     });
+    */
+    
     return Scaffold(body: _liveFeedBody());
   }
 
@@ -163,10 +164,11 @@ class _CameraViewState extends State<CheckRestWidget> {
       debugPrint("null");
     } else {
       _currentCC = resData["cc"];
-      setState(() {
-        PKBAppState().restAmount = _currentCC;
-      });
-      debugPrint("recognized");
+      PKBAppState().restAmount = _currentCC;
+      debugPrint("APP STATE: ${PKBAppState().restAmount}");
+      _isRestRecognized = true;
+      widget.controller.add(true);
+      dispose();
     }
     debugPrint("ESTIMATED CC: $_currentCC");
   }
@@ -185,11 +187,6 @@ class _CameraViewState extends State<CheckRestWidget> {
     return reshaped;
   }
 
-  Future _stopLiveFeed() async {
-    await _controller?.stopImageStream();
-    await _controller?.dispose();
-    _controller = null;
-  }
 
   final _orientations = {
     DeviceOrientation.portraitUp: 0,
@@ -197,57 +194,5 @@ class _CameraViewState extends State<CheckRestWidget> {
     DeviceOrientation.portraitDown: 180,
     DeviceOrientation.landscapeRight: 270,
   };
-  InputImage? _inputImageFromCameraImage(CameraImage image) {
-    if (_controller == null) return null;
-    // get image rotation
-    // it is used in android to convert the InputImage from Dart to Java: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/google_mlkit_commons/android/src/main/java/com/google_mlkit_commons/InputImageConverter.java
-    // `rotation` is not used in iOS to convert the InputImage from Dart to Obj-C: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/google_mlkit_commons/ios/Classes/MLKVisionImage%2BFlutterPlugin.m
-    // in both platforms `rotation` and `camera.lensDirection` can be used to compensate `x` and `y` coordinates on a canvas: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/vision_detector_views/painters/coordinates_translator.dart
-    final camera = _cameras[_cameraIndex];
-    final sensorOrientation = camera.sensorOrientation;
-    // debugPrint(
-    //     'lensDirection: ${camera.lensDirection}, sensorOrientation: $sensorOrientation, ${_controller?.value.deviceOrientation} ${_controller?.value.lockedCaptureOrientation} ${_controller?.value.isCaptureOrientationLocked}');
-    InputImageRotation? rotation;
-    if (Platform.isIOS) {
-      rotation = InputImageRotationValue.fromRawValue(sensorOrientation);
-    } else if (Platform.isAndroid) {
-      var rotationCompensation =
-          _orientations[_controller!.value.deviceOrientation];
-      if (rotationCompensation == null) return null;
-      if (camera.lensDirection == CameraLensDirection.front) {
-        // front-facing
-        rotationCompensation = (sensorOrientation + rotationCompensation) % 360;
-      } else {
-        // back-facing
-        rotationCompensation =
-            (sensorOrientation - rotationCompensation + 360) % 360;
-      }
-      rotation = InputImageRotationValue.fromRawValue(rotationCompensation);
-      // debugPrint('rotationCompensation: $rotationCompensation');
-    }
-    if (rotation == null) return null;
-    // debugPrint('final rotation: $rotation');
-    // get image format
-    final format = InputImageFormatValue.fromRawValue(image.format.raw);
-    // validate format depending on platform
-    // only supported formats:
-    // * nv21 for Android
-    // * bgra8888 for iOS
-    if (format == null ||
-        (Platform.isAndroid && format != InputImageFormat.nv21) ||
-        (Platform.isIOS && format != InputImageFormat.bgra8888)) return null;
-    // since format is constraint to nv21 or bgra8888, both only have one plane
-    if (image.planes.length != 1) return null;
-    final plane = image.planes.first;
-    // compose InputImage using bytes
-    return InputImage.fromBytes(
-      bytes: plane.bytes,
-      metadata: InputImageMetadata(
-        size: Size(image.width.toDouble(), image.height.toDouble()),
-        rotation: rotation, // used only in Android
-        format: format, // used only in iOS
-        bytesPerRow: plane.bytesPerRow, // used only in iOS
-      ),
-    );
-  }
+  
 }
