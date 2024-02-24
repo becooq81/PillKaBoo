@@ -144,3 +144,7 @@ Our custom ML model is integrated into this repository with TensorFlow Lite.
 ```
 
 ## Getting started
+
+PillKaBoo is coming soon to Google Play Store and App Store!
+Get an invite to our **beta test** by shooting us an [email](mailto:gdsc.yonsei.parkour@gmail.com?subject=[Beta%20Test])! <br>
+  - Currently, our service is only available in Korean and (in the case of medication recognition feature) medicine products registered in Korea. We plan to expand the service internationally. In the meantime, send us an email if you wish the service in your country sooner! <br><br>
