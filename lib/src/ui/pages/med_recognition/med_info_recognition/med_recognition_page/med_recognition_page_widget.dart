@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
+
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
 
@@ -103,11 +105,12 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                     child: Semantics(
                       container: true,
                       label: '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.',
-                      child: ExcludeSemantics(
-                        child: Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
+                          ExcludeSemantics(
+                            excluding: true,
+                            child: Padding(
                             padding: const EdgeInsets.only(left: 16.0),
                             child: Text(
                               '약 인식',
@@ -118,13 +121,13 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
+                          ),),
                           const Spacer(),
                           const widgets.HomeButtonWidget(),
                         ],
                       ),),
                     ),
-                  ),
+                  
                 ],
             ),
           ),
