@@ -1,4 +1,4 @@
-package com.mycompany.pillkaboo
+package com.parkour.pillkaboo
 
 import io.flutter.embedding.android.FlutterActivity
 
