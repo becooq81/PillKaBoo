@@ -8,10 +8,10 @@
 
 ## Features
 
-✅ Recognize medication and retrieve information, such as child-specific warnings, dosage, expiry dates, allergy warnings for allergies you registered, etc.
-✅ Recognize prescribed medication packets to identify which part of the day for which the medicine is, and the prescription date
-✅ Pour the desired amount of liquid medication while being notified through audio feedback quickening as you approach the amount
-✅ Check the remaining amount of liquid medication in the container
+✅ Recognize medication and retrieve information, such as child-specific warnings, dosage, expiry dates, allergy warnings for allergies you registered, etc. <br>
+✅ Recognize prescribed medication packets to identify which part of the day for which the medicine is, and the prescription date<br>
+✅ Pour the desired amount of liquid medication while being notified through audio feedback quickening as you approach the amount<br>
+✅ Check the remaining amount of liquid medication in the container<br>
 
 ## Architecture
 
