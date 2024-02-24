@@ -30,7 +30,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CheckRestResultPageModel());
-    if (PKBAppState().isRestAmountRecognized) {
+    if (PKBAppState().restAmount != 0) {
       SemanticsService.announce("현재 남은 물약의 양은 ${PKBAppState().pourAmount} ml입니다.", ui.TextDirection.ltr,);
     } else {
       SemanticsService.announce("용기 불투명해 인식할 수 없어요.", ui.TextDirection.ltr,);
@@ -57,7 +57,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
     }
 
     String imgPath;
-    if (PKBAppState().isRestAmountRecognized) {
+    if (PKBAppState().restAmount != 0) {
       imgPath = 'assets/images/Group-79.png';
     } else {
       imgPath = 'assets/images/Group-81.png';
@@ -109,7 +109,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (PKBAppState().isRestAmountRecognized)
+              if (PKBAppState().restAmount != 0)
                 Text(
                   '현재 남은 물약의 양은',
                   style: TextStyle(
@@ -140,7 +140,7 @@ class _CheckRestResultPageWidgetState extends State<CheckRestResultPageWidget> {
               const SizedBox(
                 height: 10,
               ),
-              if (PKBAppState().isRestAmountRecognized)
+              if (PKBAppState().restAmount != 0)
                 RichText(
                   text: TextSpan(
                     children: <TextSpan>[

@@ -1,4 +1,4 @@
-import 'package:pill/index.dart';
+import '../../../../../../index.dart';
 
 import '../../../../../app/global_audio_player.dart';
 import '../../../../../core/pillkaboo_util.dart';

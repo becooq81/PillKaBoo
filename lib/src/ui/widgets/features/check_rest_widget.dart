@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:pill/src/app/global_audio_player.dart';
-import 'package:pill/src/core/pillkaboo_util.dart';
+import '../../../app/global_audio_player.dart';
+import '../../../core/pillkaboo_util.dart';
 import 'dart:core';
 //import '../../../utils/liquid_volume_estimator.dart';
 
@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 
 class CheckRestWidget extends StatefulWidget {
   final StreamController<bool> controller;
+
   const CheckRestWidget({
     Key? key,
     this.width,
@@ -32,17 +33,9 @@ class _CameraViewState extends State<CheckRestWidget> {
   static List<CameraDescription> _cameras = [];
   CameraController? _controller;
   int _cameraIndex = -1;
-  double _currentZoomLevel = 1.0;
-  double _minAvailableZoom = 1.0;
-  double _maxAvailableZoom = 1.0;
-  double _minAvailableExposureOffset = 0.0;
-  double _maxAvailableExposureOffset = 0.0;
-  double _currentExposureOffset = 0.0;
-  bool _changingCameraLens = false;
   Timer? _pictureTimer;
-  bool _isBusy = false;
-  bool _canProcess = true;
   int _currentCC = 0;
+  bool _isRestRecognized = false;
 
   //LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
 
@@ -53,18 +46,6 @@ class _CameraViewState extends State<CheckRestWidget> {
     _initialize();
   }
 
-  double calculatePlaybackRate(double currentCC, double pourAmount) {
-    const double maxRate = 2.0; // Maximum playback rate
-    const double minRate = 1.0; // Normal playback rate
-
-    if (currentCC >= pourAmount || pourAmount == 0) return minRate;
-
-    // Calculate the rate based on how close currentCC is to pourAmount
-    double rate = minRate + (maxRate - minRate) * (currentCC / pourAmount);
-
-    return rate.clamp(
-        minRate, maxRate); // Ensure the rate is within [minRate, maxRate]
-  }
 
   void _initialize() async {
     if (_cameras.isEmpty) {
@@ -84,6 +65,7 @@ class _CameraViewState extends State<CheckRestWidget> {
   @override
   void dispose() {
     _pictureTimer?.cancel();
+    GlobalAudioPlayer().pause();
     _stopLiveFeed();
     //liquidVolumeEstimator.stop();
     super.dispose();
@@ -92,8 +74,10 @@ class _CameraViewState extends State<CheckRestWidget> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_currentCC >= PKBAppState().pourAmount) {
+      if (_isRestRecognized) {
         _currentCC = 0;
+        _isRestRecognized = false;
+        GlobalAudioPlayer().pause();
         widget.controller.add(true);
       }
     });
@@ -110,11 +94,7 @@ class _CameraViewState extends State<CheckRestWidget> {
         fit: StackFit.expand,
         children: <Widget>[
           Center(
-            child: _changingCameraLens
-                ? const Center(
-                    child: Text('Changing camera lens'),
-                  )
-                : CameraPreview(
+            child: CameraPreview(
                     _controller!,
                     child: null,
                   ),
@@ -124,142 +104,11 @@ class _CameraViewState extends State<CheckRestWidget> {
     );
   }
 
-  Widget _detectionViewModeToggle() => Positioned(
-        bottom: 8,
-        left: 8,
-        child: SizedBox(
-          height: 50.0,
-          width: 50.0,
-          child: FloatingActionButton(
-            onPressed: () {},
-            heroTag: Object(),
-            backgroundColor: Colors.black54,
-            child: const Icon(
-              Icons.photo_library_outlined,
-              size: 25,
-            ),
-          ),
-        ),
-      );
-  Widget _switchLiveCameraToggle() => Positioned(
-        bottom: 8,
-        right: 8,
-        child: SizedBox(
-          height: 50.0,
-          width: 50.0,
-          child: FloatingActionButton(
-            heroTag: Object(),
-            onPressed: _switchLiveCamera,
-            backgroundColor: Colors.black54,
-            child: Icon(
-              Platform.isIOS
-                  ? Icons.flip_camera_ios_outlined
-                  : Icons.flip_camera_android_outlined,
-              size: 25,
-            ),
-          ),
-        ),
-      );
-  Widget _zoomControl() => Positioned(
-        bottom: 16,
-        left: 0,
-        right: 0,
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: 250,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Slider(
-                    value: _currentZoomLevel,
-                    min: _minAvailableZoom,
-                    max: _maxAvailableZoom,
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white30,
-                    onChanged: (value) async {
-                      setState(() {
-                        _currentZoomLevel = value;
-                      });
-                      await _controller?.setZoomLevel(value);
-                    },
-                  ),
-                ),
-                Container(
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(
-                        '${_currentZoomLevel.toStringAsFixed(1)}x',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-  Widget _exposureControl() => Positioned(
-        top: 40,
-        right: 8,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxHeight: 250,
-          ),
-          child: Column(children: [
-            Container(
-              width: 55,
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    '${_currentExposureOffset.toStringAsFixed(1)}x',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: RotatedBox(
-                quarterTurns: 3,
-                child: SizedBox(
-                  height: 30,
-                  child: Slider(
-                    value: _currentExposureOffset,
-                    min: _minAvailableExposureOffset,
-                    max: _maxAvailableExposureOffset,
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white30,
-                    onChanged: (value) async {
-                      setState(() {
-                        _currentExposureOffset = value;
-                      });
-                      await _controller?.setExposureOffset(value);
-                    },
-                  ),
-                ),
-              ),
-            )
-          ]),
-        ),
-      );
   Future _startLiveFeed() async {
     final camera = _cameras[_cameraIndex];
     _controller = CameraController(
       camera,
+      // Set to ResolutionPreset.high. Do NOT set it to ResolutionPreset.max because for some phones does NOT work.
       ResolutionPreset.high,
       enableAudio: false,
       imageFormatGroup: Platform.isAndroid
@@ -270,24 +119,6 @@ class _CameraViewState extends State<CheckRestWidget> {
       if (!mounted) {
         return;
       }
-      _controller?.getMinZoomLevel().then((value) {
-        _currentZoomLevel = value;
-        _minAvailableZoom = value;
-      });
-      _controller?.getMaxZoomLevel().then((value) {
-        _maxAvailableZoom = value;
-      });
-      _currentExposureOffset = 0.0;
-      _controller?.getMinExposureOffset().then((value) {
-        _minAvailableExposureOffset = value;
-      });
-      _controller?.getMaxExposureOffset().then((value) {
-        _maxAvailableExposureOffset = value;
-      });
-      _controller?.startImageStream(_processCameraImage).then((value) {
-        //widget.onCameraFeedReady!();
-        //widget.onCameraLensDirectionChanged!(camera.lensDirection);
-      });
       _pictureTimer =
           Timer.periodic(const Duration(milliseconds: 500), (timer) {
         _takePicture();
@@ -329,20 +160,15 @@ class _CameraViewState extends State<CheckRestWidget> {
     final resData = jsonDecode(res.body) as Map<String, dynamic>;
 
     if (resData["cc"] == null) {
-      PKBAppState().isRestAmountRecognized = false;
       debugPrint("null");
     } else {
-      PKBAppState().isRestAmountRecognized = true;
       _currentCC = resData["cc"];
+      setState(() {
+        PKBAppState().restAmount = _currentCC;
+      });
       debugPrint("recognized");
     }
-
-    double newRate = calculatePlaybackRate(
-        _currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
-    // Adjust the playback rate
-    GlobalAudioPlayer().changeRateForRepeat(newRate);
     debugPrint("ESTIMATED CC: $_currentCC");
-    _isBusy = false;
   }
 
   List<List<int>> reshape(List<int> flatList, int height, int width) {
@@ -363,21 +189,6 @@ class _CameraViewState extends State<CheckRestWidget> {
     await _controller?.stopImageStream();
     await _controller?.dispose();
     _controller = null;
-  }
-
-  Future _switchLiveCamera() async {
-    setState(() => _changingCameraLens = true);
-    _cameraIndex = (_cameraIndex + 1) % _cameras.length;
-    await _stopLiveFeed();
-    await _startLiveFeed();
-    setState(() => _changingCameraLens = false);
-  }
-
-  void _processCameraImage(CameraImage image) {
-    // final grayScaleImage = img.grayscale(image);
-    final inputImage = _inputImageFromCameraImage(image);
-    if (inputImage == null) return;
-    //widget.onImage(inputImage);
   }
 
   final _orientations = {

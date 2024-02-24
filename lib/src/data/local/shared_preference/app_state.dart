@@ -72,7 +72,7 @@ class PKBAppState extends ChangeNotifier {
     prefs.setInt('pkb_tertiaryColor', value.value);
   }
 
-  bool isRestAmountRecognized = false;
+  int restAmount = 0;
 
 
   String foundAllergies = '';

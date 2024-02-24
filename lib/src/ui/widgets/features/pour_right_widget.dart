@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:pill/src/app/global_audio_player.dart';
-import 'package:pill/src/core/pillkaboo_util.dart';
+import '../../../app/global_audio_player.dart';
+import '../../../core/pillkaboo_util.dart';
 import 'dart:core';
 //import '../../../utils/liquid_volume_estimator.dart';
 
@@ -33,16 +33,7 @@ class _CameraViewState extends State<PourRightWidget> {
   static List<CameraDescription> _cameras = [];
   CameraController? _controller;
   int _cameraIndex = -1;
-  double _currentZoomLevel = 1.0;
-  double _minAvailableZoom = 1.0;
-  double _maxAvailableZoom = 1.0;
-  double _minAvailableExposureOffset = 0.0;
-  double _maxAvailableExposureOffset = 0.0;
-  double _currentExposureOffset = 0.0;
-  bool _changingCameraLens = false;
   Timer? _pictureTimer;
-  bool _isBusy = false;
-  bool _canProcess = true;
   int _currentCC = 0;
 
   //LiquidVolumeEstimator liquidVolumeEstimator = LiquidVolumeEstimator();
@@ -58,7 +49,7 @@ class _CameraViewState extends State<PourRightWidget> {
     const double maxRate = 2.0; // Maximum playback rate
     const double minRate = 1.0; // Normal playback rate
 
-    if (currentCC >= pourAmount || pourAmount == 0) return minRate;
+    if (_currentCC >= pourAmount || pourAmount == 0) return minRate;
 
     // Calculate the rate based on how close currentCC is to pourAmount
     double rate = minRate + (maxRate - minRate) * (currentCC / pourAmount);
@@ -113,11 +104,7 @@ class _CameraViewState extends State<PourRightWidget> {
         fit: StackFit.expand,
         children: <Widget>[
           Center(
-            child: _changingCameraLens
-                ? const Center(
-                    child: Text('Changing camera lens'),
-                  )
-                : CameraPreview(
+            child: CameraPreview(
                     _controller!,
                     child: null,
                   ),
@@ -142,24 +129,6 @@ class _CameraViewState extends State<PourRightWidget> {
       if (!mounted) {
         return;
       }
-      _controller?.getMinZoomLevel().then((value) {
-        _currentZoomLevel = value;
-        _minAvailableZoom = value;
-      });
-      _controller?.getMaxZoomLevel().then((value) {
-        _maxAvailableZoom = value;
-      });
-      _currentExposureOffset = 0.0;
-      _controller?.getMinExposureOffset().then((value) {
-        _minAvailableExposureOffset = value;
-      });
-      _controller?.getMaxExposureOffset().then((value) {
-        _maxAvailableExposureOffset = value;
-      });
-      _controller?.startImageStream(_processCameraImage).then((value) {
-        //widget.onCameraFeedReady!();
-        //widget.onCameraLensDirectionChanged!(camera.lensDirection);
-      });
       _pictureTimer =
           Timer.periodic(const Duration(milliseconds: 500), (timer) {
         _takePicture();
@@ -201,10 +170,8 @@ class _CameraViewState extends State<PourRightWidget> {
     final resData = jsonDecode(res.body) as Map<String, dynamic>;
 
     if (resData["cc"] == null) {
-      PKBAppState().isRestAmountRecognized = false;
       debugPrint("null");
     } else {
-      PKBAppState().isRestAmountRecognized = true;
       _currentCC = resData["cc"];
       debugPrint("recognized");
     }
@@ -213,7 +180,6 @@ class _CameraViewState extends State<PourRightWidget> {
         _currentCC.toDouble(), PKBAppState().pourAmount.toDouble());
     GlobalAudioPlayer().changeRateForRepeat(newRate);
     debugPrint("ESTIMATED CC: $_currentCC");
-    _isBusy = false;
   }
 
   List<List<int>> reshape(List<int> flatList, int height, int width) {
@@ -234,21 +200,6 @@ class _CameraViewState extends State<PourRightWidget> {
     await _controller?.stopImageStream();
     await _controller?.dispose();
     _controller = null;
-  }
-
-  Future _switchLiveCamera() async {
-    setState(() => _changingCameraLens = true);
-    _cameraIndex = (_cameraIndex + 1) % _cameras.length;
-    await _stopLiveFeed();
-    await _startLiveFeed();
-    setState(() => _changingCameraLens = false);
-  }
-
-  void _processCameraImage(CameraImage image) {
-    // final grayScaleImage = img.grayscale(image);
-    final inputImage = _inputImageFromCameraImage(image);
-    if (inputImage == null) return;
-    //widget.onImage(inputImage);
   }
 
   final _orientations = {
