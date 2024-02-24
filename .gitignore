@@ -3,3 +3,4 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 android/app/release/
+/.DS_STORE
