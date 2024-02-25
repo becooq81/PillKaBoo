@@ -26,6 +26,8 @@
 ✅ Recognize prescribed medication packets to identify which part of the day for which the medicine is, and the prescription date<br>
 ✅ Pour the desired amount of liquid medication while being notified through audio feedback quickening as you approach the amount<br>
 ✅ Check the remaining amount of liquid medication in the container<br>
+✅ Register your child's allergies to be warned of potential allergic reactions along with the child-specific warnings
+✅ Customize the color options to suit your color visibility
 
 ## Architecture
 
