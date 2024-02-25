@@ -167,6 +167,7 @@ Get an invite to our **beta test** by shooting us an [email](mailto:gdsc.yonsei.
 
 ## How to run code
 
-1. `git pull origin main`
-2. `flutter pub get`
-3. `flutter run`
+1.`git clone ...`
+2. `git pull origin main`
+3. `flutter pub get`
+4. `flutter run`
