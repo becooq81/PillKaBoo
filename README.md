@@ -2,9 +2,23 @@
 
 ![header](https://capsule-render.vercel.app/api?type=waving&color=F2E99D&height=250&section=header&text=Pill%20Ka%20Boo&fontAlign=20&fontAlignY=35&fontSize=50&fontColor=000000&animation=scaleIn&desc=:%20safe%20and%20independent%20medication%20for%20blind%20and%20VI%20parents&descAlign=37&descAlignY=50)
 
-## PillKaBoo
+## PillKaB👀
 
-<GIFFFFFFFFFFFF>
+|**Medication Recognition**|**Medication Information**|**Recognition of Prescription Time Label**|
+|:---:|:---:|:---:|
+|![Medication Recognition](https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/8eb504c7-9229-41e7-9223-a5c85498763c) |  ![Medication Information](https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/fc74483f-95ec-4e9f-9ed3-bfa33f0f6256) | ![Presription Time Label](https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/9737dcc8-fbcd-4e0b-85d7-8db71e9f10f1) |
+
+<br><br>
+
+|**Accurate Liquid Medication Intake**|**Remaining Liquid Medication**|
+|:---:|:---:|
+| <img src="https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/7b765b8c-b67e-409f-b431-f530c05e0152" width="300" height="653"/> | <img src="https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/dccf778a-8dc9-4209-b208-1b79138cdb10" width="300" height="653"/>|
+
+<br><br>
+
+|**Settings - Register Allergies**|**Settings - Customize Colors**|**Settings - Guide**|
+|:---:|:--:|:--:|
+| ![Setting - Register Allergies](https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/c2bd3c78-50b2-4687-9f35-27e08e345448) | ![Settings-Customize Colors](https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/7874fec9-1e77-49fe-9d35-cd09c39400e3)|![Settings-Guide](https://github.com/becooq81/PillKaBoo-HomePage/assets/81180021/534f3933-6e3b-4ef7-be98-878a6a9bfcd2)|
 
 ## Features
 
