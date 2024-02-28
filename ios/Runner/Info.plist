@@ -45,7 +45,7 @@
 
 
 	<key>NSCameraUsageDescription</key>
-    <string>Please enable the camera feature to continue</string>
+    <string>Please enable the camera to scan the medicine's barcode/qr code and expiry date, and the designated part of day and prescribed date for prescribed medicine packets.</string>
 
 
 
