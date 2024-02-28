@@ -113,7 +113,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                             child: ExcludeSemantics(
                               excluding: true,
                               child: Text(
-                              '약 인식',
+                              '약 정보 인식',
                               style: TextStyle(
                                 fontFamily: 'Pretendard',
                                 fontSize: appBarFontSize,
