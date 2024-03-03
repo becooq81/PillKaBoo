@@ -50,8 +50,10 @@ android {
         applicationId "com.parkour.pillkaboo"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        //versionCode flutterVersionCode.toInteger()
+        //versionName flutterVersionName
+        versionName project.VERSION_NAME
+        versionCode Integer.parseInt(project.VERSION_CODE)
     }
 
    signingConfigs {
