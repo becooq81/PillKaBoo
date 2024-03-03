@@ -415,13 +415,6 @@
             </list>
           </value>
         </entry>
-        <entry key="google_mlkit_object_detection">
-          <value>
-            <list>
-              <option value="$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/google_mlkit_object_detection-0.11.0/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="google_mlkit_text_recognition">
           <value>
             <list>
@@ -1117,7 +1110,6 @@
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/google_fonts-4.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/google_mlkit_barcode_scanning-0.10.0/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/google_mlkit_commons-0.6.1/lib" />
-      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/google_mlkit_object_detection-0.11.0/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/google_mlkit_text_recognition-0.11.0/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/html-0.15.4/lib" />
       <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dev/http-0.13.6/lib" />
