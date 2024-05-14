@@ -35,9 +35,4 @@ jobs:
       - name: Build APK
         run: flutter build apk --debug --split-per-abi
         
-      - name: Create Release
-        uses: ncipollo/release-action@v1 
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+
