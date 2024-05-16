@@ -28,7 +28,12 @@ linter:
 # https://dart.dev/guides/language/analysis-options
 
 
+
 analyzer:
-  exclude:
-    - lib/custom_code/**
-    - lib/flutter_flow/custom_functions.dart
+  errors:
+    # Ignore warnings and info
+    unused_import: ignore
+    dead_code: ignore
+    # Add other rules you want to ignore
+
+
