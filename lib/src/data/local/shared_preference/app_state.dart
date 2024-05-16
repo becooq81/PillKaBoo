@@ -28,6 +28,9 @@ class PKBAppState extends ChangeNotifier {
       _tertiaryColor =
           _colorFromIntValue(prefs.getInt('pkb_tertiaryColor')) ?? _tertiaryColor;
     });
+    _safeInit(() {
+      _useScreenReader = prefs.getBool('pkb_useScreenReader') ?? _useScreenReader;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -50,6 +53,14 @@ class PKBAppState extends ChangeNotifier {
   String slotOfDay = '';
   String infoPrescribedDate = '';
 
+
+  // boolean of whether you want to use screen reader or TTS
+  bool _useScreenReader = false;
+  bool get useScreenReader => _useScreenReader;
+  set useScreenReader(bool value) {
+    _useScreenReader = value;
+    prefs.setBool('pkb_useScreenReader', value);
+  }
 
   Color _primaryColor = const Color(0xFFF9E000);
   Color get primaryColor => _primaryColor;
