@@ -58,7 +58,7 @@ dependencies:
   path_provider_platform_interface: 2.0.6
   provider: 6.0.5
   fuzzywuzzy: ^1.1.6
-  shared_preferences: ^2.2.2ç
+  shared_preferences: ^2.2.2
   shared_preferences_android: 2.2.1
   shared_preferences_foundation: 2.3.4
   shared_preferences_platform_interface: 2.3.1
