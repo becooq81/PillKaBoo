@@ -1,4 +1,4 @@
-import 'package:pillkaboo/src/data/local/shared_preference/app_state.dart';
+import 'package:pillkaboo/src/app/tts/tts_service.dart';
 
 import '../../../styles/pillkaboo_theme.dart';
 import '../../../../core/pillkaboo_util.dart';
@@ -23,11 +23,13 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
   late AccessibilityChoicePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final text = "스크린 리더를 사용하시면 화면 상단을, 사용하지 않으시면 화면 하단을 눌러주세요.";
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => AccessibilityChoicePageModel());
+    TtsService().speak(text);
   }
 
   @override
@@ -37,9 +39,9 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
   }
 
   void _handleTap(BuildContext context, bool isYes) {
-    final response = isYes ? "예" : "아니오";
+    final response = isYes ? "스크린 리더 사용" : "스크린 리더 사용 안함";
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("You selected: $response")),
+      SnackBar(content: Text("$response을 선택하셨습니다.")),
     );
   }
 
@@ -80,12 +82,14 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
           top: true,
             child: 
                 Container(
-                  color: Colors.transparent,
+                  color: PKBAppState().tertiaryColor,
                   child: Column(
                     children: [
                       Expanded(
                         child: Center(
-                          child: Text(
+                          child: ExcludeSemantics(
+                            excluding: true,
+                            child: Text(
                             '스크린리더 사용',
                             style: TextStyle(
                                 fontSize: textSize,
@@ -93,11 +97,14 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
                                 decoration: TextDecoration.none,
                               ),
                             )
+                          )
                           ),
                         ),
                       Expanded(
                         child: Center(
-                          child: Text(
+                          child: ExcludeSemantics(
+                            excluding: true,
+                            child: Text(
                             '스크린리더 사용 안함',
                             style: TextStyle(
                                 fontSize: textSize,
@@ -105,8 +112,9 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
                                 decoration: TextDecoration.none,
                               ),
                             )
+                          )
                           ),
-                      ),
+                        ),
                     ],
                   ),
                 ),
