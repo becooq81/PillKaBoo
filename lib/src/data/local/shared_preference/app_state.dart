@@ -30,6 +30,7 @@ class PKBAppState extends ChangeNotifier {
     });
     _safeInit(() {
       _useScreenReader = prefs.getBool('pkb_useScreenReader') ?? _useScreenReader;
+      _isFirstLaunch = prefs.getBool('pkb_isFirstLaunch') ?? _isFirstLaunch;
     });
   }
 
@@ -60,6 +61,13 @@ class PKBAppState extends ChangeNotifier {
   set useScreenReader(bool value) {
     _useScreenReader = value;
     prefs.setBool('pkb_useScreenReader', value);
+  }
+
+  bool _isFirstLaunch = true;
+  bool get isFirstLaunch => _isFirstLaunch;
+  set isFirstLaunch(bool value) {
+    _isFirstLaunch = value;
+    prefs.setBool('pkb_isFirstLaunch', value);
   }
 
   Color _primaryColor = const Color(0xFFF9E000);
