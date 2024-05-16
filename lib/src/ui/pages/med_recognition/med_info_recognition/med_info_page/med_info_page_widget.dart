@@ -1,3 +1,6 @@
+import 'package:flutter/widgets.dart';
+import 'package:pillkaboo/src/app/tts/tts_service.dart';
+
 import '../../../../../app/global_audio_player.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../styles/pillkaboo_icon_button.dart';
@@ -186,7 +189,13 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Semantics(
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(childText);
+                  }
+                },
+                child: Semantics(
                 container: true,
                   label: childText,
                   child: Padding(
@@ -238,7 +247,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     ),
                   )
               ),
-              Semantics(
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(childText);
+                  }
+                },
+              child: Semantics(
                 container: true,
                 label: exprDateText,
                 child: InkWell(
@@ -291,8 +307,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     ],
                   ),
                 ),
-              ),
-              Semantics(
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(ingredientText);
+                  }
+                },
+                child: Semantics(
                 container: true,
                 label: ingredientText,
                 child: Row(
@@ -344,8 +366,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),
-              Semantics(
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(usageText);
+                  }
+                },
+              child: Semantics(
                 container: true,
                 label: usageText,
                 child: Row(
@@ -397,8 +425,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),
-              Semantics(
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(howToTakeText);
+                  }
+                },
+              child: Semantics(
                 container: true,
                 label: howToTakeText,
                 child: Row(
@@ -450,8 +484,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),
-              Semantics(
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(warningText);
+                  }
+                },
+              child: Semantics(
                 container: true,
                 label: warningText,
                 child: Row(
@@ -502,8 +542,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),
-              Semantics(
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(comboText);
+                  }
+                },
+              child: Semantics(
                 container: true,
                 label: comboText,
                 child: Row(
@@ -555,8 +601,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),
-              Semantics(
+              ),),
+              GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(sideEffectText);
+                  }
+                },
+              child: Semantics(
                 container: true,
                 label: sideEffectText,
                 child: Row(
@@ -606,7 +658,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   ),)
                 ],
               ),
-              ),
+              ),),
             ],
           ),
         ),

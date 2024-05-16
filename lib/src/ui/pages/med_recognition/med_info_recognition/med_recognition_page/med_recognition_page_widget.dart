@@ -61,6 +61,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
 
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double appBarHeight = 60.0/892.0 * MediaQuery.of(context).size.height;
+    String instPlaceCamera = '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.';
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -102,7 +103,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
                     color: PKBAppState().tertiaryColor,
                     child: Semantics(
                       container: true,
-                      label: '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.',
+                      label: instPlaceCamera,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
