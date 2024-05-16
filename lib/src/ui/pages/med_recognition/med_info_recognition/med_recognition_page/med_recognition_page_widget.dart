@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../../../../app/tts/tts_service.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
 
@@ -22,6 +23,7 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
   late MedRecognitionPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final StreamController<bool> _controller = StreamController();
+  final String instPlaceCamera = '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.';
 
 
 
@@ -36,6 +38,9 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
       }
     });
     _model = createModel(context, () => MedRecognitionPageModel());
+    if (!PKBAppState().useScreenReader) {
+      TtsService().speak(instPlaceCamera);
+    }
   }
 
 
@@ -61,7 +66,6 @@ class _MedRecognitionPageWidgetState extends State<MedRecognitionPageWidget> {
 
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double appBarHeight = 60.0/892.0 * MediaQuery.of(context).size.height;
-    String instPlaceCamera = '카메라에서 30cm를 떨어져서 약을 천천히 돌려가며 비춰주세요.';
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
