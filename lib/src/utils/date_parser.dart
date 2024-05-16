@@ -71,6 +71,7 @@ class DateParser {
         final DateFormat formatter = DateFormat(format);
         return formatter.parseStrict(text);
       } catch (e) {
+        continue;
       }
     }
 
