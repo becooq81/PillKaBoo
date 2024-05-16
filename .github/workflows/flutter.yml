@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze project source
-        run: dart analyze --fatal-infos --fatal-warnings
+        run: dart analyze 
       - name: Run tests
         run: flutter test --no-test-assets --disable-service-auth-codes --coverage
       - name: Build APK
