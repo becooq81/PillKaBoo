@@ -9,7 +9,7 @@ Future<void> checkAndUpdateData() async {
     if (await shouldDownloadNewData()) {
       //print('Downloading new CSV data...');
       try {
-        final url = 'https://us-central1-pill-412920.cloudfunctions.net/go-http-function';
+        const url = 'https://us-central1-pill-412920.cloudfunctions.net/go-http-function';
         String data = await downloadFile(url);
         await ProcessedFileDBHelper.replaceDatabaseWithSQL(data);
       } catch (e) {
