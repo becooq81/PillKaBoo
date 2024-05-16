@@ -1,4 +1,4 @@
-export 'src/ui/pages/main_menu_page/main_menu_page_widget.dart' show MainMenuPageWidget;
+export 'src/ui/pages/home/main_menu_page/main_menu_page_widget.dart' show MainMenuPageWidget;
 
 export 'src/ui/pages/med_recognition/med_info_recognition/med_recognition_page/med_recognition_page_widget.dart' show MedRecognitionPageWidget;
 export 'src/ui/pages/med_recognition/med_info_recognition/med_info_page/med_info_page_widget.dart' show MedInfoPageWidget;
