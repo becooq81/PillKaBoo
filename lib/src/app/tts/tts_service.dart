@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 class TtsService {
   final FlutterTts _flutterTts = FlutterTts();
+  bool _isSpeakingRepeatedly = false;
 
   TtsService() {
     _initializeTts();
@@ -22,5 +23,19 @@ class TtsService {
 
   Future<void> stop() async {
     await _flutterTts.stop();
+    _isSpeakingRepeatedly = false; // Ensure to stop repeated speaking
+  }
+
+  Future<void> speakRepeatedly(String text) async {
+    _isSpeakingRepeatedly = true;
+    while (_isSpeakingRepeatedly) {
+      await speak(text);
+      await Future.delayed(const Duration(seconds: 3));
+    }
+  }
+
+  void stopRepeatedSpeaking() async {
+    _isSpeakingRepeatedly = false;
+    await stop();
   }
 }
