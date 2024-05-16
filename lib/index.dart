@@ -11,3 +11,5 @@ export 'src/ui/pages/settings/allergy/allergy_list_page/allergy_list_page_widget
 export 'src/ui/pages/settings/pick_color_page/pick_color_page_widget.dart' show PickColorPageWidget;
 export 'src/ui/pages/settings/help_page/help_page_widget.dart' show HelpPageWidget;
 export 'src/ui/pages/settings/settings_menu_page/settings_menu_page_widget.dart' show SettingsMenuPageWidget;
+
+export 'src/ui/pages/home/accessibility_choice_page/accessibility_choice_page_widget.dart' show AccessibilityChoicePageWidget;
