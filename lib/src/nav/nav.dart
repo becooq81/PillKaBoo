@@ -26,7 +26,7 @@ class AppStateNotifier extends ChangeNotifier {
 }
 
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
-      initialLocation: '/',
+      initialLocation: PKBAppState().isFirstLaunch ? '/accessibilityChoicePage' : '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) => appStateNotifier.showSplashImage
@@ -55,7 +55,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                     child: Center(
                       child: Image.asset(
                         'assets/images/Screenshot_2024-01-30_at_9.58.21_AM.png',
-                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        width: MediaQuery.sizeOf(context).width * 0.7,
                         height: MediaQuery.sizeOf(context).height * 1.0,
                         fit: BoxFit.cover,
                       ),
@@ -69,6 +69,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/medRecognitionPage',
           builder: (BuildContext context, GoRouterState state) {
             return const MedRecognitionPageWidget();
+          }
+        ),
+        GoRoute(
+          name: 'AccessibilityChoicePage',
+          path: '/accessibilityChoicePage',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AccessibilityChoicePageWidget();
           }
         ),
         GoRoute(
