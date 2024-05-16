@@ -72,6 +72,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           }
         ),
         GoRoute(
+          name: 'ControlTTSPage',
+          path: '/controlTTSPage',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ControlTTSPageWidget();
+          }
+        ),
+        GoRoute(
           name: 'AccessibilityChoicePage',
           path: '/accessibilityChoicePage',
           builder: (BuildContext context, GoRouterState state) {
