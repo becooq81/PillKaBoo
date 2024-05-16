@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
+import '../../../../../app/tts/tts_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,7 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
   late PrescribedMedRecognitionPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final StreamController<bool> _controller = StreamController();
+  final String instPlaceCameraPack = '카메라에서 30cm를 떨어져서 하나의 처방약을 비추고, 뒤집은 후 다시 비춰주세요.';
 
 
   @override
@@ -36,6 +38,9 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
     });
     PKBAppState().slotOfDay = "";
     _model = createModel(context, () => PrescribedMedRecognitionPageModel());
+    if (!PKBAppState().useScreenReader) {
+      TtsService().speak(instPlaceCameraPack);
+    }
   }
 
 
@@ -103,7 +108,7 @@ class _PrescribedMedRecognitionPageWidgetState extends State<PrescribedMedRecogn
                   color: PKBAppState().tertiaryColor,
                   child: Semantics(
                     container: true,
-                    label: '카메라에서 30cm를 떨어져서 하나의 처방약을 비추고, 뒤집은 후 다시 비춰주세요.',
+                    label: instPlaceCameraPack,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
