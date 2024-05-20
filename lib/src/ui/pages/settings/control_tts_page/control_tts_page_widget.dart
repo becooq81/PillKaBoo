@@ -112,70 +112,81 @@ class _ControlTTSPageWidgetState extends State<ControlTTSPageWidget> {
                   child: ExcludeSemantics(
                     excluding: true,
                     child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        PKBAppState().useScreenReader = !PKBAppState().useScreenReader;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '스크린 리더 사용 여부',
-                            style: TextStyle(
-                              fontSize: 27,
-                              color: PKBAppState().secondaryColor,
-                              fontWeight: FontWeight.bold,
+                      onTap: () {
+                        setState(() {
+                          PKBAppState().useScreenReader = !PKBAppState().useScreenReader;
+                          if (!PKBAppState().useScreenReader) {
+                            TtsService().stop();
+                            TtsService().speak("스크린 리더를 사용하지 않습니다.");
+                          } else {
+                            TtsService().stop();
+                            TtsService().speak("스크린 리더를 사용합니다.");
+                          }
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '스크린 리더 사용 여부',
+                              style: TextStyle(
+                                fontSize: 27,
+                                color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Switch(
-                            value: PKBAppState().useScreenReader,
-                            focusColor: PKBAppState().primaryColor,
-                            activeColor: PKBAppState().primaryColor,
-                            onChanged: (bool value) {
-                              setState(() {
-                                PKBAppState().useScreenReader = value;
-                              });
-                            },
-                          ),
-                        ],
+                            Switch(
+                              value: PKBAppState().useScreenReader,
+                              focusColor: PKBAppState().primaryColor,
+                              activeColor: PKBAppState().primaryColor,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  PKBAppState().useScreenReader = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  ),
                 ),
                 const SizedBox(height: 20.0),
-                 Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0), // Optional padding
-                  child: Text(
-                    '현재 오디오 속도: $sliderValue',
-                    style: TextStyle(
-                      fontSize: textSize,
-                      color: PKBAppState().secondaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                ExcludeSemantics(
-                    excluding: true,
-                    child: Slider(
-                      value: selectedIndex.toDouble(),
-                      min: 0,
-                      max: values.length - 1.toDouble(),
-                      divisions: values.length - 1,
-                      label: values[selectedIndex].toString(),
-                      activeColor: PKBAppState().primaryColor,
-                      onChanged: PKBAppState().useScreenReader ? null : (double value) {
-                        setState(() {
-                          selectedIndex = value.toInt();
-                          handleSliderChange(values[selectedIndex]);
-                        });
-                      },
-                    ),
+                if (!PKBAppState().useScreenReader)
+                  Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0), // Optional padding
+                        child: Text(
+                          '현재 오디오 속도: $sliderValue',
+                          style: TextStyle(
+                            fontSize: textSize,
+                            color: PKBAppState().secondaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      ExcludeSemantics(
+                        excluding: true,
+                        child: Slider(
+                          value: selectedIndex.toDouble(),
+                          min: 0,
+                          max: values.length - 1.toDouble(),
+                          divisions: values.length - 1,
+                          label: values[selectedIndex].toString(),
+                          activeColor: PKBAppState().primaryColor,
+                          onChanged: (double value) {
+                            setState(() {
+                              selectedIndex = value.toInt();
+                              handleSliderChange(values[selectedIndex]);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
                   ),
               ],
             ),
