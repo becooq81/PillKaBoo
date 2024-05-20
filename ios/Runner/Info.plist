@@ -45,8 +45,7 @@
 
 
 	<key>NSCameraUsageDescription</key>
-    <string>Please enable the camera to scan the medicine's barcode/qr code and expiry date, and the designated part of day and prescribed date for prescribed medicine packets.</string>
-
+    <string>의약품의 바코드 및 큐알코드와 사용기한, 그리고 처방약의 처방일과 시간을 인식할 수 있도록 카메라 접근을 허용해 주시기 바랍니다.</string>
 
 
 	<key>UILaunchStoryboardName</key>
