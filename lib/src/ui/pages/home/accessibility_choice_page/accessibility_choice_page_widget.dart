@@ -90,34 +90,40 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
                           child: ExcludeSemantics(
                             excluding: true,
                             child: Text(
-                            '스크린리더 사용',
-                            style: TextStyle(
+                              '스크린리더 사용',
+                              style: TextStyle(
                                 fontSize: textSize,
                                 color: PKBAppState().secondaryColor,
                                 decoration: TextDecoration.none,
+                                fontWeight: FontWeight.bold,
                               ),
-                            )
-                          )
+                            ),
                           ),
                         ),
+                      ),
                       Expanded(
-                        child: Center(
-                          child: ExcludeSemantics(
-                            excluding: true,
-                            child: Text(
-                            '스크린리더 사용 안함',
-                            style: TextStyle(
-                                fontSize: textSize,
-                                color: PKBAppState().secondaryColor,
-                                decoration: TextDecoration.none,
+                        child: Container(
+                          color: Colors.white, // Setting the background color to white
+                          child: Center(
+                            child: ExcludeSemantics(
+                              excluding: true,
+                              child: Text(
+                                '스크린리더 사용 안함',
+                                style: TextStyle(
+                                  fontSize: textSize,
+                                  color: PKBAppState().tertiaryColor,
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            )
-                          )
+                            ),
                           ),
                         ),
+                      ),
                     ],
                   ),
-                ),
+                )
+
               ),
             ),
           );
