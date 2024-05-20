@@ -281,7 +281,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: SvgPicture.asset(
-                                    'assets/images/Palette.svg', // TODO: change this to audio icon
+                                    'assets/images/speaker.svg', 
                                     width: iconSize,
                                     height: iconSize,
                                     fit: BoxFit.fitHeight,

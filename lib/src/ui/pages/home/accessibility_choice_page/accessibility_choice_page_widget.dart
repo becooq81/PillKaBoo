@@ -103,7 +103,7 @@ class _AccessibilityChoicePageWidgetState extends State<AccessibilityChoicePageW
                       ),
                       Expanded(
                         child: Container(
-                          color: Colors.white, // Setting the background color to white
+                          color: Colors.white, 
                           child: Center(
                             child: ExcludeSemantics(
                               excluding: true,
