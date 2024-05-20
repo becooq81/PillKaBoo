@@ -189,18 +189,20 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().speak(childText);
-                  }
-                },
-                child: Semantics(
+              Semantics(
                 container: true,
                   label: childText,
-                  child: Padding(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
-                    child: Row(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().speak(childText);
+                        }
+                      },
+                      child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         ExcludeSemantics(
@@ -247,18 +249,20 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     ),
                   )
               ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().speak(childText);
-                  }
-                },
-              child: Semantics(
+              ),),
+              Semantics(
                 container: true,
                 label: exprDateText,
                 child: InkWell(
-                  child: Row(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().speak(exprDateText);
+                        }
+                      },
+                      child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       ExcludeSemantics(
@@ -307,16 +311,17 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     ],
                   ),
                 ),
-              ),),
-              GestureDetector(
+              ),),),
+              Semantics(
+                container: true,
+                label: ingredientText,
+                child: ExcludeSemantics(
+                  child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
                     TtsService().speak(ingredientText);
                   }
                 },
-                child: Semantics(
-                container: true,
-                label: ingredientText,
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -366,17 +371,18 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),),
-              GestureDetector(
+              ),),),
+              Semantics(
+                container: true,
+                label: usageText,
+                child: ExcludeSemantics(
+                  child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
                     TtsService().speak(usageText);
                   }
                 },
-              child: Semantics(
-                container: true,
-                label: usageText,
-                child: Row(
+              child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ExcludeSemantics(
@@ -424,18 +430,19 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                       ),
                     )
                   ],
-                ),
+                ),),
               ),),
-              GestureDetector(
+              Semantics(
+                container: true,
+                label: howToTakeText,
+                child: ExcludeSemantics(
+                  child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
                     TtsService().speak(howToTakeText);
                   }
                 },
-              child: Semantics(
-                container: true,
-                label: howToTakeText,
-                child: Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   ExcludeSemantics(
@@ -484,17 +491,18 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),),
-              GestureDetector(
+              ),),),
+              Semantics(
+                container: true,
+                label: warningText,
+                child: ExcludeSemantics(
+                  child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
                     TtsService().speak(warningText);
                   }
                 },
-              child: Semantics(
-                container: true,
-                label: warningText,
-                child: Row(
+              child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ExcludeSemantics(
@@ -542,17 +550,19 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),),
-              GestureDetector(
+              ),),),
+              Semantics(
+                container: true,
+                label: comboText,
+                child: ExcludeSemantics(
+                  excluding: true,
+                  child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
                     TtsService().speak(comboText);
                   }
                 },
-              child: Semantics(
-                container: true,
-                label: comboText,
-                child: Row(
+                    child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ExcludeSemantics(
@@ -601,22 +611,29 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     )
                   ],
                 ),
-              ),),
-              GestureDetector(
+              ),),),
+              Semantics(
+                container: true,
+                label: sideEffectText,
+                child: ExcludeSemantics(
+                  child:GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
                     TtsService().speak(sideEffectText);
                   }
                 },
-              child: Semantics(
-                container: true,
-                label: sideEffectText,
-                child: Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   ExcludeSemantics(
                     excluding: true,
-                    child: Padding(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().speak(sideEffectText);
+                        }
+                      },
+                      child: Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
                     child: ClipRRect(
@@ -641,7 +658,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                         ),
                       ),
                     ),
-                  ),),
+                  ),),),
                   ExcludeSemantics(
                     excluding: true,
                     child: Text(
@@ -658,7 +675,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   ),)
                 ],
               ),
-              ),),
+              ),),),
             ],
           ),
         ),
