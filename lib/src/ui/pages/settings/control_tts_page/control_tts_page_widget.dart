@@ -1,5 +1,4 @@
 import 'package:pillkaboo/src/app/tts/tts_service.dart';
-import 'package:pillkaboo/src/ui/widgets/components/general_slider.dart';
 
 import '../../../styles/pillkaboo_theme.dart';
 import '../../../../core/pillkaboo_util.dart';
