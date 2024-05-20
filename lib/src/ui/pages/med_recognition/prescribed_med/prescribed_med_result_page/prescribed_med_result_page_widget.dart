@@ -1,3 +1,5 @@
+import 'package:pillkaboo/src/app/tts/tts_service.dart';
+
 import '../../../../styles/pillkaboo_theme.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../widgets/index.dart' as widgets;
@@ -22,6 +24,7 @@ class PrescribedMedResultPageWidget extends StatefulWidget {
 
 class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidget> {
   late PrescribedMedResultPageModel _model;
+  late String imgPath;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -30,6 +33,18 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
     super.initState();
     GlobalAudioPlayer().playOnce();
     _model = createModel(context, () => PrescribedMedResultPageModel());
+    if (PKBAppState().slotOfDay == "아침") {
+      imgPath = 'assets/images/morning.png';
+    } else if (PKBAppState().slotOfDay == "점심") {
+      imgPath = 'assets/images/lunch.png';
+    } else if (PKBAppState().slotOfDay == "저녁") {
+      imgPath = 'assets/images/night.png';
+    } else {
+      imgPath = 'assets/images/warning.svg';
+    }
+    if (!PKBAppState().useScreenReader) {
+      TtsService().speak('이 약은 ${PKBAppState().slotOfDay} 약입니다. ${PKBAppState().infoPrescribedDate}에 처방받은 약입니다.');
+    }
   }
 
   @override
@@ -49,17 +64,6 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
           systemStatusBarContrastEnforced: true,
         ),
       );
-    }
-
-    String imgPath;
-    if (PKBAppState().slotOfDay == "아침") {
-      imgPath = 'assets/images/morning.png';
-    } else if (PKBAppState().slotOfDay == "점심") {
-      imgPath = 'assets/images/lunch.png';
-    } else if (PKBAppState().slotOfDay == "저녁") {
-      imgPath = 'assets/images/night.png';
-    } else {
-      imgPath = 'assets/images/warning.svg';
     }
 
 
