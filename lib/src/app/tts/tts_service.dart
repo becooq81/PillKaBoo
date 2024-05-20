@@ -1,10 +1,12 @@
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:io' show Platform;
 
+import 'package:pillkaboo/src/core/pillkaboo_util.dart';
+
 class TtsService {
   final FlutterTts _flutterTts = FlutterTts();
   bool _isSpeakingRepeatedly = false;
-  double _ttsSpeed = 1.0;
+  double _ttsSpeed = PKBAppState().ttsSpeed;
 
   TtsService() {
     _initializeTts();
