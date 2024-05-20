@@ -233,8 +233,6 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                   label: howToAddAllergies,
                   child: ExcludeSemantics(
                       excluding: true,
-                      child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
                       child: GestureDetector(
                         onTap: () {
                           if (!PKBAppState().useScreenReader) {
@@ -242,7 +240,9 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                             TtsService().speak(howToAddAllergies);
                           }
                         },
-                        child: Row(
+                        child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
+                      child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           ExcludeSemantics(
@@ -366,6 +366,13 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                 Semantics(
                   container: true,
                   label: medCitation,
+                  child: GestureDetector(
+                    onTap: () {
+                          if (!PKBAppState().useScreenReader) {
+                            TtsService().stop();
+                            TtsService().speak(medCitation);
+                          }
+                        },
                   child: Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
                       child: InkWell(
@@ -420,7 +427,8 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
                       ],
                     ),
                   ),),
-                ),                
+                ),),
+            
                 const SizedBox(height: 5.0),
               ],
             ),
