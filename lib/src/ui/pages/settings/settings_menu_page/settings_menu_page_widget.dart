@@ -53,6 +53,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
     double containerHeight = 111.0/892.0 * MediaQuery.of(context).size.height;
     double containerWidth = 353.0/412.0 * MediaQuery.of(context).size.width;
     double iconSize = 75.0/892.0 * MediaQuery.of(context).size.height;
+    double smallerIconSize = 65.0/892.0 * MediaQuery.of(context).size.height;
     double textSize = 28.0/892.0 * MediaQuery.of(context).size.height;
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
 
@@ -282,8 +283,8 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: SvgPicture.asset(
                                     'assets/images/speaker.svg',
-                                    width: iconSize,
-                                    height: iconSize,
+                                    width: smallerIconSize,
+                                    height: smallerIconSize,
                                     fit: BoxFit.fitHeight,
                                     colorFilter: ColorFilter.mode(
                                       PKBAppState().secondaryColor,
