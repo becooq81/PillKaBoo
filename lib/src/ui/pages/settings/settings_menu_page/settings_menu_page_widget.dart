@@ -253,7 +253,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                   padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 50.0),
                   child: Semantics(
                     container: true,
-                    label: "오디오 속도 설정",
+                    label: "오디오 설정",
                     explicitChildNodes: false,
                     child: GestureDetector(
                       onTap: () async {
@@ -299,7 +299,7 @@ class _SettingsMenuPageWidgetState extends State<SettingsMenuPageWidget> {
                                 child: ExcludeSemantics(
                                   excluding: true,
                                   child: Text(
-                                    '오디오 속도 설정',
+                                    '오디오 설정',
                                     style: PillKaBooTheme.of(context)
                                         .titleMedium
                                         .override(
