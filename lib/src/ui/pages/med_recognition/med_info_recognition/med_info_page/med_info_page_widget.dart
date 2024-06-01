@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:pillkaboo/src/app/tts/tts_service.dart';
 
 import '../../../../../app/global_audio_player.dart';
@@ -116,6 +115,15 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     double textFontSize = 30.0/892.0 * MediaQuery.of(context).size.height;
     double paddingBelowAppBar = 25.0/892.0 * MediaQuery.of(context).size.height;
 
+    bool showChildText = false;
+    bool showExprDateText = false;
+    bool showIngredientText = false;
+    bool showUsageText = false;
+    bool showHowToTakeText = false;
+    bool showWarningText = false;
+    bool showComboText = false;
+    bool showSideEffectText = false;
+
     return GestureDetector(
         onTap: () => _model.unfocusNode.canRequestFocus
             ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -190,19 +198,26 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Semantics(
-                container: true,
-                  label: childText,
-                  child: ExcludeSemantics(
-                    excluding: true,
-                    child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (!PKBAppState().useScreenReader) {
-                          TtsService().speak(childText);
-                        }
-                      },
-                      child: Row(
+          container: true,
+          label: childText,
+          child: ExcludeSemantics(
+            excluding: true,
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
+              child: GestureDetector(
+                onTap: () {
+                  if (!PKBAppState().useScreenReader) {
+                    TtsService().speak(childText);
+                  }
+                },
+                onDoubleTap: () {
+                  setState(() {
+                    showChildText = !showChildText;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         ExcludeSemantics(
@@ -210,46 +225,58 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                           child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
                             child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Container(
-                                    width: imageContainerSize,
-                                    height: imageContainerSize,
-                                    decoration: BoxDecoration(
-                                      color: PKBAppState().secondaryColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                      child: SvgPicture.asset(
-                                        'assets/images/allergy.svg',
-                                        fit: BoxFit.contain,
-                                        colorFilter: ColorFilter.mode(
-                                          PKBAppState().tertiaryColor,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/images/allergy.svg',
+                                  fit: BoxFit.contain,
+                                  colorFilter: ColorFilter.mode(
+                                    PKBAppState().tertiaryColor,
+                                    BlendMode.srcIn,
                                   ),
+                                ),
                               ),
                             ),
+                          ),
                         ),
                         ExcludeSemantics(
                           excluding: true,
                           child: Text(
-                          '알러지',
-                          style: PillKaBooTheme.of(context).titleMedium.override(
-                                fontFamily:
-                                    PillKaBooTheme.of(context).titleMediumFamily,
-                                fontSize: textFontSize,
-                                color: PKBAppState().secondaryColor,
-                                fontWeight: FontWeight.bold,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    PillKaBooTheme.of(context).titleMediumFamily),
-                              ),
+                            '알러지',
+                            style: PillKaBooTheme.of(context).titleMedium.override(
+                              fontFamily: PillKaBooTheme.of(context).titleMediumFamily,
+                              fontSize: textFontSize,
+                              color: PKBAppState().secondaryColor,
+                              fontWeight: FontWeight.bold,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  PillKaBooTheme.of(context).titleMediumFamily),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  )
+                    Visibility(
+                      visible: showChildText,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          childText,
+                          style: TextStyle(fontSize: 14, color: PKBAppState().secondaryColor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              ),),
+            ),
+          ),
+        ),
               Semantics(
                 container: true,
                 label: exprDateText,
