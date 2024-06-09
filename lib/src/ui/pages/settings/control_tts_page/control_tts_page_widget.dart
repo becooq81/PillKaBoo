@@ -162,12 +162,15 @@ class _ControlTTSPageWidgetState extends State<ControlTTSPageWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '무음 설정',
-                              style: TextStyle(
-                                fontSize: 27,
-                                color: PKBAppState().secondaryColor,
-                                fontWeight: FontWeight.bold,
+                            Semantics(
+                              container: true,
+                              child: Text(
+                                '텍스트 읽기 기능 끄기',
+                                style: TextStyle(
+                                  fontSize: 27,
+                                  color: PKBAppState().secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Switch(
@@ -183,15 +186,19 @@ class _ControlTTSPageWidgetState extends State<ControlTTSPageWidget> {
                           ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0), // Optional padding
-                        child: Text(
-                          '현재 오디오 속도: $sliderValue',
-                          style: TextStyle(
-                            fontSize: textSize,
-                            color: PKBAppState().secondaryColor,
-                            fontWeight: FontWeight.bold,
+                      Semantics(
+                        container: true,
+                        label: '오디오 속도를 조절하시려면 스크린 리더 사용을 중지해주세요',
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0), // Optional padding
+                          child: Text(
+                            '현재 오디오 속도: $sliderValue',
+                            style: TextStyle(
+                              fontSize: textSize,
+                              color: PKBAppState().secondaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
