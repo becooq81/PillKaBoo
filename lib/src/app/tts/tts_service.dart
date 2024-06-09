@@ -27,7 +27,9 @@ class TtsService {
     await _flutterTts.setLanguage("ko-KR");
     await _flutterTts.setPitch(1.0);
     await _flutterTts.setSpeechRate(_ttsSpeed);
-    await _flutterTts.speak(text);
+    if (PKBAppState().silentMode == false) {
+      await _flutterTts.speak(text);
+    }
   }
 
   Future<void> stop() async {
@@ -37,7 +39,7 @@ class TtsService {
 
   Future<void> speakRepeatedly(String text) async {
     _isSpeakingRepeatedly = true;
-    while (_isSpeakingRepeatedly) {
+    while (_isSpeakingRepeatedly && PKBAppState().silentMode == false) {
       await speak(text);
       await Future.delayed(const Duration(seconds: 3));
     }

@@ -32,6 +32,7 @@ class PKBAppState extends ChangeNotifier {
       _useScreenReader = prefs.getBool('pkb_useScreenReader') ?? _useScreenReader; 
       _isFirstLaunch = prefs.getBool('pkb_isFirstLaunch') ?? _isFirstLaunch;
       _ttsSpeed = prefs.getDouble('pkb_ttsSpeed') ?? _ttsSpeed;
+      _silentMode = prefs.getBool('pkb_silentMode') ?? _silentMode;
     });
   }
 
@@ -68,6 +69,13 @@ class PKBAppState extends ChangeNotifier {
   set useScreenReader(bool value) {
     _useScreenReader = value;
     prefs.setBool('pkb_useScreenReader', value);
+  }
+
+  bool _silentMode = false;
+  bool get silentMode => _silentMode;
+  set silentMode(bool value) {
+    _silentMode = value;
+    prefs.setBool('pkb_silentMode', value);
   }
 
   bool _isFirstLaunch = true;

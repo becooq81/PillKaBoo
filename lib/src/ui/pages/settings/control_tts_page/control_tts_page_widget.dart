@@ -120,7 +120,7 @@ class _ControlTTSPageWidgetState extends State<ControlTTSPageWidget> {
                             TtsService().speak("스크린 리더를 사용하지 않습니다.");
                           } else {
                             TtsService().stop();
-                            TtsService().speak("스크린 리더를 사용합니다.");
+                            //TtsService().speak("스크린 리더를 사용합니다.");
                           }
                         });
                       },
@@ -157,6 +157,32 @@ class _ControlTTSPageWidgetState extends State<ControlTTSPageWidget> {
                 if (!PKBAppState().useScreenReader)
                   Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '무음 설정',
+                              style: TextStyle(
+                                fontSize: 27,
+                                color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Switch(
+                              value: PKBAppState().silentMode,
+                              focusColor: PKBAppState().primaryColor,
+                              activeColor: PKBAppState().primaryColor,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  PKBAppState().silentMode = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                       Container(
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0), // Optional padding

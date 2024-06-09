@@ -25,6 +25,7 @@ void callbackDispatcher() {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   WidgetsBinding.instance.addObserver(AppLifecycleReactor());
   usePathUrlStrategy();
 
@@ -56,6 +57,11 @@ void main() async {
     "periodicUpdateTask",
     frequency: const Duration(hours: 24*7),
   );
+
+  //PKBAppState().isFirstLaunch = true;
+
+  //print(PKBAppState().isFirstLaunch);
+
 
 }
 
