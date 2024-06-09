@@ -25,6 +25,7 @@ class _HelpPageWidgetState extends State<HelpPageWidget> {
   late HelpPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  // TODO: Add descriptions regarding TTS use
   String howToRecognizeMedicine = "약 정보 인식 홈 화면에서 약 인식 버튼을 누르고, 카메라에서 30cm를 떨어져서 약의 곽을 천천히 돌려가며 비춰주세요. 약정보와 유통기한이 각각 인식이 되었을 때 진동이 울리고, 진동이 두번 울려 모두 인식이 완료되면 성공음과 함께 약의 이름을 읽어드립니다. 버튼을 넘겨가며 정보를 확인해보세요.";
   String howToRecognizePrescribed = "처방약 인식 정확한 인식을 위해 처방약을 하나씩 분리해 보관해주세요. 홈 화면에서 처방약 인식 버튼을 누르고, 카메라에서 30cm 떨어져서 하나의 처방약을 비춰주세요. 잠시 후 뒤집어서 다시 비춰주세요. 인식이 되면 처방약을 먹어야 할 식사 시간을 알려드립니다.";
   String howToAddAllergies = "알러지 성분 설정 홈 화면에서 환경 설정 버튼을 누르고, 다음 화면에서 알러지 성분 설정 버튼을 눌러주세요. 추가하기 버튼으로 알러지 성분을 등록하고 관리하세요. 등록된 성분은 인식된 약의 주성분일 경우에 아이 관련 주의사항으로 안내드립니다.";
