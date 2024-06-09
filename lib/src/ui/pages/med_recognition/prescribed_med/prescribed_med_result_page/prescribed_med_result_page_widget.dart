@@ -33,6 +33,7 @@ class _CheckRestResultPageWidgetState extends State<PrescribedMedResultPageWidge
     super.initState();
     GlobalAudioPlayer().playOnce();
     _model = createModel(context, () => PrescribedMedResultPageModel());
+    TtsService().stop();
     if (PKBAppState().slotOfDay == "아침") {
       imgPath = 'assets/images/morning.png';
     } else if (PKBAppState().slotOfDay == "점심") {

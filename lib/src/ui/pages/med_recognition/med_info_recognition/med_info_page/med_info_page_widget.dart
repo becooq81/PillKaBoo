@@ -35,6 +35,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MedInfoPageModel());
+    TtsService().stop();
     GlobalAudioPlayer().playOnce();
   }
   @override
@@ -43,6 +44,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     super.dispose();
   }
   void clearAndNavigate(BuildContext context) {
+    TtsService().stop();
     while (context.canPop() == true) {
       context.pop();
     }
