@@ -188,51 +188,43 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
             centerTitle: false,
             elevation: 2.0,
           ),
-
           body: SafeArea(
           top: true,
-          child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.87,
-            child: Column(
+          child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Semantics(
-          container: true,
-          label: childText,
-          child: ExcludeSemantics(
-            excluding: true,
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, paddingBelowAppBar, 0, 0),
-              child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().speak(childText);
-                  }
-                },
-                onDoubleTap: () {
-                  setState(() {
-                    showChildText = !showChildText;
-                  });
-                },
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        ExcludeSemantics(
-                          excluding: true,
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Container(
-                                width: imageContainerSize,
-                                height: imageContainerSize,
-                                decoration: BoxDecoration(
-                                  color: PKBAppState().secondaryColor,
-                                  shape: BoxShape.circle,
-                                ),
+                container: true,
+                label: childText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(childText);
+                        }
+                      },
+                      child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      ExcludeSemantics(
+                        excluding: true,
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              width: imageContainerSize,
+                              height: imageContainerSize,
+                              decoration: BoxDecoration(
+                                color: PKBAppState().secondaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
                                 child: SvgPicture.asset(
                                   'assets/images/allergy.svg',
                                   fit: BoxFit.contain,
@@ -245,38 +237,26 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                             ),
                           ),
                         ),
-                        ExcludeSemantics(
-                          excluding: true,
-                          child: Text(
-                            '알러지',
-                            style: PillKaBooTheme.of(context).titleMedium.override(
-                              fontFamily: PillKaBooTheme.of(context).titleMediumFamily,
+                      ),
+                      ExcludeSemantics(
+                        excluding: true,
+                        child: Text(
+                        '알러지',
+                        style: PillKaBooTheme.of(context).titleMedium.override(
+                              fontFamily:
+                                  PillKaBooTheme.of(context).titleMediumFamily,
                               fontSize: textFontSize,
-                              color: PKBAppState().secondaryColor,
+                          color: PKBAppState().secondaryColor,
                               fontWeight: FontWeight.bold,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   PillKaBooTheme.of(context).titleMediumFamily),
                             ),
-                          ),
                         ),
-                      ],
-                    ),
-                    Visibility(
-                      visible: showChildText,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          childText,
-                          style: TextStyle(fontSize: 14, color: PKBAppState().secondaryColor),
-                        ),
-                      ),
-                    ),
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              ),),),
               Semantics(
                 container: true,
                 label: exprDateText,
@@ -286,6 +266,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                     child: GestureDetector(
                       onTap: () {
                         if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
                           TtsService().speak(exprDateText);
                         }
                       },
@@ -346,6 +327,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
+                    TtsService().stop();
                     TtsService().speak(ingredientText);
                   }
                 },
@@ -406,6 +388,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
+                    TtsService().stop();
                     TtsService().speak(usageText);
                   }
                 },
@@ -466,6 +449,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
+                    TtsService().stop();
                     TtsService().speak(howToTakeText);
                   }
                 },
@@ -526,6 +510,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
+                    TtsService().stop();
                     TtsService().speak(warningText);
                   }
                 },
@@ -586,6 +571,7 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
+                    TtsService().stop();
                     TtsService().speak(comboText);
                   }
                 },
@@ -639,76 +625,73 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                   ],
                 ),
               ),),),
-              Semantics(
+             Semantics(
                 container: true,
                 label: sideEffectText,
                 child: ExcludeSemantics(
-                  child:GestureDetector(
+                  excluding: true,
+                  child: GestureDetector(
                 onTap: () {
                   if (!PKBAppState().useScreenReader) {
+                    TtsService().stop();
                     TtsService().speak(sideEffectText);
                   }
                 },
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: GestureDetector(
-                      onTap: () {
-                        if (!PKBAppState().useScreenReader) {
-                          TtsService().speak(sideEffectText);
-                        }
-                      },
+                    child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ExcludeSemantics(
+                      excluding: true,
                       child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Container(
-                        width: imageContainerSize,
-                        height: imageContainerSize,
-                        decoration: BoxDecoration(
-                          color: PKBAppState().secondaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SvgPicture.asset(
-                            'assets/images/sideef.svg',
-                            fit: BoxFit.contain,
-                            colorFilter: ColorFilter.mode(
-                              PKBAppState().tertiaryColor,
-                              BlendMode.srcIn,
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Container(
+                            width: imageContainerSize,
+                            height: imageContainerSize,
+                            decoration: BoxDecoration(
+                              color: PKBAppState().secondaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: SvgPicture.asset(
+                                'assets/images/sideef.svg',
+                                fit: BoxFit.contain,
+                                colorFilter: ColorFilter.mode(
+                                  PKBAppState().tertiaryColor,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),),),
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: Text(
-                    '부작용',
-                    style: PillKaBooTheme.of(context).titleMedium.override(
-                          fontFamily:
-                              PillKaBooTheme.of(context).titleMediumFamily,
-                          fontSize: textFontSize,
-                          fontWeight: FontWeight.bold,
-                      color: PKBAppState().secondaryColor,
-                          useGoogleFonts: GoogleFonts.asMap().containsKey(
-                              PillKaBooTheme.of(context).titleMediumFamily),
-                        ),
-                  ),)
-                ],
-              ),
+                    ExcludeSemantics(
+                      excluding: true,
+                      child: Text(
+                          '부작용',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: PKBAppState().secondaryColor,
+                                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                          ),
+                      ),
+                    )
+                  ],
+                ),
               ),),),
             ],
           ),
         ),
       ),
-    )
+  
     );
   }
-
 }

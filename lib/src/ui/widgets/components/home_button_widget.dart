@@ -46,6 +46,7 @@ class HomeButtonWidget extends StatelessWidget {
     while (context.canPop() == true) {
       context.pop();
     }
+    TtsService().stop();
     context.pushReplacement('/mainMenuPage');
   }
 }
