@@ -24,7 +24,7 @@ class PrescribedMedRecognizerWidget extends StatefulWidget {
   final double? height;
 
   @override
-  _PrescribedMedRecognizerWidgetState createState() => _PrescribedMedRecognizerWidgetState();
+  State<PrescribedMedRecognizerWidget> createState() => _PrescribedMedRecognizerWidgetState();
 }
 
 class _PrescribedMedRecognizerWidgetState extends State<PrescribedMedRecognizerWidget> {
