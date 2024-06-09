@@ -108,7 +108,6 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     double backIconSize = 30.0/892.0 * MediaQuery.of(context).size.height;
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double textFontSize = 30.0/892.0 * MediaQuery.of(context).size.height;
-    double paddingBelowAppBar = 25.0/892.0 * MediaQuery.of(context).size.height;
 
     return GestureDetector(
         onTap: () => _model.unfocusNode.canRequestFocus
