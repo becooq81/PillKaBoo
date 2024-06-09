@@ -1,31 +1,35 @@
 import 'package:pillkaboo/src/app/tts/tts_service.dart';
-
 import '../../../../../app/global_audio_player.dart';
 import '../../../../../core/pillkaboo_util.dart';
 import '../../../../styles/pillkaboo_icon_button.dart';
 import '../../../../styles/pillkaboo_theme.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'med_info_page_model.dart';
 export 'med_info_page_model.dart';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 class MedInfoPageWidget extends StatefulWidget {
   const MedInfoPageWidget({super.key});
-
   @override
   State<MedInfoPageWidget> createState() => _MedInfoPageWidgetState();
 }
-
 class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
   late MedInfoPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final AudioPlayer audioPlayer = AudioPlayer();
+  bool showChildText = false;  
+  bool showExprDateText = false;
+  bool showIngredientText = false;
+  bool showUsageText = false;
+  bool showHowToTakeText = false;
+  bool showWarningText = false;
+  bool showComboText = false;
+  bool showSideEffectText = false;
+
+  double verticalSpace = 30.0;
 
   @override
   void initState() {
@@ -33,20 +37,17 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     _model = createModel(context, () => MedInfoPageModel());
     GlobalAudioPlayer().playOnce();
   }
-
   @override
   void dispose() {
     _model.dispose();
     super.dispose();
   }
-
   void clearAndNavigate(BuildContext context) {
     while (context.canPop() == true) {
       context.pop();
     }
     context.pushReplacement('/mainMenuPage');
   }
-
   @override
   Widget build(BuildContext context) {
     if (isiOS) {
@@ -57,52 +58,44 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
         ),
       );
     }
-
     context.watch<PKBAppState>();
-
     String childText = '', exprDateText = '', ingredientText = '', usageText = '', howToTakeText = '', warningText = '', comboText = '', sideEffectText = '';
+    
     if (PKBAppState().foundAllergies == '') {
       childText = '등록하신 알러지 해당하는 주성분이 없습니다.';
     } else {
       childText = '${PKBAppState().foundAllergies} 알러지를 주의해주세요.';
     }
-
     if (PKBAppState().infoExprDate == '') {
       exprDateText = '해당 약의 사용기한 정보가 없습니다.';
     } else {
       exprDateText = '사용기한 ${PKBAppState().infoExprDate}까지';
     }
-
     if (PKBAppState().infoIngredient == '') {
       ingredientText = '해당 약의 주성분 정보가 없습니다.';
     } else {
       ingredientText = '주성분 ${PKBAppState().infoIngredient}';
     }
-
     if (PKBAppState().infoUsage == '') {
       usageText = '해당 약의 용도 정보가 없습니다.';
     } else {
       usageText = '용도 ${PKBAppState().infoUsage}';
     }
-
     if (PKBAppState().infoHowToTake == '') {
       howToTakeText = '해당 약의 복용방법 정보가 없습니다.';
     } else {
       howToTakeText = '복용방법 ${PKBAppState().infoHowToTake}';
     }
-
     if (PKBAppState().infoWarning == '') {
       warningText = '해당 약의 주의사항 정보가 없습니다.';
     } else {
       warningText = '주의사항 ${PKBAppState().infoWarning}';
     }
-
     if (PKBAppState().infoCombo == '') {
       comboText = '해당 약의 금지조합 정보가 없습니다.';
     } else {
       comboText = '금지조합 ${PKBAppState().infoCombo}';
     }
-
     if (PKBAppState().infoSideEffect == '') {
       sideEffectText = '해당 약의 부작용 정보가 없습니다.';
     } else {
@@ -114,15 +107,6 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
     double appBarFontSize = 32.0/892.0 * MediaQuery.of(context).size.height;
     double textFontSize = 30.0/892.0 * MediaQuery.of(context).size.height;
     double paddingBelowAppBar = 25.0/892.0 * MediaQuery.of(context).size.height;
-
-    bool showChildText = false;
-    bool showExprDateText = false;
-    bool showIngredientText = false;
-    bool showUsageText = false;
-    bool showHowToTakeText = false;
-    bool showWarningText = false;
-    bool showComboText = false;
-    bool showSideEffectText = false;
 
     return GestureDetector(
         onTap: () => _model.unfocusNode.canRequestFocus
@@ -190,10 +174,14 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
           ),
           body: SafeArea(
           top: true,
-          child: Column(
+          child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.87,
+            child: SingleChildScrollView(
+              child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const SizedBox(height: 20),
               Semantics(
                 container: true,
                 label: childText,
@@ -207,56 +195,85 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                           TtsService().speak(childText);
                         }
                       },
-                      child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ExcludeSemantics(
-                        excluding: true,
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Container(
-                              width: imageContainerSize,
-                              height: imageContainerSize,
-                              decoration: BoxDecoration(
-                                color: PKBAppState().secondaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: SvgPicture.asset(
-                                  'assets/images/allergy.svg',
-                                  fit: BoxFit.contain,
-                                  colorFilter: ColorFilter.mode(
-                                    PKBAppState().tertiaryColor,
-                                    BlendMode.srcIn,
+                      onDoubleTap: () {
+                        setState(() {
+                          showChildText = !showChildText;
+                        
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/allergy.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      ExcludeSemantics(
-                        excluding: true,
-                        child: Text(
-                        '알러지',
-                        style: PillKaBooTheme.of(context).titleMedium.override(
-                              fontFamily:
-                                  PillKaBooTheme.of(context).titleMediumFamily,
-                              fontSize: textFontSize,
-                          color: PKBAppState().secondaryColor,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  PillKaBooTheme.of(context).titleMediumFamily),
-                            ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '알러지',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                          ),
                         ),
-                      )
-                    ],
+                      
+                        
+                      ],
+                      ),
+                      Visibility(
+                          visible: showChildText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            childText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
                   ),
                 ),
-              ),),),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
               Semantics(
                 container: true,
                 label: exprDateText,
@@ -270,428 +287,620 @@ class _MedInfoPageWidgetState extends State<MedInfoPageWidget> {
                           TtsService().speak(exprDateText);
                         }
                       },
-                      child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ExcludeSemantics(
-                        excluding: true,
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Container(
-                              width: imageContainerSize,
-                              height: imageContainerSize,
-                              decoration: BoxDecoration(
-                                color: PKBAppState().secondaryColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: SvgPicture.asset(
-                                  'assets/images/date.svg',
-                                  fit: BoxFit.contain,
-                                  colorFilter: ColorFilter.mode(
-                                    PKBAppState().tertiaryColor,
-                                    BlendMode.srcIn,
+                      onDoubleTap: () {
+                        setState(() {
+                          showExprDateText = !showExprDateText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/date.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      ExcludeSemantics(
-                        excluding: true,
-                        child: Text(
-                        '사용 기한',
-                        style: PillKaBooTheme.of(context).titleMedium.override(
-                              fontFamily:
-                                  PillKaBooTheme.of(context).titleMediumFamily,
-                              fontSize: textFontSize,
-                          color: PKBAppState().secondaryColor,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  PillKaBooTheme.of(context).titleMediumFamily),
-                            ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),),),
-              Semantics(
-                container: true,
-                label: ingredientText,
-                child: ExcludeSemantics(
-                  child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().stop();
-                    TtsService().speak(ingredientText);
-                  }
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Container(
-                            width: imageContainerSize,
-                            height: imageContainerSize,
-                            decoration: BoxDecoration(
-                              color: PKBAppState().secondaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                'assets/images/ing.svg',
-                                fit: BoxFit.contain,
-                                colorFilter: ColorFilter.mode(
-                                  PKBAppState().tertiaryColor,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
-                      '주성분',
-                      style: PillKaBooTheme.of(context).titleMedium.override(
-                            fontFamily:
-                                PillKaBooTheme.of(context).titleMediumFamily,
-                            fontSize: textFontSize,
-                        color: PKBAppState().secondaryColor,
-                            fontWeight: FontWeight.bold,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                PillKaBooTheme.of(context).titleMediumFamily),
-                          ),
-                      ),
-                    )
-                  ],
-                ),
-              ),),),
-              Semantics(
-                container: true,
-                label: usageText,
-                child: ExcludeSemantics(
-                  child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().stop();
-                    TtsService().speak(usageText);
-                  }
-                },
-              child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Container(
-                            width: imageContainerSize,
-                            height: imageContainerSize,
-                            decoration: BoxDecoration(
-                              color: PKBAppState().secondaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                'assets/images/use.svg',
-                                fit: BoxFit.contain,
-                                colorFilter: ColorFilter.mode(
-                                  PKBAppState().tertiaryColor,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
-                      '용도',
-                      style: PillKaBooTheme.of(context).titleMedium.override(
-                            fontFamily:
-                                PillKaBooTheme.of(context).titleMediumFamily,
-                            fontSize: textFontSize,
-                            fontWeight: FontWeight.bold,
-                        color: PKBAppState().secondaryColor,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                PillKaBooTheme.of(context).titleMediumFamily),
-                          ),
-                      ),
-                    )
-                  ],
-                ),),
-              ),),
-              Semantics(
-                container: true,
-                label: howToTakeText,
-                child: ExcludeSemantics(
-                  child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().stop();
-                    TtsService().speak(howToTakeText);
-                  }
-                },
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  ExcludeSemantics(
-                    excluding: true,
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          width: imageContainerSize,
-                          height: imageContainerSize,
-                          decoration: BoxDecoration(
-                            color: PKBAppState().secondaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SvgPicture.asset(
-                              'assets/images/howeat.svg',
-                              fit: BoxFit.contain,
-                              colorFilter: ColorFilter.mode(
-                                PKBAppState().tertiaryColor,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
-                        '복용방법',
-                        style: PillKaBooTheme.of(context).titleMedium.override(
-                              fontFamily:
-                                  PillKaBooTheme.of(context).titleMediumFamily,
-                              fontSize: textFontSize,
-                          color: PKBAppState().secondaryColor,
-                              fontWeight: FontWeight.bold,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  PillKaBooTheme.of(context).titleMediumFamily),
-                            ),
-                      ),
-                    )
-                  ],
-                ),
-              ),),),
-              Semantics(
-                container: true,
-                label: warningText,
-                child: ExcludeSemantics(
-                  child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().stop();
-                    TtsService().speak(warningText);
-                  }
-                },
-              child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          width: imageContainerSize,
-                          height: imageContainerSize,
-                          decoration: BoxDecoration(
-                            color: PKBAppState().secondaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                            child: SvgPicture.asset(
-                              'assets/images/warning.svg',
-                              fit: BoxFit.contain,
-                              colorFilter: ColorFilter.mode(
-                                PKBAppState().tertiaryColor,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
-                      '주의사항',
-                      style: PillKaBooTheme.of(context).titleMedium.override(
-                            fontFamily:
-                                PillKaBooTheme.of(context).titleMediumFamily,
-                            fontSize: textFontSize,
-                            fontWeight: FontWeight.bold,
-                            color: PKBAppState().secondaryColor,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                PillKaBooTheme.of(context).titleMediumFamily),
-                          ),
-                      ),
-                    )
-                  ],
-                ),
-              ),),),
-              Semantics(
-                container: true,
-                label: comboText,
-                child: ExcludeSemantics(
-                  excluding: true,
-                  child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().stop();
-                    TtsService().speak(comboText);
-                  }
-                },
-                    child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Container(
-                            width: imageContainerSize,
-                            height: imageContainerSize,
-                            decoration: BoxDecoration(
-                              color: PKBAppState().secondaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                'assets/images/forb.svg',
-                                fit: BoxFit.contain,
-                                colorFilter: ColorFilter.mode(
-                                  PKBAppState().tertiaryColor,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
-                          '금지조합',
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '사용 기한',
                           style: PillKaBooTheme.of(context).titleMedium.override(
                                 fontFamily:
                                     PillKaBooTheme.of(context).titleMediumFamily,
                                 fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
                                 fontWeight: FontWeight.bold,
-                                color: PKBAppState().secondaryColor,
-                                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
                           ),
+                        ),
+                      ],
                       ),
-                    )
-                  ],
-                ),
-              ),),),
-             Semantics(
-                container: true,
-                label: sideEffectText,
-                child: ExcludeSemantics(
-                  excluding: true,
-                  child: GestureDetector(
-                onTap: () {
-                  if (!PKBAppState().useScreenReader) {
-                    TtsService().stop();
-                    TtsService().speak(sideEffectText);
-                  }
-                },
-                    child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Container(
-                            width: imageContainerSize,
-                            height: imageContainerSize,
-                            decoration: BoxDecoration(
+                      Visibility(
+                          visible: showExprDateText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            exprDateText,    
+                            style: TextStyle(
                               color: PKBAppState().secondaryColor,
-                              shape: BoxShape.circle,
+                              fontSize: 20,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: SvgPicture.asset(
-                                'assets/images/sideef.svg',
-                                fit: BoxFit.contain,
-                                colorFilter: ColorFilter.mode(
-                                  PKBAppState().tertiaryColor,
-                                  BlendMode.srcIn,
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  ),
+                ),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
+              Semantics(
+                container: true,
+                label: ingredientText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(ingredientText);
+                        }
+                      },
+                      onDoubleTap: () {
+                        setState(() {
+                          showIngredientText = !showIngredientText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/ing.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '주성분',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                          ),
+                        ),
+                      ],
                       ),
+                      Visibility(
+                          visible: showIngredientText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            ingredientText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
                     ),
-                    ExcludeSemantics(
-                      excluding: true,
-                      child: Text(
+                  ),
+                ),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
+              Semantics(
+                container: true,
+                label: usageText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(usageText);
+                        }
+                      },
+                      onDoubleTap: () {
+                        setState(() {
+                          showUsageText = !showUsageText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/use.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '용도',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                          ),
+                        ),
+                      ],
+                      ),
+                      Visibility(
+                          visible: showUsageText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            usageText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  ),
+                ),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
+              Semantics(
+                container: true,
+                label: howToTakeText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(howToTakeText);
+                        }
+                      },
+                      onDoubleTap: () {
+                        setState(() {
+                          showHowToTakeText = !showHowToTakeText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/howeat.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '복용 방법',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                          ),
+                        ),
+                      ],
+                      ),
+                      Visibility(
+                          visible: showHowToTakeText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            howToTakeText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  ),
+                ),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
+              Semantics(
+                container: true,
+                label: warningText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(warningText);
+                        }
+                      },
+                      onDoubleTap: () {
+                        setState(() {
+                          showWarningText = !showWarningText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/warning.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '주의사항',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                          ),
+                        ),
+                      ],
+                      ),
+                      Visibility(
+                          visible: showWarningText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            warningText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  ),
+                ),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
+              Semantics(
+                container: true,
+                label: comboText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(comboText);
+                        }
+                      },
+                      onDoubleTap: () {
+                        setState(() {
+                          showComboText = !showComboText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/forb.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
+                          '금지 조합',
+                          style: PillKaBooTheme.of(context).titleMedium.override(
+                                fontFamily:
+                                    PillKaBooTheme.of(context).titleMediumFamily,
+                                fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
+                          ),
+                        ),
+                      ],
+                      ),
+                      Visibility(
+                          visible: showComboText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            comboText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  ),
+                ),
+                ),
+              ),
+              
+              const SizedBox(height: 25),
+              Semantics(
+                container: true,
+                label: sideEffectText,
+                child: InkWell(
+                  child: ExcludeSemantics(
+                    excluding: true,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (!PKBAppState().useScreenReader) {
+                          TtsService().stop();
+                          TtsService().speak(sideEffectText);
+                        }
+                      },
+                      onDoubleTap: () {
+                        setState(() {
+                          showSideEffectText = !showSideEffectText;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 40.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                width: imageContainerSize,
+                                height: imageContainerSize,
+                                decoration: BoxDecoration(
+                                  color: PKBAppState().secondaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/images/sideef.svg',
+                                    fit: BoxFit.contain,
+                                    colorFilter: ColorFilter.mode(
+                                      PKBAppState().tertiaryColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ExcludeSemantics(
+                          excluding: true,
+                          child: Text(
                           '부작용',
                           style: PillKaBooTheme.of(context).titleMedium.override(
                                 fontFamily:
                                     PillKaBooTheme.of(context).titleMediumFamily,
                                 fontSize: textFontSize,
+                            color: PKBAppState().secondaryColor,
                                 fontWeight: FontWeight.bold,
-                                color: PKBAppState().secondaryColor,
-                                  useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     PillKaBooTheme.of(context).titleMediumFamily),
+                              ),
                           ),
+                        ),
+                      ],
                       ),
-                    )
-                  ],
+                      Visibility(
+                          visible: showSideEffectText,
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            sideEffectText,    
+                            style: TextStyle(
+                              color: PKBAppState().secondaryColor,
+                              fontSize: 20,
+                            ),
+                          ),
+                          ),
+                        ),
+                        ],
+                    ),
+                  ),
                 ),
-              ),),),
-            ],
+                ),
+              ),
+                        ],
           ),
         ),
       ),
-  
+          )
+        ),
     );
   }
 }
